@@ -1,0 +1,20 @@
+const catalog = require('../neogeo-games.json');
+
+module.exports = (req, res) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  if (req.method === 'OPTIONS') {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+  if (req.method === 'HEAD') {
+    res.statusCode = 200;
+    res.end();
+    return;
+  }
+  res.statusCode = 200;
+  res.end(JSON.stringify(catalog));
+};

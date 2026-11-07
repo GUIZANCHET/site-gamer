@@ -16,9 +16,13 @@ const embeddedPages = {
   '/ps1.html': require('./ps1-html-data.cjs'),
   '/neogeo': require('./neogeo-html-data.cjs'),
   '/neogeo.html': require('./neogeo-html-data.cjs'),
+  '/player': require('./player-html-data.cjs'),
   '/player.html': require('./player-html-data.cjs'),
+  '/ps1-player': require('./ps1-player-data.cjs'),
   '/ps1-player.html': require('./ps1-player-data.cjs'),
+  '/snes-player': require('./snes-player-data.cjs'),
   '/snes-player.html': require('./snes-player-data.cjs'),
+  '/neogeo-player': require('./neogeo-player-data.cjs'),
   '/neogeo-player.html': require('./neogeo-player-data.cjs'),
   '/snes-games.json': JSON.stringify(require('./snes-games.json')),
   '/ps1-games.json': JSON.stringify(require('./ps1-games.json')),
@@ -334,7 +338,7 @@ function serveStaticFile(file, req, res) {
     }
 
     const contentType = types[path.extname(file).toLowerCase()] || 'application/octet-stream';
-    const range = req.headers.range;
+    const range = req.headers && req.headers.range;
 
     if (range) {
       const match = /bytes=(\d*)-(\d*)/.exec(range);
@@ -359,7 +363,7 @@ function serveStaticFile(file, req, res) {
         });
         const rStream = fs.createReadStream(file, { start, end });
         rStream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
-        res.on('close', () => rStream.destroy());
+        if (typeof res.on === 'function') res.on('close', () => rStream.destroy());
         rStream.pipe(res);
         return;
       }
@@ -375,18 +379,23 @@ function serveStaticFile(file, req, res) {
     });
     const stream = fs.createReadStream(file);
     stream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
-    res.on('close', () => stream.destroy());
+    if (typeof res.on === 'function') res.on('close', () => stream.destroy());
     stream.pipe(res);
   });
 }
 
-const server = http.createServer((req, res) => {
+function handler(req, res) {
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
   } catch {
     res.writeHead(400).end('Bad request');
     return;
+  }
+
+  // Normaliza trailing slash para rotas (ex: /neogeo/ -> /neogeo)
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    pathname = pathname.slice(0, -1);
   }
 
   if (req.method === 'OPTIONS') {
@@ -408,7 +417,12 @@ const server = http.createServer((req, res) => {
       'Cache-Control': 'no-store',
       'Access-Control-Allow-Origin': '*',
       'Cross-Origin-Resource-Policy': 'cross-origin'
-    }).end(embeddedPages[pathname]);
+    });
+    if (req.method === 'HEAD') {
+      res.end();
+    } else {
+      res.end(embeddedPages[pathname]);
+    }
     return;
   }
 
@@ -565,7 +579,9 @@ const server = http.createServer((req, res) => {
   }
 
   serveStaticFile(file, req, res);
-});
+}
+
+const server = http.createServer(handler);
 
 const PORT = process.env.PORT || 4175;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -602,4 +618,11 @@ process.on('uncaughtException', err => {
   console.error(err);
 });
 
-module.exports = server;
+handler.server = server;
+handler.listen = (...args) => server.listen(...args);
+handler.close = (...args) => server.close(...args);
+handler.on = (...args) => server.on(...args);
+
+module.exports = handler;
+module.exports.default = handler;
+module.exports.handler = handler;

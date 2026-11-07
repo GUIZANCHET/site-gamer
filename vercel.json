@@ -1,8 +1,25 @@
 {
-  "cleanUrls": false,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/api/snes", "destination": "/snes-games.json" },
     { "source": "/api/ps1", "destination": "/ps1-games.json" },
-    { "source": "/api/neogeo", "destination": "/neogeo-games.json" }
+    { "source": "/api/neogeo", "destination": "/neogeo-games.json" },
+    { "source": "/snes", "destination": "/snes.html" },
+    { "source": "/ps1", "destination": "/ps1.html" },
+    { "source": "/neogeo", "destination": "/neogeo.html" },
+    { "source": "/neogeo-player", "destination": "/neogeo-player.html" },
+    { "source": "/player", "destination": "/player.html" },
+    { "source": "/ps1-player", "destination": "/ps1-player.html" },
+    { "source": "/snes-player", "destination": "/snes-player.html" }
   ]
 }
