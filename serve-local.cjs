@@ -6,6 +6,24 @@ const { once } = require('node:events');
 
 const root = __dirname;
 
+// Cache estático pré-carregado que força o Vercel NFT (@vercel/nft) a incluir todos os arquivos no deploy Serverless
+const staticHtml = {
+  '/index.html': fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8'),
+  '/snes.html': fs.readFileSync(path.join(__dirname, 'snes.html'), 'utf8'),
+  '/ps1.html': fs.readFileSync(path.join(__dirname, 'ps1.html'), 'utf8'),
+  '/neogeo.html': fs.readFileSync(path.join(__dirname, 'neogeo.html'), 'utf8'),
+  '/player.html': fs.readFileSync(path.join(__dirname, 'player.html'), 'utf8'),
+  '/ps1-player.html': fs.readFileSync(path.join(__dirname, 'ps1-player.html'), 'utf8'),
+  '/neogeo-player.html': fs.readFileSync(path.join(__dirname, 'neogeo-player.html'), 'utf8'),
+  '/snes-games.json': fs.readFileSync(path.join(__dirname, 'snes-games.json'), 'utf8'),
+  '/ps1-games.json': fs.readFileSync(path.join(__dirname, 'ps1-games.json'), 'utf8'),
+  '/neogeo-games.json': fs.readFileSync(path.join(__dirname, 'neogeo-games.json'), 'utf8')
+};
+staticHtml['/'] = staticHtml['/index.html'];
+staticHtml['/snes'] = staticHtml['/snes.html'];
+staticHtml['/ps1'] = staticHtml['/ps1.html'];
+staticHtml['/neogeo'] = staticHtml['/neogeo.html'];
+
 const types = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -380,17 +398,38 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Atendimento direto e garantido de páginas HTML e catálogos JSON
+  if (staticHtml[pathname]) {
+    const isJson = pathname.endsWith('.json');
+    res.writeHead(200, {
+      'Content-Type': isJson ? 'application/json; charset=utf-8' : 'text/html; charset=utf-8',
+      'Content-Length': Buffer.byteLength(staticHtml[pathname]),
+      'Cache-Control': 'no-store',
+      'Access-Control-Allow-Origin': '*',
+      'Cross-Origin-Resource-Policy': 'cross-origin'
+    }).end(staticHtml[pathname]);
+    return;
+  }
+
   if (pathname === '/api/snes') {
     const gamesDir = path.join(root, 'Super nintendo', 'GAMES');
+    if (!fs.existsSync(gamesDir)) {
+      res.writeHead(200, {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store',
+        'Access-Control-Allow-Origin': '*',
+        'Cross-Origin-Resource-Policy': 'cross-origin'
+      }).end(staticHtml['/snes-games.json']);
+      return;
+    }
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
       if (err) {
-        const fallbackPath = path.join(root, 'snes-games.json');
-        if (fs.existsSync(fallbackPath)) {
-          serveStaticFile(fallbackPath, req, res);
-          return;
-        }
-        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
-          .end(JSON.stringify({ error: 'Não encontrei Super nintendo/GAMES.' }));
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'no-store',
+          'Access-Control-Allow-Origin': '*',
+          'Cross-Origin-Resource-Policy': 'cross-origin'
+        }).end(staticHtml['/snes-games.json']);
         return;
       }
       const catalogIndex = loadJsonIndex('snes-games.json', 'name');
@@ -436,13 +475,12 @@ const server = http.createServer((req, res) => {
         }
         throw new Error('Sem jogos locais');
       } catch (err) {
-        const fallbackPath = path.join(root, 'ps1-games.json');
-        if (fs.existsSync(fallbackPath)) {
-          serveStaticFile(fallbackPath, req, res);
-          return;
-        }
-        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
-          .end(JSON.stringify({ error: 'Não consegui carregar os jogos de PlayStation.' }));
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'no-store',
+          'Access-Control-Allow-Origin': '*',
+          'Cross-Origin-Resource-Policy': 'cross-origin'
+        }).end(staticHtml['/ps1-games.json']);
       }
     })();
     return;
@@ -450,15 +488,23 @@ const server = http.createServer((req, res) => {
 
   if (pathname === '/api/neogeo') {
     const gamesDir = path.join(root, 'neogeo');
+    if (!fs.existsSync(gamesDir)) {
+      res.writeHead(200, {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store',
+        'Access-Control-Allow-Origin': '*',
+        'Cross-Origin-Resource-Policy': 'cross-origin'
+      }).end(staticHtml['/neogeo-games.json']);
+      return;
+    }
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
       if (err) {
-        const fallbackPath = path.join(root, 'neogeo-games.json');
-        if (fs.existsSync(fallbackPath)) {
-          serveStaticFile(fallbackPath, req, res);
-          return;
-        }
-        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
-          .end(JSON.stringify({ error: 'Não encontrei a pasta neogeo.' }));
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'no-store',
+          'Access-Control-Allow-Origin': '*',
+          'Cross-Origin-Resource-Policy': 'cross-origin'
+        }).end(staticHtml['/neogeo-games.json']);
         return;
       }
       const catalogIndex = loadJsonIndex('neogeo-games.json', 'name');

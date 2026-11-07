@@ -1,7 +1,9 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": null,
-  "outputDirectory": ".",
+  "functions": {
+    "serve-local.cjs": {
+      "includeFiles": "*.html,*.json,assets/**"
+    }
+  },
   "cleanUrls": false,
   "rewrites": [
     { "source": "/api/snes", "destination": "/snes-games.json" },
