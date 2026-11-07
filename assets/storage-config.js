@@ -4,8 +4,8 @@
 (function() {
   const STORAGE_KEY = 'continue_rom_storage_url';
 
-  // URL padrão configurada (se houver bucket R2 configurado)
-  const DEFAULT_R2_URL = '';
+  // URL padrão configurada no Cloudflare R2
+  const DEFAULT_R2_URL = 'https://pub-d47b5e32ad1342f086599fd4c17f1622.r2.dev';
 
   window.ContinueStorage = {
     // Retorna a URL base do storage
