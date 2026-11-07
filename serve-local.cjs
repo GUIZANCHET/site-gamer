@@ -384,6 +384,11 @@ const server = http.createServer((req, res) => {
     const gamesDir = path.join(root, 'Super nintendo', 'GAMES');
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
       if (err) {
+        const fallbackPath = path.join(root, 'snes-games.json');
+        if (fs.existsSync(fallbackPath)) {
+          serveStaticFile(fallbackPath, req, res);
+          return;
+        }
         res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
           .end(JSON.stringify({ error: 'Não encontrei Super nintendo/GAMES.' }));
         return;
@@ -424,9 +429,18 @@ const server = http.createServer((req, res) => {
     (async () => {
       try {
         const result = await scanPs1Directories();
-        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' })
-          .end(JSON.stringify(result));
+        if (result && result.length) {
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' })
+            .end(JSON.stringify(result));
+          return;
+        }
+        throw new Error('Sem jogos locais');
       } catch (err) {
+        const fallbackPath = path.join(root, 'ps1-games.json');
+        if (fs.existsSync(fallbackPath)) {
+          serveStaticFile(fallbackPath, req, res);
+          return;
+        }
         res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
           .end(JSON.stringify({ error: 'Não consegui carregar os jogos de PlayStation.' }));
       }
@@ -438,6 +452,11 @@ const server = http.createServer((req, res) => {
     const gamesDir = path.join(root, 'neogeo');
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
       if (err) {
+        const fallbackPath = path.join(root, 'neogeo-games.json');
+        if (fs.existsSync(fallbackPath)) {
+          serveStaticFile(fallbackPath, req, res);
+          return;
+        }
         res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
           .end(JSON.stringify({ error: 'Não encontrei a pasta neogeo.' }));
         return;

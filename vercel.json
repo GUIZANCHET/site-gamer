@@ -1,0 +1,8 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/api/snes", "destination": "/snes-games.json" },
+    { "source": "/api/ps1", "destination": "/ps1-games.json" },
+    { "source": "/api/neogeo", "destination": "/neogeo-games.json" }
+  ]
+}
