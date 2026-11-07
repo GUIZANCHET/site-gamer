@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "serve-local.cjs": {
-      "includeFiles": "*.html,*.json,assets/**"
-    }
-  },
   "cleanUrls": false,
   "rewrites": [
     { "source": "/api/snes", "destination": "/snes-games.json" },
