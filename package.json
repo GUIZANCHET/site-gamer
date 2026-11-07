@@ -9,12 +9,23 @@
     "sync-neogeo": "node scripts/sync-neogeo.cjs",
     "baixar-jogos": "node scripts/baixar-jogos.cjs",
     "upload-r2": "node scripts/upload-r2.cjs",
+    "upload-s3-ps1": "node scripts/upload-s3-ps1.cjs",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f"
   },
-  "keywords": ["emulator", "snes", "ps1", "retro", "arcade"],
+  "keywords": [
+    "emulator",
+    "snes",
+    "ps1",
+    "retro",
+    "arcade"
+  ],
   "author": "Guilherme Zanchet",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1164.0",
+    "@aws-sdk/lib-storage": "^3.1164.0"
+  }
 }
