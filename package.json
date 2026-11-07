@@ -1,0 +1,14 @@
+{
+  "name": "continue-arcade",
+  "version": "1.0.0",
+  "description": "Arcade e Consoles Retrô no Navegador (SNES, PS1, Arcade)",
+  "main": "serve-local.cjs",
+  "scripts": {
+    "start": "node serve-local.cjs",
+    "dev": "node serve-local.cjs",
+    "sync-covers": "node scripts/sync-covers.cjs"
+  },
+  "keywords": ["emulator", "snes", "ps1", "retro", "arcade"],
+  "author": "Guilherme Zanchet",
+  "license": "MIT"
+}
