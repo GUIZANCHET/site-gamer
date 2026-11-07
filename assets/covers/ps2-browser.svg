@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#121212"/>
+  <!-- PS2 Hardware Monolith Blocks -->
+  <g>
+    <rect x="355" y="70" width="44" height="260" fill="#1C1C1C" stroke="#333333" stroke-width="1.5"/>
+    <rect x="415" y="110" width="44" height="220" fill="#1C1C1C" stroke="#333333" stroke-width="1.5"/>
+    <rect x="475" y="48" width="52" height="282" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <rect x="542" y="95" width="44" height="235" fill="#1C1C1C" stroke="#333333" stroke-width="1.5"/>
+  </g>
+  <!-- Optical Disc -->
+  <circle cx="470" cy="210" r="88" fill="#141414" stroke="#F5F5F5" stroke-width="3"/>
+  <circle cx="470" cy="210" r="26" fill="#0D0D0D" stroke="#E60012" stroke-width="3"/>
+  <path d="M412 162 A80 80 0 0 1 528 162" fill="none" stroke="#E60012" stroke-width="4" stroke-linecap="round"/>
+  <!-- Labels -->
+  <rect x="30" y="36" width="188" height="26" rx="4" fill="#E60012"/>
+  <text x="124" y="53" text-anchor="middle" font-family="monospace" font-weight="700" font-size="11.5" fill="#FFFFFF" letter-spacing="1.5">PLAY! WEB · 128-BIT</text>
+  <text x="30" y="135" font-family="sans-serif" font-weight="900" font-size="54" fill="#FFFFFF" letter-spacing="-2">PS2</text>
+  <text x="30" y="186" font-family="sans-serif" font-weight="900" font-size="46" fill="#9E9E9E" letter-spacing="-1.5">EMULATOR</text>
+  <text x="32" y="220" font-family="monospace" font-weight="600" font-size="12.5" fill="#E60012" letter-spacing="2">ISO · CHD · CUE LOADER</text>
+  <text x="32" y="352" font-family="monospace" font-size="12" fill="#666666">EXECUÇÃO LOCAL VIA WEBASSEMBLY</text>
+</svg>

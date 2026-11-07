@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#141414"/>
+  <path d="M320 400 C330 280 560 310 540 180 C520 70 360 95 390 0" fill="none" stroke="#242424" stroke-width="38" stroke-linecap="round"/>
+  <path d="M320 400 C330 280 560 310 540 180 C520 70 360 95 390 0" fill="none" stroke="#525252" stroke-width="3" stroke-dasharray="12 12"/>
+  <g stroke="#FFFFFF" stroke-width="2.5">
+    <ellipse cx="425" cy="96" rx="28" ry="34" fill="#E60012"/>
+    <ellipse cx="495" cy="148" rx="30" ry="36" fill="#F59E0B"/>
+    <ellipse cx="520" cy="225" rx="32" ry="38" fill="#22C55E"/>
+    <ellipse cx="445" cy="285" rx="28" ry="34" fill="#E60012"/>
+  </g>
+  <path d="M340 245 L415 205 L402 225 Z" fill="#FFFFFF" stroke="#E60012" stroke-width="2"/>
+  <rect x="30" y="34" width="164" height="26" rx="4" fill="#E60012"/>
+  <text x="112" y="51" text-anchor="middle" font-family="monospace" font-weight="700" font-size="11.5" fill="#FFFFFF" letter-spacing="1.5">TOWER DEFENSE HIT</text>
+  <text x="30" y="132" font-family="sans-serif" font-weight="900" font-size="54" fill="#FFFFFF" letter-spacing="-2">BLOONS</text>
+  <text x="30" y="182" font-family="sans-serif" font-weight="900" font-size="48" fill="#E60012" letter-spacing="-1.5">TD 4</text>
+  <text x="32" y="216" font-family="monospace" font-weight="600" font-size="12.5" fill="#9E9E9E" letter-spacing="2">STRATEGY · WEB CLASSIC</text>
+</svg>

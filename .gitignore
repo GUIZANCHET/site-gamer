@@ -1,0 +1,28 @@
+# ROMs e imagens de disco pesadas (evita ultrapassar o limite de 100MB do GitHub)
+*.bin
+*.BIN
+*.iso
+*.ISO
+*.chd
+*.CHD
+*.pbp
+*.PBP
+*.cue
+*.CUE
+*.smc
+*.sfc
+*.zip
+*.7z
+*.7z.*
+*.rar
+
+# Pastas de jogos locais com arquivos pesados
+/PlayStation/
+/Super nintendo/
+/ps1/
+
+# Logs e dependencias temporarias
+node_modules/
+npm-debug.log*
+.DS_Store
+Thumbs.db

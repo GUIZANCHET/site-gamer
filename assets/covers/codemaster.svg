@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#141414"/>
+  <!-- NES Cartridge & Logic Board Frame -->
+  <rect x="300" y="38" width="304" height="324" rx="10" fill="#1C1C1C" stroke="#383838" stroke-width="2"/>
+  <rect x="322" y="62" width="260" height="190" rx="6" fill="#0F0F0F" stroke="#2A2A2A" stroke-width="2"/>
+  <!-- Mastermind Code Pegs -->
+  <g transform="translate(348, 92)">
+    <circle cx="24" cy="20" r="18" fill="#E60012" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="78" cy="20" r="18" fill="#FFFFFF" stroke="#9E9E9E" stroke-width="2"/>
+    <circle cx="132" cy="20" r="18" fill="#F59E0B" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="186" cy="20" r="18" fill="#525252" stroke="#FFFFFF" stroke-width="2"/>
+
+    <circle cx="24" cy="76" r="18" fill="#F59E0B" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="78" cy="76" r="18" fill="#E60012" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="132" cy="76" r="18" fill="#FFFFFF" stroke="#9E9E9E" stroke-width="2"/>
+    <circle cx="186" cy="76" r="18" fill="#E60012" stroke="#FFFFFF" stroke-width="2"/>
+
+    <circle cx="24" cy="132" r="18" fill="#181818" stroke="#444444" stroke-width="2" stroke-dasharray="5 4"/>
+    <circle cx="78" cy="132" r="18" fill="#181818" stroke="#444444" stroke-width="2" stroke-dasharray="5 4"/>
+    <circle cx="132" cy="132" r="18" fill="#181818" stroke="#444444" stroke-width="2" stroke-dasharray="5 4"/>
+    <circle cx="186" cy="132" r="18" fill="#181818" stroke="#444444" stroke-width="2" stroke-dasharray="5 4"/>
+  </g>
+  <!-- NES Controller D-Pad + A/B -->
+  <path d="M356 290 h18 v-18 h18 v18 h18 v18 h-18 v18 h-18 v-18 h-18 z" fill="#F5F5F5"/>
+  <circle cx="505" cy="306" r="15" fill="#E60012"/>
+  <circle cx="546" cy="292" r="15" fill="#E60012"/>
+  <!-- Typography -->
+  <rect x="30" y="36" width="174" height="26" rx="4" fill="#FFFFFF"/>
+  <text x="117" y="53" text-anchor="middle" font-family="monospace" font-weight="700" font-size="11.5" fill="#111111" letter-spacing="1.5">NES HOMEBREW · 8-BIT</text>
+  <text x="30" y="132" font-family="sans-serif" font-weight="900" font-size="50" fill="#FFFFFF" letter-spacing="-2">CODE</text>
+  <text x="30" y="182" font-family="sans-serif" font-weight="900" font-size="50" fill="#E60012" letter-spacing="-2">MASTER</text>
+  <text x="32" y="216" font-family="monospace" font-weight="600" font-size="12.5" fill="#9E9E9E" letter-spacing="2">LOGIC PUZZLE CHALLENGE</text>
+  <text x="32" y="352" font-family="monospace" font-size="12" fill="#666666">GPL-3.0 · DANIEL VUKELICH</text>
+</svg>

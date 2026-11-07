@@ -1,0 +1,11 @@
+CodeMaster NES homebrew
+
+Game: CodeMaster
+Author: Daniel Vukelich
+License: GNU General Public License, version 3.0
+ROM distributed at assets/games/codemaster.nes
+
+Original project and corresponding source code:
+https://github.com/DanielVukelich/Codemaster-NES-homebrew
+
+The upstream repository includes the game's assembly source under Game/src/ and the full license in this folder. This ROM is a homebrew adaptation of the board game Mastermind. The site uses EmulatorJS to run it in the browser; EmulatorJS itself is loaded from its official stable CDN.
