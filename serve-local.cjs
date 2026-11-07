@@ -440,7 +440,10 @@ http.createServer((req, res) => {
   }
 
   serveStaticFile(file, req, res);
-}).listen(4175, '127.0.0.1');
+}).listen(4175, '127.0.0.1', () => {
+  console.log('🎮 Arcade Continue? rodando com sucesso em: http://127.0.0.1:4175/');
+  console.log('⚡ Pressione Ctrl + C para encerrar.');
+});
 
 process.on('uncaughtException', err => {
   if (err && (err.code === 'ECONNRESET' || err.code === 'EPIPE' || err.code === 'ERR_STREAM_PREMATURE_CLOSE')) return;
