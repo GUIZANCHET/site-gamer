@@ -307,6 +307,11 @@ async function runPool(items, concurrency, worker) {
 }
 
 async function syncSnes() {
+  if (!fs.existsSync(SNES_ROM_DIR)) {
+    console.log(`1. SNES_ROM_DIR not found at "${SNES_ROM_DIR}". Skipping SNES ROM scan.`);
+    return;
+  }
+
   console.log('1. Loading Libretro SNES tree...');
   const cachePath = path.join(ROOT, 'snes-tree-cache.json');
   let tree;

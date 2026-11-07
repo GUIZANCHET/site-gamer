@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node serve-local.cjs",
     "dev": "node serve-local.cjs",
-    "sync-covers": "node scripts/sync-covers.cjs"
+    "sync-covers": "node scripts/sync-covers.cjs",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
   },
   "keywords": ["emulator", "snes", "ps1", "retro", "arcade"],
   "author": "Guilherme Zanchet",

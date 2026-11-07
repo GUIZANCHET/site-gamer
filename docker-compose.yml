@@ -1,0 +1,16 @@
+services:
+  arcade:
+    build: .
+    image: continue-arcade:latest
+    container_name: continue-arcade
+    restart: unless-stopped
+    ports:
+      - "4175:4175"
+    environment:
+      - PORT=4175
+      - HOST=0.0.0.0
+    volumes:
+      # Monta as pastas de jogos locais no container sem precisar embuti-las na imagem
+      - "./Super nintendo:/app/Super nintendo:ro"
+      - "./ps1:/app/ps1:ro"
+      - "./PlayStation:/app/PlayStation:ro"

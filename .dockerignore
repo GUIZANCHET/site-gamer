@@ -1,0 +1,24 @@
+.git
+node_modules
+npm-debug.log*
+
+# ROMs pesadas não entram na imagem (são montadas como volume)
+Super nintendo/
+ps1/
+PlayStation/
+*.bin
+*.BIN
+*.iso
+*.ISO
+*.chd
+*.CHD
+*.pbp
+*.PBP
+*.cue
+*.CUE
+*.smc
+*.sfc
+*.zip
+*.7z
+*.7z.*
+*.rar

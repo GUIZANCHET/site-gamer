@@ -30,22 +30,52 @@ O **Continue?** nasceu com uma missão simples e poderosa: democratizar o acesso
 ├── snes-games.json       # Catálogo de dados e metadados para SNES
 ├── ps1-games.json        # Catálogo de dados e metadados para PS1
 ├── serve-local.cjs       # Servidor Node.js local para indexação e API de ROMs
+├── Dockerfile            # Imagem de container leve baseada em Node Alpine
+├── docker-compose.yml    # Orquestração do container com volumes para ROMs
 └── assets/               # Capas, mídias e arquivos estáticos
-💻 Como Executar Localmente (Desenvolvimento)
-Se você quiser clonar, testar ou contribuir com o projeto na sua máquina:
 
-Clone o repositório:
+---
 
-Bash
-git clone [https://github.com/GUIZANCHET/jogador-do-site.git](https://github.com/GUIZANCHET/jogador-do-site.git)
-cd jogador-do-site
-Inicie o servidor local:
-O projeto possui um servidor Node.js integrado para gerenciar o carregamento dinâmico das ROMs locais durante os testes:
+## 💻 Como Executar
 
-Bash
-node serve-local.cjs
-Acesse no navegador:
-Abra o seu browser de preferência e acesse: http://localhost:4175
+### Opção 1: Usando Docker (Recomendado para qualquer dispositivo)
+Se você tem o Docker instalado, pode rodar o arcade instantaneamente sem precisar instalar Node.js:
+
+```bash
+# Subir o container em segundo plano
+docker compose up -d
+
+# Ver os logs
+docker compose logs -f
+
+# Parar o container
+docker compose down
+```
+
+Ou usando os atalhos do `npm`:
+```bash
+npm run docker:up
+npm run docker:down
+```
+
+### Opção 2: Usando Node.js local
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 📱 Jogando no Celular, Tablet ou Smart TV
+Como o servidor aceita conexões de toda a rede local (`0.0.0.0`), qualquer aparelho conectado ao mesmo Wi-Fi pode jogar:
+
+1. Descubra o IP local do seu computador (no Linux: `hostname -I` ou `ip a`; no Windows: `ipconfig`).
+2. No celular ou tablet, abra o navegador e acesse:
+   ```text
+   http://<IP-DO-PC>:4175
+   ```
+   *(Exemplo: `http://192.168.1.15:4175`)*
+3. Toque em qualquer jogo! O sistema ativará os controles touch na tela automaticamente.
 
 📜 Licença e Uso
 Este projeto é distribuído sob a licença de código aberto. Sinta-se livre para estudar, adaptar e espalhar a nostalgia e o acesso à tecnologia para quem mais precisa.

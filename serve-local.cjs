@@ -1,6 +1,7 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 const { once } = require('node:events');
 
 const root = __dirname;
@@ -442,18 +443,32 @@ const server = http.createServer((req, res) => {
   serveStaticFile(file, req, res);
 });
 
+const PORT = process.env.PORT || 4175;
+const HOST = process.env.HOST || '0.0.0.0';
+
 server.on('error', err => {
   if (err && err.code === 'EADDRINUSE') {
-    console.log('\n⚠️  A porta 4175 já está sendo usada (o servidor já está ligado em outra janela).');
-    console.log('👉 Você já pode acessar no navegador: http://127.0.0.1:4175/\n');
+    console.log(`\n⚠️  A porta ${PORT} já está sendo usada.`);
+    console.log(`👉 Você já pode acessar no navegador: http://localhost:${PORT}/\n`);
     process.exit(0);
   }
   console.error(err);
 });
 
-server.listen(4175, '127.0.0.1', () => {
-  console.log('🎮 Arcade Continue? rodando com sucesso em: http://127.0.0.1:4175/');
-  console.log('⚡ Pressione Ctrl + C para encerrar.');
+server.listen(PORT, HOST, () => {
+  console.log(`\n🎮 Arcade Continue? rodando com sucesso!`);
+  console.log(`💻 No PC: http://localhost:${PORT}/`);
+  try {
+    const nets = os.networkInterfaces();
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name]) {
+        if (net.family === 'IPv4' && !net.internal && !name.startsWith('br-') && !name.startsWith('docker')) {
+          console.log(`📱 No Celular/Tablet (${name}): http://${net.address}:${PORT}/`);
+        }
+      }
+    }
+  } catch {}
+  console.log(`⚡ Pressione Ctrl + C para encerrar.\n`);
 });
 
 process.on('uncaughtException', err => {
