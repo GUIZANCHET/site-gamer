@@ -352,7 +352,7 @@ function serveStaticFile(file, req, res) {
   });
 }
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
@@ -440,7 +440,18 @@ http.createServer((req, res) => {
   }
 
   serveStaticFile(file, req, res);
-}).listen(4175, '127.0.0.1', () => {
+});
+
+server.on('error', err => {
+  if (err && err.code === 'EADDRINUSE') {
+    console.log('\n⚠️  A porta 4175 já está sendo usada (o servidor já está ligado em outra janela).');
+    console.log('👉 Você já pode acessar no navegador: http://127.0.0.1:4175/\n');
+    process.exit(0);
+  }
+  console.error(err);
+});
+
+server.listen(4175, '127.0.0.1', () => {
   console.log('🎮 Arcade Continue? rodando com sucesso em: http://127.0.0.1:4175/');
   console.log('⚡ Pressione Ctrl + C para encerrar.');
 });
