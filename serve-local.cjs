@@ -6,23 +6,24 @@ const { once } = require('node:events');
 
 const root = __dirname;
 
-// Cache estático pré-carregado com leitura segura
-const staticHtml = {};
-function safeRead(relPath) {
-  try {
-    const full = path.join(__dirname, relPath);
-    if (fs.existsSync(full)) return fs.readFileSync(full, 'utf8');
-  } catch {}
-  return null;
-}
-['index.html', 'snes.html', 'ps1.html', 'neogeo.html', 'player.html', 'ps1-player.html', 'neogeo-player.html', 'snes-games.json', 'ps1-games.json', 'neogeo-games.json'].forEach(f => {
-  const content = safeRead(f);
-  if (content) staticHtml['/' + f] = content;
-});
-staticHtml['/'] = staticHtml['/index.html'];
-staticHtml['/snes'] = staticHtml['/snes.html'];
-staticHtml['/ps1'] = staticHtml['/ps1.html'];
-staticHtml['/neogeo'] = staticHtml['/neogeo.html'];
+// Páginas e catálogos embutidos via require (garante empacotamento 100% pelo Vercel NFT sem depender do disco)
+const embeddedPages = {
+  '/': require('./index-html-data.cjs'),
+  '/index.html': require('./index-html-data.cjs'),
+  '/snes': require('./snes-html-data.cjs'),
+  '/snes.html': require('./snes-html-data.cjs'),
+  '/ps1': require('./ps1-html-data.cjs'),
+  '/ps1.html': require('./ps1-html-data.cjs'),
+  '/neogeo': require('./neogeo-html-data.cjs'),
+  '/neogeo.html': require('./neogeo-html-data.cjs'),
+  '/player.html': require('./player-html-data.cjs'),
+  '/ps1-player.html': require('./ps1-player-data.cjs'),
+  '/snes-player.html': require('./snes-player-data.cjs'),
+  '/neogeo-player.html': require('./neogeo-player-data.cjs'),
+  '/snes-games.json': JSON.stringify(require('./snes-games.json')),
+  '/ps1-games.json': JSON.stringify(require('./ps1-games.json')),
+  '/neogeo-games.json': JSON.stringify(require('./neogeo-games.json'))
+};
 
 const types = {
   '.html': 'text/html; charset=utf-8',
@@ -399,15 +400,15 @@ const server = http.createServer((req, res) => {
   }
 
   // Atendimento direto e garantido de páginas HTML e catálogos JSON
-  if (staticHtml[pathname]) {
+  if (embeddedPages[pathname]) {
     const isJson = pathname.endsWith('.json');
     res.writeHead(200, {
       'Content-Type': isJson ? 'application/json; charset=utf-8' : 'text/html; charset=utf-8',
-      'Content-Length': Buffer.byteLength(staticHtml[pathname]),
+      'Content-Length': Buffer.byteLength(embeddedPages[pathname]),
       'Cache-Control': 'no-store',
       'Access-Control-Allow-Origin': '*',
       'Cross-Origin-Resource-Policy': 'cross-origin'
-    }).end(staticHtml[pathname]);
+    }).end(embeddedPages[pathname]);
     return;
   }
 
@@ -419,7 +420,7 @@ const server = http.createServer((req, res) => {
         'Cache-Control': 'no-store',
         'Access-Control-Allow-Origin': '*',
         'Cross-Origin-Resource-Policy': 'cross-origin'
-      }).end(staticHtml['/snes-games.json']);
+      }).end(embeddedPages['/snes-games.json']);
       return;
     }
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
@@ -429,7 +430,7 @@ const server = http.createServer((req, res) => {
           'Cache-Control': 'no-store',
           'Access-Control-Allow-Origin': '*',
           'Cross-Origin-Resource-Policy': 'cross-origin'
-        }).end(staticHtml['/snes-games.json']);
+        }).end(embeddedPages['/snes-games.json']);
         return;
       }
       const catalogIndex = loadJsonIndex('snes-games.json', 'name');
@@ -480,7 +481,7 @@ const server = http.createServer((req, res) => {
           'Cache-Control': 'no-store',
           'Access-Control-Allow-Origin': '*',
           'Cross-Origin-Resource-Policy': 'cross-origin'
-        }).end(staticHtml['/ps1-games.json']);
+        }).end(embeddedPages['/ps1-games.json']);
       }
     })();
     return;
@@ -494,7 +495,7 @@ const server = http.createServer((req, res) => {
         'Cache-Control': 'no-store',
         'Access-Control-Allow-Origin': '*',
         'Cross-Origin-Resource-Policy': 'cross-origin'
-      }).end(staticHtml['/neogeo-games.json']);
+      }).end(embeddedPages['/neogeo-games.json']);
       return;
     }
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
@@ -504,7 +505,7 @@ const server = http.createServer((req, res) => {
           'Cache-Control': 'no-store',
           'Access-Control-Allow-Origin': '*',
           'Cross-Origin-Resource-Policy': 'cross-origin'
-        }).end(staticHtml['/neogeo-games.json']);
+        }).end(embeddedPages['/neogeo-games.json']);
         return;
       }
       const catalogIndex = loadJsonIndex('neogeo-games.json', 'name');
@@ -569,32 +570,36 @@ const server = http.createServer((req, res) => {
 const PORT = process.env.PORT || 4175;
 const HOST = process.env.HOST || '0.0.0.0';
 
-server.on('error', err => {
-  if (err && err.code === 'EADDRINUSE') {
-    console.log(`\n⚠️  A porta ${PORT} já está sendo usada.`);
-    console.log(`👉 Você já pode acessar no navegador: http://localhost:${PORT}/\n`);
-    process.exit(0);
-  }
-  console.error(err);
-});
+if (require.main === module) {
+  server.on('error', err => {
+    if (err && err.code === 'EADDRINUSE') {
+      console.log(`\n⚠️  A porta ${PORT} já está sendo usada.`);
+      console.log(`👉 Você já pode acessar no navegador: http://localhost:${PORT}/\n`);
+      process.exit(0);
+    }
+    console.error(err);
+  });
 
-server.listen(PORT, HOST, () => {
-  console.log(`\n🎮 Arcade Continue? rodando com sucesso!`);
-  console.log(`💻 No PC: http://localhost:${PORT}/`);
-  try {
-    const nets = os.networkInterfaces();
-    for (const name of Object.keys(nets)) {
-      for (const net of nets[name]) {
-        if (net.family === 'IPv4' && !net.internal && !name.startsWith('br-') && !name.startsWith('docker')) {
-          console.log(`📱 No Celular/Tablet (${name}): http://${net.address}:${PORT}/`);
+  server.listen(PORT, HOST, () => {
+    console.log(`\n🎮 Arcade Continue? rodando com sucesso!`);
+    console.log(`💻 No PC: http://localhost:${PORT}/`);
+    try {
+      const nets = os.networkInterfaces();
+      for (const name of Object.keys(nets)) {
+        for (const net of nets[name]) {
+          if (net.family === 'IPv4' && !net.internal && !name.startsWith('br-') && !name.startsWith('docker')) {
+            console.log(`📱 No Celular/Tablet (${name}): http://${net.address}:${PORT}/`);
+          }
         }
       }
-    }
-  } catch {}
-  console.log(`⚡ Pressione Ctrl + C para encerrar.\n`);
-});
+    } catch {}
+    console.log(`⚡ Pressione Ctrl + C para encerrar.\n`);
+  });
+}
 
 process.on('uncaughtException', err => {
   if (err && (err.code === 'ECONNRESET' || err.code === 'EPIPE' || err.code === 'ERR_STREAM_PREMATURE_CLOSE')) return;
   console.error(err);
 });
+
+module.exports = server;

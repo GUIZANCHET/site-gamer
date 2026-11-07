@@ -1,5 +1,0 @@
-# Ignora arquivos de servidor para a Vercel servir o site 100% estático via Edge CDN
-package.json
-package-lock.json
-serve-local.cjs
-scripts/
