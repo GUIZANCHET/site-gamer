@@ -322,7 +322,10 @@ function serveStaticFile(file, req, res) {
         const start = match[1] ? parseInt(match[1], 10) : 0;
         const end = match[2] ? parseInt(match[2], 10) : stat.size - 1;
         if (start >= stat.size || end >= stat.size || start > end) {
-          res.writeHead(416, { 'Content-Range': `bytes */${stat.size}` }).end();
+          res.writeHead(416, {
+            'Content-Range': `bytes */${stat.size}`,
+            'Access-Control-Allow-Origin': '*'
+          }).end();
           return;
         }
         res.writeHead(206, {
@@ -330,7 +333,9 @@ function serveStaticFile(file, req, res) {
           'Accept-Ranges': 'bytes',
           'Content-Length': end - start + 1,
           'Content-Type': contentType,
-          'Cache-Control': 'no-store'
+          'Cache-Control': 'no-store',
+          'Access-Control-Allow-Origin': '*',
+          'Cross-Origin-Resource-Policy': 'cross-origin'
         });
         const rStream = fs.createReadStream(file, { start, end });
         rStream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
@@ -344,7 +349,9 @@ function serveStaticFile(file, req, res) {
       'Content-Type': contentType,
       'Content-Length': stat.size,
       'Accept-Ranges': 'bytes',
-      'Cache-Control': 'no-store'
+      'Cache-Control': 'no-store',
+      'Access-Control-Allow-Origin': '*',
+      'Cross-Origin-Resource-Policy': 'cross-origin'
     });
     const stream = fs.createReadStream(file);
     stream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
@@ -359,6 +366,16 @@ const server = http.createServer((req, res) => {
     pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
   } catch {
     res.writeHead(400).end('Bad request');
+    return;
+  }
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Max-Age': '86400'
+    }).end();
     return;
   }
 

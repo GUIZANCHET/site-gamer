@@ -1165,6 +1165,15 @@
 
     injectStyles();
 
+    // Alerta caso esteja abrindo pelo Simple Browser do VS Code
+    if (/Electron|Code\//i.test(navigator.userAgent) && !document.getElementById('vscode-warning-bar')) {
+      var warn = document.createElement('div');
+      warn.id = 'vscode-warning-bar';
+      warn.style.cssText = 'background:#991b1b;color:#ffffff;font:700 13px system-ui,sans-serif;padding:10px 16px;text-align:center;position:sticky;top:0;z-index:99999;box-shadow:0 4px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;gap:10px;';
+      warn.innerHTML = '<span>⚠️ <b>Atenção:</b> O navegador embutido do VS Code bloqueia WebGL e áudio. Para jogar, abra no <b>Google Chrome</b> ou no <b>Celular</b>: <code style="background:#000;color:#00e5ff;padding:2px 6px;border-radius:4px">http://localhost:4175</code></span>';
+      document.body.prepend(warn);
+    }
+
     // 1. Injeta Barra Fixa Inferior para Celular
     if (!document.getElementById('continue-mobile-bar')) {
       document.body.classList.add('has-continue-mobile-bar');
