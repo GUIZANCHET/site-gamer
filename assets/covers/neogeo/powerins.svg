@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_powerins" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A0606"/>
+      <stop offset="50%" stop-color="#380D0E"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <pattern id="pat_powerins" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow_powerins" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#E60012" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#E60012" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="380" fill="url(#g_powerins)"/>
+  <rect width="600" height="380" fill="url(#pat_powerins)"/>
+  <circle cx="300" cy="140" r="220" fill="url(#glow_powerins)"/>
+
+  <!-- Arcade Marquee Header Bar -->
+  <rect x="0" y="0" width="600" height="42" fill="#0D0D0D"/>
+  <rect x="0" y="40" width="600" height="2" fill="#E60012"/>
+  <text x="24" y="27" font-family="'JetBrains Mono', 'Courier New', monospace" font-size="13" font-weight="700" fill="#E60012" letter-spacing="1.5">NEO•GEO</text>
+  <text x="100" y="27" font-family="'JetBrains Mono', 'Courier New', monospace" font-size="11" font-weight="600" fill="#888888" letter-spacing="1.5">MVS / AES SYSTEM</text>
+  <rect x="470" y="10" width="106" height="22" rx="4" fill="rgba(255,255,255,0.08)"/>
+  <text x="523" y="25" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#FFD700" letter-spacing="1">100 MEGA SHOCK</text>
+
+  <!-- Central Arcade Visual Element -->
+  <g transform="translate(300, 150)">
+    <circle cx="0" cy="0" r="64" fill="rgba(0,0,0,0.5)" stroke="#E60012" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="54" fill="none" stroke="rgba(255,255,255,0.1)" stroke-dasharray="4 4" stroke-width="2"/>
+    <text x="0" y="14" text-anchor="middle" font-size="44">🥊</text>
+  </g>
+
+  <!-- Neo Geo 4-Button Color Accent Pill -->
+  <g transform="translate(252, 230)">
+    <circle cx="0" cy="0" r="6" fill="#E60012"/><!-- A Red -->
+    <circle cx="32" cy="0" r="6" fill="#F1C40F"/><!-- B Yellow -->
+    <circle cx="64" cy="0" r="6" fill="#2ECC71"/><!-- C Green -->
+    <circle cx="96" cy="0" r="6" fill="#3498DB"/><!-- D Blue -->
+  </g>
+
+  <!-- Title & Genre Footer Block -->
+  <rect x="18" y="256" width="564" height="106" rx="10" fill="rgba(12,12,12,0.88)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+
+  <!-- Category & Featured Badges -->
+  <text x="36" y="284" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#FFD700" letter-spacing="1.2">FIGHTING</text>
+  
+
+  <!-- Game Title -->
+  <text x="36" y="315" font-family="'Space Grotesk', 'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">Power Instinct</text>
+  <text x="36" y="342" font-family="'Space Grotesk', 'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="600" fill="#CCCCCC">(Gouketsuji Ichizoku)</text>
+</svg>

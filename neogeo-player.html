@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#111111">
+<title>Neo Geo Arcade — Continue?</title>
+<style>
+  html, body, #game {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    background: #111111;
+    color: #F5F5F5;
+    font: 13px 'Plus Jakarta Sans', 'JetBrains Mono', sans-serif;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow: hidden;
+  }
+  #notice {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 24px;
+    color: #9E9E9E;
+    line-height: 1.6;
+    pointer-events: none;
+    z-index: 10;
+  }
+  #notice b { color: #E60012; display: block; font-size: 16px; margin-bottom: 6px; }
+
+  /* EmulatorJS Touch Gamepad Enhancement */
+  body.touch-large .ejs_virtual_gamepad_button {
+    transform: scale(1.18);
+    font-weight: 800 !important;
+    border-width: 2px !important;
+    background-color: rgba(230, 0, 18, 0.35) !important;
+    border-color: rgba(255, 255, 255, 0.75) !important;
+    color: #FFFFFF !important;
+  }
+  body.touch-large .ejs_dpad_container {
+    transform: scale(1.15);
+  }
+
+  /* BARRA DE BOTÕES VIRTUAIS ARCADE NEO GEO (TOUCH MOBILE) */
+  #neogeo-touch-controls {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 16px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.95;
+    transition: opacity 0.2s ease;
+  }
+
+  .touch-group {
+    display: flex;
+    gap: 8px;
+    pointer-events: auto;
+  }
+
+  /* Neo Geo Arcade 4-Button Curved Layout */
+  .touch-arcade-cluster {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    pointer-events: auto;
+    background: rgba(17, 17, 17, 0.75);
+    padding: 8px 12px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .btn-vpad {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: #FFFFFF;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
+    transition: transform 0.05s ease, filter 0.05s ease;
+  }
+
+  .btn-vpad:active, .btn-vpad.pressed {
+    transform: scale(0.92);
+    filter: brightness(1.3);
+  }
+
+  .btn-vpad span.vpad-sub {
+    font-size: 8px;
+    font-weight: 600;
+    opacity: 0.85;
+    line-height: 1;
+    margin-top: 1px;
+  }
+
+  /* Authentic Neo Geo MVS Button Colors */
+  .btn-vpad.btn-a { background: radial-gradient(circle at 35% 35%, #ff4d5a, #b3000b); border-color: #ff999f; }
+  .btn-vpad.btn-b { background: radial-gradient(circle at 35% 35%, #ffe066, #c79800); border-color: #fff3a8; color: #111; }
+  .btn-vpad.btn-c { background: radial-gradient(circle at 35% 35%, #5cdbb5, #008f5d); border-color: #a8f5dc; }
+  .btn-vpad.btn-d { background: radial-gradient(circle at 35% 35%, #66b3ff, #0059b3); border-color: #b8dcff; }
+
+  /* Coin & Start Arcade Buttons */
+  .touch-sys-cluster {
+    display: flex;
+    gap: 8px;
+    pointer-events: auto;
+    background: rgba(17, 17, 17, 0.75);
+    padding: 6px 10px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .btn-vsys {
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 19px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: #222222;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
+  }
+  .btn-vsys:active, .btn-vsys.pressed {
+    transform: scale(0.94);
+    filter: brightness(1.25);
+  }
+  .btn-vsys.coin {
+    background: linear-gradient(135deg, #f59e0b, #b45309);
+    border-color: #fde68a;
+    color: #FFFFFF;
+  }
+  .btn-vsys.start {
+    background: linear-gradient(135deg, #10b981, #047857);
+    border-color: #a7f3d0;
+    color: #FFFFFF;
+  }
+
+  /* Botão flutuante para mostrar/ocultar botões touch */
+  #btn-toggle-touch {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 10000;
+    background: rgba(20, 20, 20, 0.7);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font: 600 11px 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+
+  @media (min-width: 1025px) {
+    #neogeo-touch-controls {
+      display: none;
+    }
+    body.show-touch #neogeo-touch-controls {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .btn-vpad { width: 44px; height: 44px; font-size: 14px; }
+    .btn-vsys { height: 34px; padding: 0 10px; font-size: 10px; }
+    #neogeo-touch-controls { bottom: 6px; padding: 0 8px; }
+  }
+</style>
+<script src="assets/gamepad-mapper.js"></script>
+</head>
+<body>
+<div id="game"></div>
+
+<button id="btn-toggle-touch" type="button" title="Alternar botões de toque">🕹️ Botões Touch</button>
+
+<!-- Botões Virtuais de Ação e Ficha/Start para Celular/Tablet -->
+<div id="neogeo-touch-controls">
+  <div class="touch-sys-cluster">
+    <button class="btn-vsys coin" id="touch-coin" type="button">🪙 FICHA</button>
+    <button class="btn-vsys start" id="touch-start" type="button">▶ START</button>
+  </div>
+  <div class="touch-arcade-cluster">
+    <button class="btn-vpad btn-a" id="touch-a" type="button">A<span class="vpad-sub">GOLPE 1</span></button>
+    <button class="btn-vpad btn-b" id="touch-b" type="button">B<span class="vpad-sub">GOLPE 2</span></button>
+    <button class="btn-vpad btn-c" id="touch-c" type="button">C<span class="vpad-sub">GOLPE 3</span></button>
+    <button class="btn-vpad btn-d" id="touch-d" type="button">D<span class="vpad-sub">ESPECIAL</span></button>
+  </div>
+</div>
+
+<div id="notice">
+  <div>
+    <b>🕹️ PREPARANDO FLIPERAMA NEO GEO…</b>
+    🪙 <b>Ficha:</b> Toque em <b>FICHA</b> ou aperte <b>V</b> / <b>5</b> no teclado.<br>
+    ▶ <b>Começar:</b> Toque em <b>START</b> ou aperte <b>Enter</b> / <b>1</b>.<br>
+    📱 No celular, os botões virtuais A, B, C, D e D-Pad estão ativos!
+  </div>
+</div>
+
+<script>
+const touchCfg = window.ContinueControls ? window.ContinueControls.getTouchSettings() : { size: 'large' };
+if (touchCfg.size === 'large') document.body.classList.add('touch-large');
+
+const query = new URLSearchParams(location.search);
+const rom = query.get('rom') || '';
+const title = query.get('title') || 'Neo Geo Arcade';
+const notice = document.querySelector('#notice');
+document.title = title + ' — Neo Geo';
+
+// Toggle de botões touch manuais
+const toggleTouchBtn = document.getElementById('btn-toggle-touch');
+if (toggleTouchBtn) {
+  toggleTouchBtn.addEventListener('click', () => {
+    document.body.classList.toggle('show-touch');
+  });
+}
+
+const isVSCode = /Electron|Code\//i.test(navigator.userAgent);
+if (isVSCode) {
+  notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #E60012;max-width:500px;pointer-events:auto;line-height:1.6;color:#eee"><b style="color:#E60012;font-size:16px;margin-bottom:8px">⚠️ NAVEGADOR DO VS CODE NÃO SUPORTADO</b>O navegador interno do VS Code bloqueia aceleração gráfica (WebGL) e áudio de jogos.<br><br>👉 <b>Para jogar, abra no Google Chrome ou no navegador do celular:</b><br><code style="background:#000;color:#00e5ff;padding:6px 12px;border-radius:6px;display:inline-block;margin-top:10px;font-size:14px;font-weight:bold">http://localhost:4175</code></div>';
+} else if (!rom.startsWith('/neogeo/')) {
+  notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista do Neo Geo.</div>';
+} else {
+  window.EJS_player = '#game';
+  window.EJS_core = 'neogeo';
+  window.EJS_gameUrl = rom;
+  window.EJS_biosUrl = '/neogeo/neogeo.zip';
+  window.EJS_gameName = title;
+  window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+  window.EJS_language = 'pt-BR';
+  window.EJS_startOnLoaded = true;
+
+  // Mapeamento padrão do Continue? ou mapeamento específico de Fliperama
+  window.EJS_defaultControls = window.ContinueControls
+    ? window.ContinueControls.getEJSControls()
+    : {
+        0: {
+          0: { value: 'z', value2: 'BUTTON_1' }, // A (RetroPad B)
+          1: { value: 's', value2: 'BUTTON_4' }, // D (RetroPad X)
+          2: { value: 'v', value2: 'SELECT' },   // COIN (Select)
+          3: { value: 'enter', value2: 'START' },// START (Start)
+          4: { value: 'up arrow', value2: 'DPAD_UP' },
+          5: { value: 'down arrow', value2: 'DPAD_DOWN' },
+          6: { value: 'left arrow', value2: 'DPAD_LEFT' },
+          7: { value: 'right arrow', value2: 'DPAD_RIGHT' },
+          8: { value: 'x', value2: 'BUTTON_2' }, // B (RetroPad A)
+          9: { value: 'a', value2: 'BUTTON_3' }  // C (RetroPad Y)
+        },
+        1: {}, 2: {}, 3: {}
+      };
+
+  window.EJS_onGameStart = () => { notice.style.display = 'none'; };
+  window.EJS_ready = () => { notice.style.display = 'none'; };
+
+  const loader = document.createElement('script');
+  loader.src = window.EJS_pathtodata + 'loader.js';
+  loader.onerror = () => { notice.textContent = 'Não foi possível carregar o emulador. Verifique sua internet.'; };
+  document.body.appendChild(loader);
+}
+
+// =========================================================================
+// SISTEMA DE BOTÕES TOUCH & ATALHOS DE TECLADO (COIN, START, A, B, C, D)
+// =========================================================================
+function triggerInput(ejsIndex, isDown) {
+  var emu = window.EJS_emulator;
+  var gm = emu && emu.gameManager;
+  if (gm && typeof gm.simulateInput === 'function') {
+    gm.simulateInput(0, ejsIndex, isDown ? 1 : 0);
+  }
+
+  // Fallback via evento de teclado
+  var keyMap = {
+    0: { key: 'z', code: 'KeyZ', keyCode: 90 },     // NeoGeo A
+    8: { key: 'x', code: 'KeyX', keyCode: 88 },     // NeoGeo B
+    9: { key: 'a', code: 'KeyA', keyCode: 65 },     // NeoGeo C
+    1: { key: 's', code: 'KeyS', keyCode: 83 },     // NeoGeo D
+    2: { key: 'v', code: 'KeyV', keyCode: 86 },     // Coin
+    3: { key: 'Enter', code: 'Enter', keyCode: 13 } // Start
+  };
+
+  var k = keyMap[ejsIndex];
+  if (k) {
+    var ev = new KeyboardEvent(isDown ? 'keydown' : 'keyup', {
+      key: k.key,
+      code: k.code,
+      bubbles: true,
+      cancelable: true
+    });
+    try {
+      Object.defineProperty(ev, 'keyCode', { get: function () { return k.keyCode; } });
+      Object.defineProperty(ev, 'which', { get: function () { return k.keyCode; } });
+    } catch (e) {}
+    var target = document.querySelector('#game canvas') || document.querySelector('#game') || document;
+    target.dispatchEvent(ev);
+  }
+}
+
+function bindTouchButton(elementId, ejsIndex) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+
+  const handleStart = (e) => {
+    e.preventDefault();
+    el.classList.add('pressed');
+    triggerInput(ejsIndex, true);
+  };
+
+  const handleEnd = (e) => {
+    e.preventDefault();
+    el.classList.remove('pressed');
+    triggerInput(ejsIndex, false);
+  };
+
+  el.addEventListener('touchstart', handleStart, { passive: false });
+  el.addEventListener('touchend', handleEnd, { passive: false });
+  el.addEventListener('touchcancel', handleEnd, { passive: false });
+  el.addEventListener('mousedown', handleStart);
+  el.addEventListener('mouseup', handleEnd);
+  el.addEventListener('mouseleave', handleEnd);
+}
+
+// Binda os botões virtuais da tela
+bindTouchButton('touch-coin', 2);  // COIN
+bindTouchButton('touch-start', 3); // START
+bindTouchButton('touch-a', 0);     // A
+bindTouchButton('touch-b', 8);     // B
+bindTouchButton('touch-c', 9);     // C
+bindTouchButton('touch-d', 1);     // D
+
+// Teclas adicionais convenientes para fliperama: '5' ou 'C' para ficha, '1' para start
+window.addEventListener('keydown', (e) => {
+  if (e.repeat) return;
+  if (e.key === '5' || e.key === 'c' || e.key === 'C') {
+    triggerInput(2, true);
+  } else if (e.key === '1') {
+    triggerInput(3, true);
+  }
+});
+
+window.addEventListener('keyup', (e) => {
+  if (e.key === '5' || e.key === 'c' || e.key === 'C') {
+    triggerInput(2, false);
+  } else if (e.key === '1') {
+    triggerInput(3, false);
+  }
+});
+</script>
+</body>
+</html>

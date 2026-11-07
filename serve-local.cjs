@@ -17,7 +17,8 @@ const types = {
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
-  '.wasm': 'application/wasm'
+  '.wasm': 'application/wasm',
+  '.zip': 'application/zip'
 };
 
 function slugify(str) {
@@ -430,6 +431,46 @@ const server = http.createServer((req, res) => {
           .end(JSON.stringify({ error: 'Não consegui carregar os jogos de PlayStation.' }));
       }
     })();
+    return;
+  }
+
+  if (pathname === '/api/neogeo') {
+    const gamesDir = path.join(root, 'neogeo');
+    fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
+      if (err) {
+        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
+          .end(JSON.stringify({ error: 'Não encontrei a pasta neogeo.' }));
+        return;
+      }
+      const catalogIndex = loadJsonIndex('neogeo-games.json', 'name');
+      const games = entries
+        .filter(entry => entry.isFile() && /\.zip$/i.test(entry.name) && entry.name.toLowerCase() !== 'neogeo.zip')
+        .map(entry => {
+          const existing = catalogIndex.get(entry.name.toLocaleLowerCase('pt-BR'));
+          const baseName = entry.name.replace(/\.zip$/i, '');
+          let cover = existing && existing.cover ? existing.cover : null;
+          if (!cover) {
+            if (fs.existsSync(path.join(root, 'assets', 'covers', 'neogeo', `${baseName}.png`))) {
+              cover = `assets/covers/neogeo/${baseName}.png`;
+            } else if (fs.existsSync(path.join(root, 'assets', 'covers', 'neogeo', `${baseName}.svg`))) {
+              cover = `assets/covers/neogeo/${baseName}.svg`;
+            }
+          }
+          return {
+            name: entry.name,
+            title: (existing && existing.title) || cleanDisplayTitle(entry.name),
+            region: (existing && existing.region) || 'Arcade (MVS/AES)',
+            genre: (existing && existing.genre) || 'Ação / Fliperama',
+            featured: Boolean(existing && existing.featured),
+            url: '/neogeo/' + encodeURIComponent(entry.name),
+            cover
+          };
+        })
+        .sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'));
+
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' })
+        .end(JSON.stringify(games));
+    });
     return;
   }
 

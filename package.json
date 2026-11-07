@@ -7,6 +7,8 @@
     "start": "node serve-local.cjs",
     "dev": "node serve-local.cjs",
     "sync-covers": "node scripts/sync-covers.cjs",
+    "sync-neogeo": "node scripts/sync-neogeo.cjs",
+    "baixar-jogos": "node scripts/baixar-jogos.cjs",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",

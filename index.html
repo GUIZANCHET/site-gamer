@@ -1315,6 +1315,7 @@ button {
       <a class="nav-link active" href="index.html">🏠 Início</a>
       <a class="nav-link" href="snes.html">🎮 Super Nintendo <span class="nav-badge">608</span></a>
       <a class="nav-link" href="ps1.html">💿 PlayStation 1 <span class="nav-badge">12</span></a>
+      <a class="nav-link" href="neogeo.html">🕹️ Neo Geo <span class="nav-badge">165</span></a>
       <a class="nav-link" href="snes.html#recentes" title="Ver jogos favoritados">★ Favoritos <span class="nav-badge" id="fav-nav-count">0</span></a>
     </nav>
     <div class="top-right-actions">
@@ -1352,6 +1353,10 @@ button {
             <b>12</b>
             <span>Jogos PS1</span>
           </div>
+          <div class="stat-box" style="border-color:rgba(245,158,11,0.4)">
+            <b style="color:#F59E0B">165</b>
+            <span>Neo Geo Arcade</span>
+          </div>
           <div class="stat-box">
             <b>100%</b>
             <span>Grátis no Celular</span>
@@ -1379,9 +1384,10 @@ button {
       <div class="top-search-hints">
         <span>⚡ <b>Mais Procurados:</b></span>
         <button type="button" class="home-tag" data-tag="Mario">Super Mario World</button>
-        <button type="button" class="home-tag" data-tag="Crash">Crash Team Racing (Dublado)</button>
-        <button type="button" class="home-tag" data-tag="Donkey">Donkey Kong (Português)</button>
-        <button type="button" class="home-tag" data-tag="Homem-Aranha">Homem-Aranha 2</button>
+        <button type="button" class="home-tag" data-tag="King of Fighters">KOF 2002</button>
+        <button type="button" class="home-tag" data-tag="Metal Slug">Metal Slug X</button>
+        <button type="button" class="home-tag" data-tag="Crash">Crash Team Racing</button>
+        <button type="button" class="home-tag" data-tag="Donkey">Donkey Kong</button>
         <button type="button" class="home-tag" data-tag="Top Gear">Top Gear</button>
         <button type="button" class="home-tag" data-tag="Jackie">Jackie Chan</button>
         <button type="button" class="home-tag" data-tag="Sonic">Sonic</button>
@@ -1393,7 +1399,7 @@ button {
     <nav class="section-nav" aria-label="Atalhos das seções">
       <span class="section-nav-label">// Escolha onde brincar:</span>
       <div class="jump-links">
-        <a class="jump-pill" href="#consoles"><span>01</span> Videogames (SNES & PS1)</a>
+        <a class="jump-pill" href="#consoles"><span>01</span> Videogames (SNES, PS1 & Neo Geo)</a>
         <a class="jump-pill" href="#jogar-agora"><span>02</span> Jogar em 1 Toque</a>
         <a class="jump-pill" href="#fliperama"><span>03</span> Fliperama & Luta</a>
         <a class="jump-pill" href="#web-classics"><span>04</span> Clássicos da Internet</a>
@@ -1482,6 +1488,42 @@ button {
             </div>
           </div>
           <a class="console-cta" href="ps1.html">Ver todos os 12 Jogos de PS1 ▶</a>
+        </article>
+
+        <!-- Neo Geo Card -->
+        <article class="console-card">
+          <div>
+            <div class="console-top">
+              <span class="hw-tag" style="background:linear-gradient(135deg,#e60012,#b45309);color:#fff">🕹️ NEO GEO MVS</span>
+              <span class="console-count">165 Clássicos de Fliperama</span>
+            </div>
+            <h3>Neo Geo Arcade (MVS/AES)</h3>
+            <p>165 lendas dos fliperamas da SNK! Inclui The King of Fighters (2002 e '98), Metal Slug X e 3, Samurai Shodown II, Fatal Fury Special e Windjammers.</p>
+            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
+            <div class="cover-strip">
+              <div class="strip-item" data-quick-neogeo="/neogeo/kof2002.zip" data-title="The King of Fighters 2002" title="Jogar The King of Fighters 2002">
+                <img src="assets/covers/neogeo/kof2002.svg" alt="The King of Fighters 2002" loading="lazy" decoding="async">
+                <span>KOF 2002</span>
+              </div>
+              <div class="strip-item" data-quick-neogeo="/neogeo/mslugx.zip" data-title="Metal Slug X" title="Jogar Metal Slug X">
+                <img src="assets/covers/neogeo/mslugx.svg" alt="Metal Slug X" loading="lazy" decoding="async">
+                <span>Metal Slug X</span>
+              </div>
+              <div class="strip-item" data-quick-neogeo="/neogeo/samsho2.zip" data-title="Samurai Shodown II" title="Jogar Samurai Shodown II">
+                <img src="assets/covers/neogeo/samsho2.svg" alt="Samurai Shodown II" loading="lazy" decoding="async">
+                <span>Samurai 2</span>
+              </div>
+              <div class="strip-item" data-quick-neogeo="/neogeo/kof98.zip" data-title="The King of Fighters '98" title="Jogar The King of Fighters '98">
+                <img src="assets/covers/neogeo/kof98.png" alt="The King of Fighters '98" loading="lazy" decoding="async">
+                <span>KOF '98</span>
+              </div>
+              <div class="strip-item" data-quick-neogeo="/neogeo/wjammers.zip" data-title="Windjammers" title="Jogar Windjammers">
+                <img src="assets/covers/neogeo/wjammers.svg" alt="Windjammers" loading="lazy" decoding="async">
+                <span>Windjammers</span>
+              </div>
+            </div>
+          </div>
+          <a class="console-cta" href="neogeo.html">Ver todos os 165 Jogos de Neo Geo ▶</a>
         </article>
 
         <!-- PS2 Card -->
@@ -2084,6 +2126,17 @@ document.addEventListener('click', e => {
     return;
   }
 
+  const quickNeogeo = e.target.closest('[data-quick-neogeo]');
+  if (quickNeogeo) {
+    openRomInModal({
+      title: quickNeogeo.dataset.title,
+      romUrl: quickNeogeo.dataset.quickNeogeo,
+      player: 'neogeo-player.html',
+      page: 'neogeo.html'
+    });
+    return;
+  }
+
   const launchBtn = e.target.closest('[data-launch-rom]');
   if (launchBtn) {
     openRomInModal({
@@ -2193,7 +2246,7 @@ function resetModalMedia() {
 
 function openRomInModal({ title, romUrl, player, page }) {
   resetModalMedia();
-  modalKicker.textContent = player.includes('ps1') ? '// playstation 1 · jogando agora' : '// super nintendo · jogando agora';
+  modalKicker.textContent = player.includes('ps1') ? '// playstation 1 · jogando agora' : (player.includes('neogeo') ? '// neo geo arcade · jogando agora' : '// super nintendo · jogando agora');
   modalTitle.textContent = title;
   modalCopy.textContent = '📱 No celular, os botões aparecem direto na tela! Quer mudar algum botão ou usar um controle? Clique em "🕹️ Controle" acima.';
   emulatorFrame.src = `${player}?rom=${encodeURIComponent(romUrl)}&title=${encodeURIComponent(title)}`;

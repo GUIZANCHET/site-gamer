@@ -20,6 +20,12 @@
 /PlayStation/
 /Super nintendo/
 /ps1/
+/neogeo/
+/roms neo geo/
+*.zip
+site-jogos.zip
+snes-games.zip
+.temp-downloads/
 
 # Logs e dependencias temporarias
 node_modules/
