@@ -67,15 +67,14 @@ const notice = document.querySelector('#notice');
 document.title = title + ' — Continue?';
 
 const isVSCode = /Electron|Code\//i.test(navigator.userAgent);
-if (isVSCode) {
-  notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #E60012;max-width:500px;pointer-events:auto;line-height:1.6;color:#eee"><b style="color:#E60012;font-size:16px;margin-bottom:8px">⚠️ NAVEGADOR DO VS CODE NÃO SUPORTADO</b>O navegador interno do VS Code bloqueia aceleração gráfica (WebGL) e áudio de jogos.<br><br>👉 <b>Para jogar, abra no Google Chrome ou no navegador do celular:</b><br><code style="background:#000;color:#00e5ff;padding:6px 12px;border-radius:6px;display:inline-block;margin-top:10px;font-size:14px;font-weight:bold">http://localhost:4175</code></div>';
-} else if (!rom.startsWith('/Super%20nintendo/GAMES/')) {
-  notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista abaixo.</div>';
-} else {
-  const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
+const isCloudWithoutStorage = window.ContinueStorage ? window.ContinueStorage.isCloudWithoutStorage() : false;
+
+function launchEmulator(gameUrl) {
+  notice.style.display = 'grid';
+  notice.innerHTML = '<div><b>🎮 PREPARANDO SUPER NINTENDO…</b>Iniciando emulador, aguarde um instante...</div>';
   window.EJS_player = '#game';
   window.EJS_core = 'snes';
-  window.EJS_gameUrl = finalRom;
+  window.EJS_gameUrl = gameUrl;
   window.EJS_gameName = title;
   window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
   window.EJS_language = 'pt-BR';
@@ -85,10 +84,47 @@ if (isVSCode) {
   }
   window.EJS_onGameStart = () => { notice.style.display = 'none'; };
   window.EJS_ready = () => { notice.style.display = 'none'; };
+
   const loader = document.createElement('script');
   loader.src = window.EJS_pathtodata + 'loader.js';
-  loader.onerror = () => { notice.textContent = 'Não foi possível carregar o emulador. Verifique sua internet.'; };
+  loader.onerror = () => {
+    notice.style.display = 'grid';
+    notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #E60012;max-width:500px;pointer-events:auto;color:#eee"><b style="color:#E60012;font-size:16px;margin-bottom:8px">✕ ERRO AO BAIXAR O JOGO NA NUVEM</b>O arquivo do jogo não está disponível na nuvem ou deu 404.<br><br>👉 <b>Escolha o arquivo do jogo no seu PC ou celular para jogar agora:</b><br><br><label style="display:inline-block;background:#E60012;color:#FFF;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px">📁 Escolher Arquivo (.smc / .sfc / .zip)<input type="file" id="fallback-rom-input" accept=".smc,.sfc,.zip" style="display:none"></label></div>';
+    const fallbackInput = document.getElementById('fallback-rom-input');
+    if (fallbackInput) {
+      fallbackInput.addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0];
+        if (file) launchEmulator(URL.createObjectURL(file));
+      });
+    }
+  };
   document.body.appendChild(loader);
+}
+
+if (isVSCode) {
+  notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #E60012;max-width:500px;pointer-events:auto;line-height:1.6;color:#eee"><b style="color:#E60012;font-size:16px;margin-bottom:8px">⚠️ NAVEGADOR DO VS CODE NÃO SUPORTADO</b>O navegador interno do VS Code bloqueia aceleração gráfica (WebGL) e áudio de jogos.<br><br>👉 <b>Para jogar, abra no Google Chrome ou no navegador do celular:</b><br><code style="background:#000;color:#00e5ff;padding:6px 12px;border-radius:6px;display:inline-block;margin-top:10px;font-size:14px;font-weight:bold">http://localhost:4175</code></div>';
+} else if (isCloudWithoutStorage && (!rom || rom.startsWith('/'))) {
+  notice.innerHTML = `<div style="background:#181818;padding:28px 24px;border-radius:14px;border:1px solid #333;box-shadow:0 8px 30px rgba(0,0,0,0.8);max-width:480px;text-align:center;pointer-events:auto;line-height:1.5;color:#eee">
+    <div style="font-size:40px;margin-bottom:8px">🎮</div>
+    <b style="color:#FFF;font-size:18px;display:block;margin-bottom:6px">${title}</b>
+    <p style="color:#9E9E9E;font-size:13px;margin:0 0 18px 0">Jogando pela Vercel na nuvem.<br><b>Selecione o arquivo da ROM no seu aparelho para rodar na hora:</b></p>
+    <label style="display:inline-block;background:#E60012;color:#FFF;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;box-shadow:0 4px 14px rgba(230,0,18,0.4)">
+      📁 Selecionar Arquivo do Jogo (.smc / .sfc / .zip)
+      <input type="file" id="direct-rom-input" accept=".smc,.sfc,.zip" style="display:none">
+    </label>
+  </div>`;
+  const directInput = document.getElementById('direct-rom-input');
+  if (directInput) {
+    directInput.addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      if (file) launchEmulator(URL.createObjectURL(file));
+    });
+  }
+} else if (!rom.startsWith('/Super%20nintendo/GAMES/') && !rom.startsWith('http://') && !rom.startsWith('https://') && !rom.startsWith('blob:')) {
+  notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista abaixo.</div>';
+} else {
+  const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
+  launchEmulator(finalRom);
 }
 </script>
 </body>
