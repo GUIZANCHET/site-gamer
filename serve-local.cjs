@@ -6,19 +6,19 @@ const { once } = require('node:events');
 
 const root = __dirname;
 
-// Cache estático pré-carregado que força o Vercel NFT (@vercel/nft) a incluir todos os arquivos no deploy Serverless
-const staticHtml = {
-  '/index.html': fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8'),
-  '/snes.html': fs.readFileSync(path.join(__dirname, 'snes.html'), 'utf8'),
-  '/ps1.html': fs.readFileSync(path.join(__dirname, 'ps1.html'), 'utf8'),
-  '/neogeo.html': fs.readFileSync(path.join(__dirname, 'neogeo.html'), 'utf8'),
-  '/player.html': fs.readFileSync(path.join(__dirname, 'player.html'), 'utf8'),
-  '/ps1-player.html': fs.readFileSync(path.join(__dirname, 'ps1-player.html'), 'utf8'),
-  '/neogeo-player.html': fs.readFileSync(path.join(__dirname, 'neogeo-player.html'), 'utf8'),
-  '/snes-games.json': fs.readFileSync(path.join(__dirname, 'snes-games.json'), 'utf8'),
-  '/ps1-games.json': fs.readFileSync(path.join(__dirname, 'ps1-games.json'), 'utf8'),
-  '/neogeo-games.json': fs.readFileSync(path.join(__dirname, 'neogeo-games.json'), 'utf8')
-};
+// Cache estático pré-carregado com leitura segura
+const staticHtml = {};
+function safeRead(relPath) {
+  try {
+    const full = path.join(__dirname, relPath);
+    if (fs.existsSync(full)) return fs.readFileSync(full, 'utf8');
+  } catch {}
+  return null;
+}
+['index.html', 'snes.html', 'ps1.html', 'neogeo.html', 'player.html', 'ps1-player.html', 'neogeo-player.html', 'snes-games.json', 'ps1-games.json', 'neogeo-games.json'].forEach(f => {
+  const content = safeRead(f);
+  if (content) staticHtml['/' + f] = content;
+});
 staticHtml['/'] = staticHtml['/index.html'];
 staticHtml['/snes'] = staticHtml['/snes.html'];
 staticHtml['/ps1'] = staticHtml['/ps1.html'];
