@@ -9,6 +9,7 @@
     "sync-covers": "node scripts/sync-covers.cjs",
     "sync-neogeo": "node scripts/sync-neogeo.cjs",
     "baixar-jogos": "node scripts/baixar-jogos.cjs",
+    "upload-r2": "node scripts/upload-r2.cjs",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
