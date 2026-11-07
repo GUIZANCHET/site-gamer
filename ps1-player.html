@@ -124,14 +124,13 @@ function launchEmulator(gameUrl) {
   document.body.appendChild(loader);
 }
 
-if (isVSCode) {
-  notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #E60012;max-width:500px;pointer-events:auto;line-height:1.6;color:#eee"><b style="color:#E60012;font-size:16px;margin-bottom:8px">⚠️ NAVEGADOR DO VS CODE NÃO SUPORTADO</b>O navegador interno do VS Code bloqueia aceleração gráfica (WebGL) e áudio de jogos.<br><br>👉 <b>Para jogar, abra no Google Chrome ou no navegador do celular:</b><br><code style="background:#000;color:#00e5ff;padding:6px 12px;border-radius:6px;display:inline-block;margin-top:10px;font-size:14px;font-weight:bold">http://localhost:4175</code></div>';
-} else if (isCloudWithoutStorage && (!rom || rom.startsWith('/'))) {
-  // Na Vercel sem storage configurado, permite selecionar o arquivo local instantaneamente
+function showRomMissingScreen() {
+  notice.style.display = 'grid';
   notice.innerHTML = `<div style="background:#181818;padding:28px 24px;border-radius:14px;border:1px solid #333;box-shadow:0 8px 30px rgba(0,0,0,0.8);max-width:480px;text-align:center;pointer-events:auto;line-height:1.5;color:#eee">
     <div style="font-size:40px;margin-bottom:8px">💿</div>
     <b style="color:#FFF;font-size:18px;display:block;margin-bottom:6px">${title}</b>
-    <p style="color:#9E9E9E;font-size:13px;margin:0 0 18px 0">Como jogos de PlayStation têm mais de 500MB, eles não podem ser guardados direto no servidor da Vercel.<br><b>Selecione o arquivo do jogo no seu aparelho para rodar na hora:</b></p>
+    <p style="color:#FFC107;font-size:13px;font-weight:bold;margin:0 0 10px 0">⚠️ Este jogo ainda não foi enviado para a nuvem da Cloudflare.</p>
+    <p style="color:#9E9E9E;font-size:13px;margin:0 0 18px 0">Como jogos de PlayStation têm mais de 500MB, você pode jogar agora mesmo selecionando o arquivo do jogo (.bin / .cue / .iso) do seu aparelho:</p>
     <label style="display:inline-block;background:#E60012;color:#FFF;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;box-shadow:0 4px 14px rgba(230,0,18,0.4)">
       📁 Selecionar Arquivo do Jogo (.bin / .cue / .iso)
       <input type="file" id="direct-rom-input" accept=".bin,.iso,.cue,.chd,.pbp,.zip" style="display:none">
@@ -144,11 +143,31 @@ if (isVSCode) {
       if (file) launchEmulator(URL.createObjectURL(file));
     });
   }
+}
+
+if (isVSCode) {
+  notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #E60012;max-width:500px;pointer-events:auto;line-height:1.6;color:#eee"><b style="color:#E60012;font-size:16px;margin-bottom:8px">⚠️ NAVEGADOR DO VS CODE NÃO SUPORTADO</b>O navegador interno do VS Code bloqueia aceleração gráfica (WebGL) e áudio de jogos.<br><br>👉 <b>Para jogar, abra no Google Chrome ou no navegador do celular:</b><br><code style="background:#000;color:#00e5ff;padding:6px 12px;border-radius:6px;display:inline-block;margin-top:10px;font-size:14px;font-weight:bold">http://localhost:4175</code></div>';
+} else if (isCloudWithoutStorage && (!rom || rom.startsWith('/'))) {
+  showRomMissingScreen();
 } else if (!rom.startsWith('/PlayStation/GAMES/') && !rom.startsWith('/ps1/') && !rom.startsWith('http://') && !rom.startsWith('https://') && !rom.startsWith('blob:')) {
   notice.innerHTML = '<span><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro disco na lista abaixo.</span>';
 } else {
   const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
-  launchEmulator(finalRom);
+  if (finalRom.startsWith('http://') || finalRom.startsWith('https://')) {
+    notice.style.display = 'grid';
+    notice.innerHTML = '<span><b>💿 CONECTANDO AO SERVIDOR DE JOGOS…</b>Verificando se o jogo está disponível na nuvem...</span>';
+    fetch(finalRom, { method: 'HEAD' }).then(res => {
+      if (!res.ok && res.status === 404) {
+        showRomMissingScreen();
+      } else {
+        launchEmulator(finalRom);
+      }
+    }).catch(() => {
+      launchEmulator(finalRom);
+    });
+  } else {
+    launchEmulator(finalRom);
+  }
 }
 </script>
 </body>
