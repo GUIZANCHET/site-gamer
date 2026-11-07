@@ -44,6 +44,7 @@
     transform: scale(1.15);
   }
 </style>
+<script src="assets/storage-config.js"></script>
 <script src="assets/gamepad-mapper.js"></script>
 </head>
 <body>
@@ -71,9 +72,10 @@ if (isVSCode) {
 } else if (!rom.startsWith('/Super%20nintendo/GAMES/')) {
   notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista abaixo.</div>';
 } else {
+  const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
   window.EJS_player = '#game';
   window.EJS_core = 'snes';
-  window.EJS_gameUrl = rom;
+  window.EJS_gameUrl = finalRom;
   window.EJS_gameName = title;
   window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
   window.EJS_language = 'pt-BR';

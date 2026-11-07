@@ -198,6 +198,7 @@
     #neogeo-touch-controls { bottom: 6px; padding: 0 8px; }
   }
 </style>
+<script src="assets/storage-config.js"></script>
 <script src="assets/gamepad-mapper.js"></script>
 </head>
 <body>
@@ -252,10 +253,12 @@ if (isVSCode) {
 } else if (!rom.startsWith('/neogeo/')) {
   notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista do Neo Geo.</div>';
 } else {
+  const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
+  const finalBios = window.ContinueStorage ? window.ContinueStorage.resolveUrl('/neogeo/neogeo.zip') : '/neogeo/neogeo.zip';
   window.EJS_player = '#game';
   window.EJS_core = 'neogeo';
-  window.EJS_gameUrl = rom;
-  window.EJS_biosUrl = '/neogeo/neogeo.zip';
+  window.EJS_gameUrl = finalRom;
+  window.EJS_biosUrl = finalBios;
   window.EJS_gameName = title;
   window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
   window.EJS_language = 'pt-BR';
