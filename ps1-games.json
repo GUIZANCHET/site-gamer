@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Castlevania Symphony of the Night (BR) (Dublado) (www.romsportugues.com)",
+    "title": "Castlevania: Symphony of the Night",
+    "region": "BR (Dublado PT-BR)",
+    "genre": "RPG / Aventura",
+    "featured": true,
+    "url": "/ps1/Castlevania%20Symphony%20of%20the%20Night%20%28BR%29%20%28Dublado%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/castlevania-symphony-of-the-night.png"
+  },
+  {
+    "name": "CTR - Crash Team Racing (BR) (DUB) (www.romsportugues.com)",
+    "title": "CTR: Crash Team Racing",
+    "region": "BR (Dublado PT-BR)",
+    "genre": "Corrida",
+    "featured": true,
+    "url": "/ps1/CTR%20-%20Crash%20Team%20Racing%20%28BR%29%20%28DUB%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/ctr-crash-team-racing.png"
+  },
+  {
+    "name": "Disney's Donald Duck Goin' Quackers (BR) (DUB) (www.romsportugues.com)",
+    "title": "Pato Donald: Goin' Quackers",
+    "region": "BR (Dublado PT-BR)",
+    "genre": "Ação / Plataforma",
+    "featured": true,
+    "url": "/ps1/Disney's%20Donald%20Duck%20Goin'%20Quackers%20%28BR%29%20%28DUB%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/donald-duck-goin-quackers.png"
+  },
+  {
+    "name": "Driver 2 (BR) (Disc 1) (v1.1) (www.romsportugues.com)",
+    "title": "Driver 2 (Disco 1)",
+    "region": "BR (Português)",
+    "genre": "Corrida",
+    "featured": true,
+    "url": "/ps1/Driver%202%20%28BR%29%20%28Disc%201%29%20%28v1.1%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/driver-2-disc-1.png"
+  },
+  {
+    "name": "Driver 2 (BR) (Disc 2) (v1.1) (www.romsportugues.com)",
+    "title": "Driver 2 (Disco 2)",
+    "region": "BR (Português)",
+    "genre": "Corrida",
+    "featured": true,
+    "url": "/ps1/Driver%202%20%28BR%29%20%28Disc%202%29%20%28v1.1%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/driver-2-disc-2.png"
+  },
+  {
+    "name": "Jackie Chan Stuntmaster (BR) (www.romsportugues.com)",
+    "title": "Jackie Chan Stuntmaster",
+    "region": "BR (Português)",
+    "genre": "Ação / Plataforma",
+    "featured": true,
+    "url": "/ps1/Jackie%20Chan%20Stuntmaster%20%28BR%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/jackie-chan-stuntmaster.png"
+  },
+  {
+    "name": "Marvel vs. Capcom - Clash of Super Heroes (USA)",
+    "title": "Marvel vs. Capcom: Clash of Super Heroes",
+    "region": "USA",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/PlayStation/GAMES/Marvel%20vs.%20Capcom%20-%20Clash%20of%20Super%20Heroes%20%28USA%29.bin",
+    "cover": "assets/covers/ps1/marvel-vs-capcom-clash-of-super-heroes.png"
+  },
+  {
+    "name": "Primal Rage (PT) (v1.2A) (www.romsportugues.com)",
+    "title": "Primal Rage",
+    "region": "BR (Português)",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/ps1/Primal%20Rage%20%28PT%29%20%28v1.2A%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/primal-rage.png"
+  },
+  {
+    "name": "Spider 2 (BR) (www.romsportugues.com)",
+    "title": "Homem-Aranha 2: Enter Electro",
+    "region": "BR (Português)",
+    "genre": "Ação / Aventura",
+    "featured": true,
+    "url": "/ps1/Spider%202%20%28BR%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/spider-man-2-enter-electro.png"
+  },
+  {
+    "name": "Vigilante 8 (BR) (T1.2) (www.romsportugues.com)",
+    "title": "Vigilante 8",
+    "region": "BR (Português)",
+    "genre": "Combate Veicular",
+    "featured": true,
+    "url": "/ps1/Vigilante%208%20%28BR%29%20%28T1.2%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/vigilante-8.png"
+  },
+  {
+    "name": "Vigilante 8 - 2nd Offensive (PT) (www.romsportugues.com)",
+    "title": "Vigilante 8: 2nd Offensive",
+    "region": "BR (Português)",
+    "genre": "Combate Veicular",
+    "featured": true,
+    "url": "/ps1/Vigilante%208%20-%202nd%20Offensive%20%28PT%29%20%28www.romsportugues.com%29.BIN",
+    "cover": "assets/covers/ps1/vigilante-8-2nd-offensive.png"
+  },
+  {
+    "name": "World's Scariest Police Chases (BR) (DUB) (T1.0) (www.romsportugues.com)",
+    "title": "World's Scariest Police Chases",
+    "region": "BR (Dublado PT-BR)",
+    "genre": "Combate Veicular",
+    "featured": true,
+    "url": "/ps1/World's%20Scariest%20Police%20Chases%20%28BR%29%20%28DUB%29%20%28T1.0%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/worlds-scariest-police-chases.png"
+  }
+]

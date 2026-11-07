@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#111111">
+<title>CodeMaster (NES) — Continue?</title>
+<style>
+  html, body, #game {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #111111;
+    color: #F5F5F5;
+    font-family: 'Plus Jakarta Sans', 'JetBrains Mono', sans-serif;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #game { min-height: 320px; }
+  #notice {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+    color: #9E9E9E;
+    font-size: 13px;
+    line-height: 1.6;
+    pointer-events: none;
+  }
+  #notice b { color: #E60012; display: block; font-size: 16px; margin-bottom: 6px; }
+
+  /* Botões na tela do celular (Touch) maiores e mais fáceis para crianças */
+  body.touch-large .ejs_virtual_gamepad_button {
+    transform: scale(1.18);
+    font-weight: 800 !important;
+    border-width: 2px !important;
+    background-color: rgba(230, 0, 18, 0.32) !important;
+    border-color: rgba(255, 255, 255, 0.65) !important;
+    color: #FFFFFF !important;
+  }
+  body.touch-large .ejs_dpad_container {
+    transform: scale(1.15);
+  }
+</style>
+<script src="assets/gamepad-mapper.js"></script>
+</head>
+<body>
+<div id="game"></div>
+<div id="notice">
+  <div>
+    <b>🎮 ABRINDO SEU JOGO…</b>
+    📱 No celular, os botões aparecem direto na tela!<br>
+    🕹️ Você também pode usar Teclado ou Controle USB/Bluetooth.
+  </div>
+</div>
+<script>
+const touchCfg = window.ContinueControls ? window.ContinueControls.getTouchSettings() : { size: 'large' };
+if (touchCfg.size === 'large') document.body.classList.add('touch-large');
+
+window.EJS_player = '#game';
+window.EJS_core = 'nes';
+window.EJS_gameUrl = './assets/games/codemaster.nes';
+window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+window.EJS_language = 'pt-BR';
+window.EJS_startOnLoaded = true;
+if (window.ContinueControls) {
+  window.EJS_defaultControls = window.ContinueControls.getEJSControls();
+}
+window.EJS_onGameStart = function(){ document.querySelector('#notice').style.display = 'none'; };
+window.EJS_ready = function(){ document.querySelector('#notice').style.display = 'none'; };
+</script>
+<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#111111">
+<title>Super Nintendo — Continue?</title>
+<style>
+  html, body, #game {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    background: #111111;
+    color: #F5F5F5;
+    font: 13px 'Plus Jakarta Sans', 'JetBrains Mono', sans-serif;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #notice {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 24px;
+    color: #9E9E9E;
+    line-height: 1.6;
+    pointer-events: none;
+  }
+  #notice b { color: #E60012; display: block; font-size: 16px; margin-bottom: 6px; }
+
+  /* Botões na tela do celular (Touch) maiores e mais visíveis para crianças */
+  body.touch-large .ejs_virtual_gamepad_button {
+    transform: scale(1.18);
+    font-weight: 800 !important;
+    border-width: 2px !important;
+    background-color: rgba(230, 0, 18, 0.32) !important;
+    border-color: rgba(255, 255, 255, 0.65) !important;
+    color: #FFFFFF !important;
+  }
+  body.touch-large .ejs_dpad_container {
+    transform: scale(1.15);
+  }
+</style>
+<script src="assets/gamepad-mapper.js"></script>
+</head>
+<body>
+<div id="game"></div>
+<div id="notice">
+  <div>
+    <b>🎮 PREPARANDO SUPER NINTENDO…</b>
+    📱 No celular, os botões aparecem sozinhos na tela!<br>
+    💡 Dica: Vire o celular deitado e toque em "Tela Cheia" para jogar melhor.
+  </div>
+</div>
+<script>
+const touchCfg = window.ContinueControls ? window.ContinueControls.getTouchSettings() : { size: 'large' };
+if (touchCfg.size === 'large') document.body.classList.add('touch-large');
+
+const query = new URLSearchParams(location.search);
+const rom = query.get('rom') || '';
+const title = query.get('title') || 'Super Nintendo';
+const notice = document.querySelector('#notice');
+document.title = title + ' — Continue?';
+
+if (!rom.startsWith('/Super%20nintendo/GAMES/')) {
+  notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista abaixo.</div>';
+} else {
+  window.EJS_player = '#game';
+  window.EJS_core = 'snes';
+  window.EJS_gameUrl = rom;
+  window.EJS_gameName = title;
+  window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+  window.EJS_language = 'pt-BR';
+  window.EJS_startOnLoaded = true;
+  if (window.ContinueControls) {
+    window.EJS_defaultControls = window.ContinueControls.getEJSControls();
+  }
+  window.EJS_onGameStart = () => { notice.style.display = 'none'; };
+  window.EJS_ready = () => { notice.style.display = 'none'; };
+  const loader = document.createElement('script');
+  loader.src = window.EJS_pathtodata + 'loader.js';
+  loader.onerror = () => { notice.textContent = 'Não foi possível carregar o emulador. Verifique sua internet.'; };
+  document.body.appendChild(loader);
+}
+</script>
+</body>
+</html>
