@@ -6,29 +6,6 @@ const { once } = require('node:events');
 
 const root = __dirname;
 
-// Páginas e catálogos embutidos via require (garante empacotamento 100% pelo Vercel NFT sem depender do disco)
-const embeddedPages = {
-  '/': require('./index-html-data.cjs'),
-  '/index.html': require('./index-html-data.cjs'),
-  '/snes': require('./snes-html-data.cjs'),
-  '/snes.html': require('./snes-html-data.cjs'),
-  '/ps1': require('./ps1-html-data.cjs'),
-  '/ps1.html': require('./ps1-html-data.cjs'),
-  '/neogeo': require('./neogeo-html-data.cjs'),
-  '/neogeo.html': require('./neogeo-html-data.cjs'),
-  '/player': require('./player-html-data.cjs'),
-  '/player.html': require('./player-html-data.cjs'),
-  '/ps1-player': require('./ps1-player-data.cjs'),
-  '/ps1-player.html': require('./ps1-player-data.cjs'),
-  '/snes-player': require('./snes-player-data.cjs'),
-  '/snes-player.html': require('./snes-player-data.cjs'),
-  '/neogeo-player': require('./neogeo-player-data.cjs'),
-  '/neogeo-player.html': require('./neogeo-player-data.cjs'),
-  '/snes-games.json': JSON.stringify(require('./snes-games.json')),
-  '/ps1-games.json': JSON.stringify(require('./ps1-games.json')),
-  '/neogeo-games.json': JSON.stringify(require('./neogeo-games.json'))
-};
-
 const types = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -338,7 +315,7 @@ function serveStaticFile(file, req, res) {
     }
 
     const contentType = types[path.extname(file).toLowerCase()] || 'application/octet-stream';
-    const range = req.headers && req.headers.range;
+    const range = req.headers.range;
 
     if (range) {
       const match = /bytes=(\d*)-(\d*)/.exec(range);
@@ -363,7 +340,7 @@ function serveStaticFile(file, req, res) {
         });
         const rStream = fs.createReadStream(file, { start, end });
         rStream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
-        if (typeof res.on === 'function') res.on('close', () => rStream.destroy());
+        res.on('close', () => rStream.destroy());
         rStream.pipe(res);
         return;
       }
@@ -379,23 +356,18 @@ function serveStaticFile(file, req, res) {
     });
     const stream = fs.createReadStream(file);
     stream.on('error', () => { if (!res.headersSent) res.writeHead(500); res.end(); });
-    if (typeof res.on === 'function') res.on('close', () => stream.destroy());
+    res.on('close', () => stream.destroy());
     stream.pipe(res);
   });
 }
 
-function handler(req, res) {
+const server = http.createServer((req, res) => {
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
   } catch {
     res.writeHead(400).end('Bad request');
     return;
-  }
-
-  // Normaliza trailing slash para rotas (ex: /neogeo/ -> /neogeo)
-  if (pathname.length > 1 && pathname.endsWith('/')) {
-    pathname = pathname.slice(0, -1);
   }
 
   if (req.method === 'OPTIONS') {
@@ -408,43 +380,17 @@ function handler(req, res) {
     return;
   }
 
-  // Atendimento direto e garantido de páginas HTML e catálogos JSON
-  if (embeddedPages[pathname]) {
-    const isJson = pathname.endsWith('.json');
-    res.writeHead(200, {
-      'Content-Type': isJson ? 'application/json; charset=utf-8' : 'text/html; charset=utf-8',
-      'Content-Length': Buffer.byteLength(embeddedPages[pathname]),
-      'Cache-Control': 'no-store',
-      'Access-Control-Allow-Origin': '*',
-      'Cross-Origin-Resource-Policy': 'cross-origin'
-    });
-    if (req.method === 'HEAD') {
-      res.end();
-    } else {
-      res.end(embeddedPages[pathname]);
-    }
-    return;
-  }
-
   if (pathname === '/api/snes') {
     const gamesDir = path.join(root, 'Super nintendo', 'GAMES');
-    if (!fs.existsSync(gamesDir)) {
-      res.writeHead(200, {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Cache-Control': 'no-store',
-        'Access-Control-Allow-Origin': '*',
-        'Cross-Origin-Resource-Policy': 'cross-origin'
-      }).end(embeddedPages['/snes-games.json']);
-      return;
-    }
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
       if (err) {
-        res.writeHead(200, {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Cache-Control': 'no-store',
-          'Access-Control-Allow-Origin': '*',
-          'Cross-Origin-Resource-Policy': 'cross-origin'
-        }).end(embeddedPages['/snes-games.json']);
+        const fallbackPath = path.join(root, 'snes-games.json');
+        if (fs.existsSync(fallbackPath)) {
+          serveStaticFile(fallbackPath, req, res);
+          return;
+        }
+        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
+          .end(JSON.stringify({ error: 'Não encontrei Super nintendo/GAMES.' }));
         return;
       }
       const catalogIndex = loadJsonIndex('snes-games.json', 'name');
@@ -490,12 +436,13 @@ function handler(req, res) {
         }
         throw new Error('Sem jogos locais');
       } catch (err) {
-        res.writeHead(200, {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Cache-Control': 'no-store',
-          'Access-Control-Allow-Origin': '*',
-          'Cross-Origin-Resource-Policy': 'cross-origin'
-        }).end(embeddedPages['/ps1-games.json']);
+        const fallbackPath = path.join(root, 'ps1-games.json');
+        if (fs.existsSync(fallbackPath)) {
+          serveStaticFile(fallbackPath, req, res);
+          return;
+        }
+        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
+          .end(JSON.stringify({ error: 'Não consegui carregar os jogos de PlayStation.' }));
       }
     })();
     return;
@@ -503,23 +450,15 @@ function handler(req, res) {
 
   if (pathname === '/api/neogeo') {
     const gamesDir = path.join(root, 'neogeo');
-    if (!fs.existsSync(gamesDir)) {
-      res.writeHead(200, {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Cache-Control': 'no-store',
-        'Access-Control-Allow-Origin': '*',
-        'Cross-Origin-Resource-Policy': 'cross-origin'
-      }).end(embeddedPages['/neogeo-games.json']);
-      return;
-    }
     fs.readdir(gamesDir, { withFileTypes: true }, (err, entries) => {
       if (err) {
-        res.writeHead(200, {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Cache-Control': 'no-store',
-          'Access-Control-Allow-Origin': '*',
-          'Cross-Origin-Resource-Policy': 'cross-origin'
-        }).end(embeddedPages['/neogeo-games.json']);
+        const fallbackPath = path.join(root, 'neogeo-games.json');
+        if (fs.existsSync(fallbackPath)) {
+          serveStaticFile(fallbackPath, req, res);
+          return;
+        }
+        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'application/json; charset=utf-8' })
+          .end(JSON.stringify({ error: 'Não encontrei a pasta neogeo.' }));
         return;
       }
       const catalogIndex = loadJsonIndex('neogeo-games.json', 'name');
@@ -579,50 +518,37 @@ function handler(req, res) {
   }
 
   serveStaticFile(file, req, res);
-}
-
-const server = http.createServer(handler);
+});
 
 const PORT = process.env.PORT || 4175;
 const HOST = process.env.HOST || '0.0.0.0';
 
-if (require.main === module) {
-  server.on('error', err => {
-    if (err && err.code === 'EADDRINUSE') {
-      console.log(`\n⚠️  A porta ${PORT} já está sendo usada.`);
-      console.log(`👉 Você já pode acessar no navegador: http://localhost:${PORT}/\n`);
-      process.exit(0);
-    }
-    console.error(err);
-  });
+server.on('error', err => {
+  if (err && err.code === 'EADDRINUSE') {
+    console.log(`\n⚠️  A porta ${PORT} já está sendo usada.`);
+    console.log(`👉 Você já pode acessar no navegador: http://localhost:${PORT}/\n`);
+    process.exit(0);
+  }
+  console.error(err);
+});
 
-  server.listen(PORT, HOST, () => {
-    console.log(`\n🎮 Arcade Continue? rodando com sucesso!`);
-    console.log(`💻 No PC: http://localhost:${PORT}/`);
-    try {
-      const nets = os.networkInterfaces();
-      for (const name of Object.keys(nets)) {
-        for (const net of nets[name]) {
-          if (net.family === 'IPv4' && !net.internal && !name.startsWith('br-') && !name.startsWith('docker')) {
-            console.log(`📱 No Celular/Tablet (${name}): http://${net.address}:${PORT}/`);
-          }
+server.listen(PORT, HOST, () => {
+  console.log(`\n🎮 Arcade Continue? rodando com sucesso!`);
+  console.log(`💻 No PC: http://localhost:${PORT}/`);
+  try {
+    const nets = os.networkInterfaces();
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name]) {
+        if (net.family === 'IPv4' && !net.internal && !name.startsWith('br-') && !name.startsWith('docker')) {
+          console.log(`📱 No Celular/Tablet (${name}): http://${net.address}:${PORT}/`);
         }
       }
-    } catch {}
-    console.log(`⚡ Pressione Ctrl + C para encerrar.\n`);
-  });
-}
+    }
+  } catch {}
+  console.log(`⚡ Pressione Ctrl + C para encerrar.\n`);
+});
 
 process.on('uncaughtException', err => {
   if (err && (err.code === 'ECONNRESET' || err.code === 'EPIPE' || err.code === 'ERR_STREAM_PREMATURE_CLOSE')) return;
   console.error(err);
 });
-
-handler.server = server;
-handler.listen = (...args) => server.listen(...args);
-handler.close = (...args) => server.close(...args);
-handler.on = (...args) => server.on(...args);
-
-module.exports = handler;
-module.exports.default = handler;
-module.exports.handler = handler;
