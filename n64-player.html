@@ -207,6 +207,12 @@ document.getElementById('btn-tip-fullscreen')?.addEventListener('click', () => {
 const touchCfg = window.ContinueControls ? window.ContinueControls.getTouchSettings() : { size: 'large' };
 if (touchCfg.size === 'large') document.body.classList.add('touch-large');
 
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
 const query = new URLSearchParams(location.search);
 const rom = query.get('rom') || '';
 const title = query.get('title') || 'Jogo de Nintendo 64';
@@ -285,7 +291,7 @@ function showRomMissingScreen() {
   notice.style.display = 'grid';
   notice.innerHTML = `<div style="background:#181818;padding:28px 24px;border-radius:14px;border:1px solid #333;box-shadow:0 8px 30px rgba(0,0,0,0.8);max-width:480px;text-align:center;pointer-events:auto;line-height:1.5;color:#eee">
     <div style="font-size:40px;margin-bottom:8px">🌟</div>
-    <b style="color:#FFF;font-size:18px;display:block;margin-bottom:6px">${title}</b>
+    <b style="color:#FFF;font-size:18px;display:block;margin-bottom:6px">${escapeHtml(title)}</b>
     <p style="color:#FFC107;font-size:13px;font-weight:bold;margin:0 0 10px 0">⚠️ Este jogo ainda não foi sincronizado na nuvem da Cloudflare.</p>
     <p style="color:#9E9E9E;font-size:13px;margin:0 0 18px 0">Você pode jogar agora mesmo selecionando o arquivo do jogo (.z64 / .n64 / .v64 / .rom / .zip) do seu computador ou celular:</p>
     <label style="display:inline-block;background:#00E5FF;color:#111;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;box-shadow:0 4px 14px rgba(0,229,255,0.4)">

@@ -504,6 +504,25 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Proteção contra DoS de Null Byte (%00)
+  if (pathname.includes('\0')) {
+    res.writeHead(400, { 'Content-Type': 'text/plain' }).end('Bad Request');
+    return;
+  }
+
+  // Proteção contra exposição de arquivos sensíveis (.env, .git, scripts, node_modules)
+  const isBlocked =
+    pathname.startsWith('/.') ||
+    pathname.includes('/.') ||
+    pathname.startsWith('/scripts/') ||
+    pathname.startsWith('/node_modules/') ||
+    /\.(env|git|cjs|bat|yml|yaml|dockerignore)$/i.test(pathname);
+
+  if (isBlocked) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' }).end('Forbidden');
+    return;
+  }
+
   let file = path.resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
   if (!fs.existsSync(file) && fs.existsSync(file + '.html')) {
     file = file + '.html';

@@ -23,6 +23,18 @@
     }
   }
 
+  function isValidStorageUrl(url) {
+    if (!url || typeof url !== 'string') return false;
+    try {
+      const parsed = new URL(url.trim());
+      if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
+      const host = parsed.hostname.toLowerCase();
+      return host.endsWith('.r2.dev') || host.endsWith('.cloudflare.com') || host === 'localhost' || host === '127.0.0.1';
+    } catch (e) {
+      return false;
+    }
+  }
+
   function safeSet(key, val) {
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
@@ -40,13 +52,13 @@
     BUCKET_2_URL,
     // Retorna a URL base padrão (PlayStation)
     getBaseUrl() {
-      const saved = safeGet(STORAGE_KEY);
-      if (saved && saved.trim()) {
-        return saved.trim().replace(/\/+$/, '');
-      }
-
       if (this.isLocalHost()) {
         return ''; // Vazio = usa o próprio servidor local
+      }
+
+      const saved = safeGet(STORAGE_KEY);
+      if (saved && saved.trim() && isValidStorageUrl(saved.trim())) {
+        return saved.trim().replace(/\/+$/, '');
       }
 
       return PS1_R2_URL;
@@ -54,13 +66,13 @@
 
     // Retorna a URL base para Super Nintendo, Neo Geo e Nintendo 64
     getRetroUrl() {
-      const saved = safeGet('continue_retro_storage_url');
-      if (saved && saved.trim()) {
-        return saved.trim().replace(/\/+$/, '');
-      }
-
       if (this.isLocalHost()) {
         return '';
+      }
+
+      const saved = safeGet('continue_retro_storage_url');
+      if (saved && saved.trim() && isValidStorageUrl(saved.trim())) {
+        return saved.trim().replace(/\/+$/, '');
       }
 
       return RETRO_R2_URL;
