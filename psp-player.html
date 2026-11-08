@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#0a0c14">
 <title>PlayStation Portable (PSP) — Continue?</title>
+<script src="coi-serviceworker.js"></script>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -230,6 +231,73 @@ const isVSCode = /Electron|Code\//i.test(navigator.userAgent);
 const isCloudWithoutStorage = window.ContinueStorage ? window.ContinueStorage.isCloudWithoutStorage() : false;
 
 function launchEmulator(gameUrl) {
+  // Verificação de SharedArrayBuffer e Cross-Origin Isolation para Threads PPSSPP
+  if (typeof SharedArrayBuffer === 'undefined') {
+    if (!window.isSecureContext) {
+      notice.style.display = 'grid';
+      notice.innerHTML = `
+        <div style="background:#141a29;padding:28px 24px;border-radius:14px;border:2px solid #FF5252;box-shadow:0 8px 32px rgba(0,0,0,0.85);max-width:520px;text-align:center;pointer-events:auto;line-height:1.6;color:#eee">
+          <div style="font-size:38px;margin-bottom:8px">⚠️</div>
+          <b style="color:#FF5252;font-size:17px;display:block;margin-bottom:10px">AMBIENTE NÃO SEGURO (HTTP / IP LOCAL)</b>
+          <p style="color:#9AA5B8;font-size:13.5px;margin:0 0 16px 0">
+            O emulador de PSP (PPSSPP) utiliza aceleração gráfica multithread que necessita de <code>SharedArrayBuffer</code>. Por diretrizes de segurança dos navegadores modernos, essa função é bloqueada quando acessada via IP de rede local sem HTTPS (ex: <code>http://192.168.x.x</code>).
+          </p>
+          <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:12px;margin-bottom:16px;text-align:left;font-size:12.5px;color:#d0d7de">
+            👉 <b>Como jogar:</b><br>
+            • <b>No computador:</b> abra diretamente pelo endereço <code style="color:#00e5ff">http://localhost:4175</code><br>
+            • <b>No celular / tablet:</b> abra pelo link oficial com HTTPS (Vercel) para usufruir da aceleração total.
+          </div>
+          <button type="button" onclick="location.reload()" style="background:#00E5FF;color:#0A0C14;font-weight:700;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:13px">
+            🔄 Tentar Novamente
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    // Em contexto seguro (localhost ou HTTPS), pode ser a primeira inicialização do Service Worker (COI)
+    const reloadKey = 'psp_coi_reloaded';
+    if (!sessionStorage.getItem(reloadKey)) {
+      sessionStorage.setItem(reloadKey, '1');
+      notice.style.display = 'grid';
+      notice.innerHTML = `
+        <div style="background:#141a29;padding:26px;border-radius:14px;border:2px solid #00E5FF;max-width:480px;text-align:center;pointer-events:auto;color:#eee">
+          <div style="font-size:36px;margin-bottom:8px">⚙️</div>
+          <b style="color:#00E5FF;font-size:16px;display:block;margin-bottom:8px">CONFIGURANDO ACELERAÇÃO PSP…</b>
+          Ativando isolamento de threads para o emulador PPSSPP. Recarregando a página...
+        </div>
+      `;
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(() => {
+          setTimeout(() => window.location.reload(), 300);
+        }).catch(() => {
+          setTimeout(() => window.location.reload(), 600);
+        });
+        setTimeout(() => window.location.reload(), 1200);
+      } else {
+        setTimeout(() => window.location.reload(), 600);
+      }
+      return;
+    }
+
+    // Se já tentou recarregar e ainda assim SharedArrayBuffer não está liberado:
+    notice.style.display = 'grid';
+    notice.innerHTML = `
+      <div style="background:#141a29;padding:26px;border-radius:14px;border:2px solid #FFD700;max-width:500px;text-align:center;pointer-events:auto;color:#eee">
+        <div style="font-size:36px;margin-bottom:8px">⚠️</div>
+        <b style="color:#FFD700;font-size:16px;display:block;margin-bottom:8px">AGUARDANDO ATIVAÇÃO DE THREADS</b>
+        O suporte a WebAssembly Threads requer isolamento de recursos ativo. Recarregue a página para concluir a inicialização.
+        <br><br>
+        <button type="button" onclick="sessionStorage.removeItem('psp_coi_reloaded');location.reload()" style="background:#00E5FF;color:#0A0C14;font-weight:700;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;font-size:13px">
+          🔄 Recarregar e Iniciar
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  try { sessionStorage.removeItem('psp_coi_reloaded'); } catch {}
+
   notice.style.display = 'grid';
   notice.innerHTML = '<div><b>🚀 PREPARANDO PLAYSTATION PORTABLE…</b>Iniciando emulador PPSSPP com aceleração multithread, aguarde alguns segundos...</div>';
   

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#111111">
 <title>Continue? — Videogame Grátis no Celular e PC</title>
+<script src="coi-serviceworker.js"></script>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -1850,7 +1851,7 @@ button {
     <canvas id="game-canvas" width="900" height="320" aria-label="Jogo Neon Runner"></canvas>
     <button type="button" id="runner-touch-jump" class="runner-jump-btn">⬆️ TOQUE AQUI PARA PULAR!</button>
 
-    <iframe id="emulator-frame" title="Emulador Continue?" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+    <iframe id="emulator-frame" title="Emulador Continue?" allow="cross-origin-isolated; autoplay; fullscreen; gamepad" allowfullscreen></iframe>
 
     <div class="game-help" id="game-help">
       💡 <span>COMO JOGAR:</span> Toque no botão vermelho acima (no celular), aperte <span>ESPAÇO / SETA ⬆️</span> no teclado ou aperte o botão de <span>PULAR</span> no seu controle!

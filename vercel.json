@@ -9,33 +9,45 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), gamepad=(self)" },
-        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" }
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
+        { "key": "Cross-Origin-Embedder-Policy", "value": "credentialless" }
       ]
     },
     {
       "source": "/api/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=60, s-maxage=3600, stale-while-revalidate=86400" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
+        { "key": "Cross-Origin-Embedder-Policy", "value": "credentialless" }
       ]
     },
     {
       "source": "/(.*)-games.json",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" }
       ]
     }
   ],
   "rewrites": [
     { "source": "/api/snes", "destination": "/api/snes.js" },
     { "source": "/api/ps1", "destination": "/api/ps1.js" },
+    { "source": "/snes", "destination": "/snes.html" },
+    { "source": "/snes-player", "destination": "/snes-player.html" },
+    { "source": "/ps1", "destination": "/ps1.html" },
+    { "source": "/ps1-player", "destination": "/ps1-player.html" },
     { "source": "/api/neogeo", "destination": "/api/neogeo.js" },
     { "source": "/neogeo-games.json", "destination": "/api/neogeo.js" },
     { "source": "/neogeo.html", "destination": "/api/neogeo-page.js" },
@@ -43,22 +55,28 @@
     { "source": "/neogeo", "destination": "/api/neogeo-page.js" },
     { "source": "/neogeo-player", "destination": "/api/neogeo-player-page.js" },
     { "source": "/api/n64", "destination": "/api/n64.js" },
-    { "source": "/api/gameboy", "destination": "/api/gameboy.js" },
-    { "source": "/gameboy-games.json", "destination": "/api/gameboy.js" },
-    { "source": "/gameboy", "destination": "/gameboy.html" },
-    { "source": "/gameboy-player", "destination": "/gameboy-player.html" },
-    { "source": "/api/sega", "destination": "/api/sega.js" },
-    { "source": "/sega-games.json", "destination": "/api/sega.js" },
-    { "source": "/sega", "destination": "/sega.html" },
-    { "source": "/sega-player", "destination": "/sega-player.html" },
-    { "source": "/api/psp", "destination": "/api/psp.js" },
-    { "source": "/psp-games.json", "destination": "/api/psp.js" },
-    { "source": "/psp", "destination": "/psp.html" },
-    { "source": "/psp-player", "destination": "/psp-player.html" },
     { "source": "/n64-games.json", "destination": "/api/n64.js" },
     { "source": "/n64.html", "destination": "/api/n64-page.js" },
     { "source": "/n64-player.html", "destination": "/api/n64-player-page.js" },
     { "source": "/n64", "destination": "/api/n64-page.js" },
-    { "source": "/n64-player", "destination": "/api/n64-player-page.js" }
+    { "source": "/n64-player", "destination": "/api/n64-player-page.js" },
+    { "source": "/api/gameboy", "destination": "/api/gameboy.js" },
+    { "source": "/gameboy-games.json", "destination": "/api/gameboy.js" },
+    { "source": "/gameboy.html", "destination": "/api/gameboy-page.js" },
+    { "source": "/gameboy-player.html", "destination": "/api/gameboy-player-page.js" },
+    { "source": "/gameboy", "destination": "/api/gameboy-page.js" },
+    { "source": "/gameboy-player", "destination": "/api/gameboy-player-page.js" },
+    { "source": "/api/sega", "destination": "/api/sega.js" },
+    { "source": "/sega-games.json", "destination": "/api/sega.js" },
+    { "source": "/sega.html", "destination": "/api/sega-page.js" },
+    { "source": "/sega-player.html", "destination": "/api/sega-player-page.js" },
+    { "source": "/sega", "destination": "/api/sega-page.js" },
+    { "source": "/sega-player", "destination": "/api/sega-player-page.js" },
+    { "source": "/api/psp", "destination": "/api/psp.js" },
+    { "source": "/psp-games.json", "destination": "/api/psp.js" },
+    { "source": "/psp.html", "destination": "/api/psp-page.js" },
+    { "source": "/psp-player.html", "destination": "/api/psp-player-page.js" },
+    { "source": "/psp", "destination": "/api/psp-page.js" },
+    { "source": "/psp-player", "destination": "/api/psp-player-page.js" }
   ]
 }

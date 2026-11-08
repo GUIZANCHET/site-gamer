@@ -8,22 +8,18 @@ WORKDIR /app
 # O projeto não possui dependências npm externas (usa módulos nativos do Node.js)
 COPY package*.json ./
 
-# Copia os arquivos do frontend e servidor
+# Copia os arquivos do frontend, APIs serverless e servidor local
 COPY serve-local.cjs ./
-COPY index.html ./
-COPY snes.html ./
-COPY ps1.html ./
-COPY player.html ./
-COPY snes-player.html ./
-COPY ps1-player.html ./
-COPY snes-games.json ./
-COPY ps1-games.json ./
+COPY coi-serviceworker.js ./
+COPY *.html ./
+COPY *.json ./
+COPY api/ ./api/
 COPY assets/ ./assets/
 COPY licenses/ ./licenses/
 COPY scripts/ ./scripts/
 
 # Cria pontos de montagem para as pastas de jogos
-RUN mkdir -p "/app/Super nintendo/GAMES" "/app/ps1" "/app/PlayStation/GAMES"
+RUN mkdir -p "/app/Super nintendo/GAMES" "/app/ps1" "/app/PlayStation/GAMES" "/app/neogeo" "/app/n64" "/app/gameboy" "/app/segagenisi" "/app/psp"
 
 EXPOSE 4175
 

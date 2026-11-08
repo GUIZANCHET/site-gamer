@@ -238,7 +238,11 @@ async function streamCueArchive(files, res) {
   res.writeHead(200, {
     'Content-Type': 'application/zip',
     'Content-Length': contentLength,
-    'Cache-Control': 'no-store'
+    'Cache-Control': 'no-store',
+    'Access-Control-Allow-Origin': '*',
+    'Cross-Origin-Opener-Policy': 'same-origin',
+    'Cross-Origin-Embedder-Policy': 'credentialless',
+    'Cross-Origin-Resource-Policy': 'cross-origin'
   });
 
   let offset = 0;
@@ -348,6 +352,8 @@ function serveStaticFile(file, req, res) {
           'Content-Type': contentType,
           'Cache-Control': 'no-store',
           'Access-Control-Allow-Origin': '*',
+          'Cross-Origin-Opener-Policy': 'same-origin',
+          'Cross-Origin-Embedder-Policy': 'credentialless',
           'Cross-Origin-Resource-Policy': 'cross-origin'
         });
         const rStream = fs.createReadStream(file, { start, end });
@@ -364,6 +370,8 @@ function serveStaticFile(file, req, res) {
       'Accept-Ranges': 'bytes',
       'Cache-Control': 'no-store',
       'Access-Control-Allow-Origin': '*',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'credentialless',
       'Cross-Origin-Resource-Policy': 'cross-origin'
     });
     const stream = fs.createReadStream(file);
@@ -374,6 +382,9 @@ function serveStaticFile(file, req, res) {
 }
 
 const server = http.createServer((req, res) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'credentialless');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
