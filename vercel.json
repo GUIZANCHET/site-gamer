@@ -18,6 +18,12 @@
     { "source": "/neogeo.html", "destination": "/api/neogeo-page.js" },
     { "source": "/neogeo-player.html", "destination": "/api/neogeo-player-page.js" },
     { "source": "/neogeo", "destination": "/api/neogeo-page.js" },
-    { "source": "/neogeo-player", "destination": "/api/neogeo-player-page.js" }
+    { "source": "/neogeo-player", "destination": "/api/neogeo-player-page.js" },
+    { "source": "/api/n64", "destination": "/api/n64.js" },
+    { "source": "/n64-games.json", "destination": "/api/n64.js" },
+    { "source": "/n64.html", "destination": "/api/n64-page.js" },
+    { "source": "/n64-player.html", "destination": "/api/n64-player-page.js" },
+    { "source": "/n64", "destination": "/api/n64-page.js" },
+    { "source": "/n64-player", "destination": "/api/n64-player-page.js" }
   ]
 }

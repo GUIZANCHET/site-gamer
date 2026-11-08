@@ -1,0 +1,1677 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0e1015">
+<title>Nintendo 64 (N64) — Jogos 3D em Português — Continue?</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap');
+
+:root {
+  --bg: #0c0f17;
+  --bg-soft: #121722;
+  --panel: #161c2b;
+  --panel-elevated: #1e2638;
+  --panel-hover: #263148;
+  --line: #242e42;
+  --line-bright: #364462;
+  --ink: #F5F7FA;
+  --muted: #9AA5B8;
+  --dim: #64748B;
+
+  --red: #FF3B30;
+  --red-hover: #FF5247;
+  --red-soft: rgba(255, 59, 48, 0.14);
+  --red-border: rgba(255, 59, 48, 0.38);
+
+  --n64-blue: #00E5FF;
+  --n64-blue-hover: #33ECFF;
+  --n64-blue-soft: rgba(0, 229, 255, 0.14);
+  --n64-blue-border: rgba(0, 229, 255, 0.4);
+
+  --n64-yellow: #FFD700;
+  --n64-yellow-soft: rgba(255, 215, 0, 0.16);
+
+  --n64-green: #10B981;
+  --n64-green-soft: rgba(16, 185, 129, 0.15);
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --display: 'Space Grotesk', sans-serif;
+  --radius-lg: 14px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, a {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.shell {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 36px;
+}
+
+/* STICKY TOPBAR */
+.topbar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(12, 15, 23, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 36px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: -0.6px;
+  flex-shrink: 0;
+  color: #FFFFFF;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #00E5FF, #0077FF);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+}
+
+.brand:hover .brand-mark {
+  transform: translateY(-1px) rotate(4deg);
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.55);
+}
+
+.brand-q {
+  color: var(--n64-blue);
+}
+
+.brand-sub {
+  font: 700 10px var(--mono);
+  color: var(--n64-yellow);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding-left: 12px;
+  border-left: 1px solid var(--line-bright);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 12px var(--sans);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+  background: transparent;
+}
+
+.nav-link:hover {
+  color: #FFFFFF;
+  background: var(--panel);
+  border-color: var(--line);
+}
+
+.nav-link.active {
+  color: #0c0f17;
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  font-weight: 700;
+}
+
+.nav-badge {
+  font: 600 10px var(--mono);
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--panel-elevated);
+  color: var(--ink);
+  border: 1px solid var(--line-bright);
+}
+
+.nav-link.active .nav-badge {
+  background: #0c0f17;
+  color: #FFFFFF;
+  border-color: #0c0f17;
+}
+
+.nav-badge.blue {
+  background: var(--n64-blue-soft);
+  color: var(--n64-blue);
+  border-color: var(--n64-blue-border);
+}
+
+.nav-badge.gold {
+  background: var(--n64-yellow-soft);
+  color: var(--n64-yellow);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.nav-badge.red {
+  background: var(--red-soft);
+  color: #FF5247;
+  border-color: var(--red-border);
+}
+
+.top-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-top-mapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  color: #FFFFFF;
+  font: 700 12px var(--sans);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.btn-top-mapper:hover {
+  border-color: var(--n64-blue);
+  background: var(--panel-hover);
+}
+
+.pad-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--n64-green);
+  display: inline-block;
+  box-shadow: 0 0 8px var(--n64-green);
+}
+
+/* HERO SECTION */
+.hero {
+  padding: 38px 0 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 11px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #FFFFFF;
+  background: var(--panel);
+  border: 1px solid var(--line-bright);
+  border-left: 3px solid var(--n64-blue);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(34px, 4.8vw, 60px);
+  letter-spacing: -2px;
+  line-height: 1.02;
+  margin: 14px 0 12px;
+  color: #FFFFFF;
+}
+
+.hero h1 span {
+  background: linear-gradient(135deg, #00E5FF, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.35));
+}
+
+.intro {
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.62;
+  font-size: 15.5px;
+  margin: 0;
+}
+
+.intro b {
+  color: #FFFFFF;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-mapper-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 13px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--n64-blue);
+  background: linear-gradient(135deg, #00C4DF, #0077FF);
+  color: #FFFFFF;
+  font: 700 13px var(--sans);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  box-shadow: 0 4px 14px rgba(0, 229, 255, 0.28);
+}
+
+.btn-mapper-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.45);
+}
+
+.btn-mapper-hero.yellow {
+  border-color: #FFD700;
+  background: linear-gradient(135deg, #F59E0B, #B45309);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+}
+
+.btn-mapper-hero.yellow:hover {
+  background: linear-gradient(135deg, #FBBF24, #D97706);
+}
+
+/* SECTION JUMP BAR */
+.section-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  margin-bottom: 26px;
+}
+
+.jump-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.jump-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border-radius: var(--radius-sm);
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  text-decoration: none;
+  font: 600 12.5px var(--sans);
+  color: var(--ink);
+  transition: all 0.16s ease;
+}
+
+.jump-pill span {
+  font: 700 10px var(--mono);
+  color: #0c0f17;
+  background: var(--n64-blue);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.jump-pill:hover {
+  border-color: var(--n64-blue);
+  background: var(--panel-hover);
+  color: #FFFFFF;
+}
+
+/* BANNER DE BUSCA NO TOPO */
+.top-search-banner {
+  background: var(--panel);
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin: 18px 0 28px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.top-search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #080a10;
+  border: 1.5px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+  padding: 0 16px;
+  height: 52px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.top-search-box:focus-within {
+  border-color: var(--n64-blue);
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.2);
+}
+
+.top-search-box svg {
+  color: var(--n64-blue);
+  flex-shrink: 0;
+}
+
+.top-search-box input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.top-search-box input::placeholder {
+  color: #7B8B9E;
+  font-weight: 400;
+}
+
+.top-clear-btn {
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  border-radius: 6px;
+  color: #FFFFFF;
+  font: 700 11px var(--sans);
+  padding: 6px 12px;
+  cursor: pointer;
+  display: none;
+}
+
+.top-clear-btn.visible {
+  display: inline-block;
+}
+
+.top-clear-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.top-search-hints {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.search-tag {
+  background: var(--bg-soft);
+  border: 1px solid var(--line-bright);
+  color: #EEEEEE;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font: 600 12px var(--sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.search-tag:hover {
+  background: var(--n64-blue);
+  color: #0c0f17;
+  border-color: var(--n64-blue);
+  font-weight: 700;
+  transform: translateY(-1px);
+}
+
+/* THEATER MODE N64 PLAYER DOCK */
+.player-dock {
+  display: none;
+  margin: 0 0 36px;
+  border: 2px solid var(--line-bright);
+  border-top: 4px solid var(--n64-blue);
+  border-radius: var(--radius-lg);
+  background: #080A10;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+}
+
+.player-dock.open {
+  display: block;
+}
+
+.player-head {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.player-now {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.player-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--line-bright);
+  background: #0C0C0C;
+  flex-shrink: 0;
+}
+
+.player-kicker {
+  font: 700 10px var(--mono);
+  color: var(--n64-blue);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.player-title {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #FFFFFF;
+}
+
+.player-controls-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dock-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-bright);
+  background: var(--panel-elevated);
+  color: #FFFFFF;
+  font: 700 12px var(--sans);
+  transition: all 0.16s ease;
+}
+
+.dock-btn:hover {
+  border-color: #FFFFFF;
+  background: var(--panel-hover);
+}
+
+.dock-btn.active {
+  border-color: var(--n64-yellow);
+  color: var(--n64-yellow);
+  background: var(--n64-yellow-soft);
+}
+
+.dock-btn.danger {
+  background: rgba(255, 59, 48, 0.16);
+  border-color: var(--red-border);
+}
+
+.dock-btn.danger:hover {
+  border-color: var(--red);
+  background: var(--red);
+  color: #FFFFFF;
+}
+
+.control-note {
+  padding: 12px 18px;
+  background: var(--bg-soft);
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  font: 600 12px var(--sans);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.control-note b {
+  color: #FFFFFF;
+}
+
+#game-frame {
+  height: min(76vh, 740px);
+  min-height: 400px;
+  width: 100%;
+  border: 0;
+  display: block;
+  background: #06080C;
+}
+
+/* SECTIONS */
+.lib-section {
+  padding: 32px 0 38px;
+  border-top: 1px solid var(--line);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.section-index {
+  font: 700 11px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--n64-blue);
+  margin-bottom: 6px;
+}
+
+.section-header h2 {
+  font-family: var(--display);
+  font-size: clamp(22px, 2.8vw, 30px);
+  letter-spacing: -0.8px;
+  margin: 0;
+  color: #FFFFFF;
+}
+
+.section-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 5px 0 0;
+}
+
+/* N64 SHOWCASE (SEÇÃO A) */
+.n64-showcase {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .n64-showcase {
+    grid-template-columns: 1fr;
+  }
+}
+
+.n64-card {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  background: var(--panel);
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+@media (max-width: 580px) {
+  .n64-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.n64-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--n64-blue);
+  box-shadow: 0 12px 32px rgba(0, 229, 255, 0.15);
+}
+
+.n64-art {
+  position: relative;
+  background: #080A10;
+  display: grid;
+  place-items: center;
+  border-right: 1px solid var(--line);
+  overflow: hidden;
+  min-height: 250px;
+  cursor: pointer;
+}
+
+@media (max-width: 580px) {
+  .n64-art {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    min-height: 200px;
+  }
+}
+
+.n64-art-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.n64-card:hover .n64-art-img {
+  transform: scale(1.04);
+}
+
+.n64-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.n64-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.pill {
+  font: 700 9.5px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: rgba(14, 18, 28, 0.92);
+  color: #FFFFFF;
+  border: 1px solid var(--line-bright);
+}
+
+.pill.n64 {
+  background: linear-gradient(135deg, #00E5FF, #0077FF);
+  color: #FFFFFF;
+  border-color: transparent;
+  font-weight: 800;
+}
+
+.pill.ptbr {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10B981;
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+.pill.gold {
+  background: rgba(255, 215, 0, 0.2);
+  color: #FFD700;
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.n64-body h3 {
+  font-family: var(--display);
+  font-size: 21px;
+  letter-spacing: -0.5px;
+  margin: 0 0 8px;
+  line-height: 1.25;
+  color: #FFFFFF;
+}
+
+.n64-body p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.n64-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.btn-launch-n64 {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--n64-blue);
+  background: linear-gradient(135deg, #00C4DF, #0066EE);
+  color: #FFFFFF;
+  font: 700 12.5px var(--sans);
+  transition: all 0.16s ease;
+  box-shadow: 0 2px 10px rgba(0, 229, 255, 0.25);
+}
+
+.btn-launch-n64:hover {
+  background: linear-gradient(135deg, #33ECFF, #1A7BFF);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 229, 255, 0.4);
+}
+
+/* CONTROL DECK (SEÇÃO B) */
+.control-deck {
+  background: var(--panel);
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.deck-top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #080A10;
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+  padding: 0 14px;
+  height: 46px;
+  transition: border-color 0.18s;
+}
+
+.search-wrap:focus-within {
+  border-color: var(--n64-blue);
+}
+
+.search-wrap input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #FFFFFF;
+  font-size: 14px;
+}
+
+.genre-tabs {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.genre-tab {
+  border: 1px solid var(--line);
+  background: var(--panel-elevated);
+  color: var(--muted);
+  min-height: 38px;
+  padding: 8px 13px;
+  border-radius: var(--radius-sm);
+  font: 600 12px var(--sans);
+  transition: all 0.16s ease;
+}
+
+.genre-tab:hover {
+  color: #FFFFFF;
+  border-color: var(--line-bright);
+  background: var(--panel-hover);
+}
+
+.genre-tab.active {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #0c0f17;
+  font-weight: 700;
+}
+
+/* CATALOG CARDS GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--n64-blue);
+  box-shadow: 0 10px 24px rgba(0, 229, 255, 0.12);
+}
+
+.art {
+  aspect-ratio: 16 / 11;
+  position: relative;
+  overflow: hidden;
+  background: #080A10;
+  display: grid;
+  place-items: center;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.art-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.card:hover .art-img {
+  transform: scale(1.04);
+}
+
+.art-fallback {
+  position: relative;
+  z-index: 1;
+  padding: 14px;
+  text-align: center;
+  font-weight: 700;
+  color: #9AA5B8;
+}
+
+.card-badges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(12, 15, 23, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  transition: all 0.16s ease;
+}
+
+.fav-btn:hover {
+  background: #FFFFFF;
+  color: #0c0f17;
+  transform: scale(1.08);
+}
+
+.fav-btn.active {
+  background: var(--n64-yellow);
+  color: #0c0f17;
+  border-color: var(--n64-yellow);
+}
+
+.info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 14px;
+}
+
+.title {
+  font-family: var(--display);
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.3;
+}
+
+.raw-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--dim);
+}
+
+.play {
+  background: linear-gradient(135deg, #00C4DF, #0066EE);
+  color: #FFFFFF;
+  border: none;
+  font: 700 11.5px var(--sans);
+  padding: 7px 14px;
+  border-radius: 6px;
+  transition: all 0.16s ease;
+}
+
+.play:hover {
+  background: linear-gradient(135deg, #33ECFF, #1A7BFF);
+  transform: translateY(-1px);
+}
+
+/* SECTION C: GUIDE & CONTROLS */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 860px) {
+  .guide-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.guide-card {
+  background: var(--panel);
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-md);
+  padding: 22px;
+}
+
+.guide-card h3 {
+  font-family: var(--display);
+  font-size: 18px;
+  color: #FFFFFF;
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.keymap-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.key-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--bg-soft);
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.key-row b {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #FFFFFF;
+  background: var(--panel-elevated);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--line-bright);
+}
+
+.key-row b.blue {
+  color: var(--n64-blue);
+  border-color: var(--n64-blue-border);
+}
+
+.key-row b.yellow {
+  color: var(--n64-yellow);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.key-row b.green {
+  color: var(--n64-green);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* FOOTER */
+.footer {
+  margin: 48px 0 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 600 12px var(--sans);
+  color: var(--dim);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer b {
+  color: #FFFFFF;
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 20px;
+  background: var(--panel);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--line-bright);
+  color: var(--muted);
+  font-size: 14px;
+}
+</style>
+<script src="assets/gamepad-mapper.js" defer></script>
+<script src="assets/retro-bg.js" defer></script>
+</head>
+<body>
+
+<div class="topbar-wrap">
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">64</span>
+      <span>continue<span class="brand-q">?</span></span>
+      <span class="brand-sub">NINTENDO 64</span>
+    </a>
+    <nav class="nav" aria-label="Navegação Principal">
+      <a class="nav-link" href="index.html">🏠 Início</a>
+      <a class="nav-link" href="snes.html">🎮 Super Nintendo <span class="nav-badge">608</span></a>
+      <a class="nav-link" href="ps1.html">💿 PlayStation 1 <span class="nav-badge">13</span></a>
+      <a class="nav-link" href="neogeo.html">🕹️ Neo Geo <span class="nav-badge">165</span></a>
+      <a class="nav-link active" href="n64.html">🌟 Nintendo 64 <span class="nav-badge blue" id="nav-n64-count">7</span></a>
+      <a class="nav-link" href="#catalogo" id="nav-fav-trigger">★ Favoritos <span class="nav-badge red" id="fav-nav-count">0</span></a>
+    </nav>
+    <div class="top-right-actions">
+      <button type="button" class="btn-top-mapper" data-open-mapper title="Configurar Controle, Teclado ou Botões do Celular">
+        <span class="pad-dot"></span> 🕹️ Configurar Controle
+      </button>
+    </div>
+  </header>
+</div>
+
+<div class="shell">
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="eyebrow">// 7 clássicos 3D em português (PT-BR) • celular, pc e controle</div>
+        <h1>Nintendo 64:<br><span>os mestres da revolução 3D!</span></h1>
+        <p class="intro">
+          Os maiores épicos tridimensionais da história dos videogames traduzidos para o nosso idioma! <b>Super Mario 64</b>, <b>The Legend of Zelda: Ocarina of Time Redux & Master Quest</b>, <b>Majora's Mask Widescreen</b>, <b>Conker's Bad Fur Day Sem Censura</b>, <b>Mario Kart 64</b> e <b>Diddy Kong Racing</b>. <b>No celular, analógico virtual e botões C amarelos já aparecem na tela!</b>
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn-mapper-hero yellow" id="btn-random-n64" type="button">🎲 Jogo Surpresa N64!</button>
+        <button class="btn-mapper-hero" type="button" data-open-mapper style="background:var(--panel-elevated);border-color:var(--line-bright)">🕹️ Configurar Controle</button>
+      </div>
+    </section>
+
+    <!-- BARRA DE BUSCA PRINCIPAL (NO TOPO) -->
+    <div class="top-search-banner">
+      <label class="top-search-box">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+        </svg>
+        <input id="search-top" type="search" placeholder="🔍 Digite o nome do jogo de N64 (ex: Mario 64, Zelda, Conker, Mario Kart, Diddy Kong)..." aria-label="Buscar jogo">
+        <button class="top-clear-btn" id="clear-search-top" type="button">LIMPAR ✕</button>
+      </label>
+      <div class="top-search-hints">
+        <span>⚡ <b>Busca Rápida:</b></span>
+        <button type="button" class="search-tag" data-search-term="Todos">Todos</button>
+        <button type="button" class="search-tag" data-search-term="Super Mario 64">Super Mario 64</button>
+        <button type="button" class="search-tag" data-search-term="Ocarina of Time">Zelda Ocarina</button>
+        <button type="button" class="search-tag" data-search-term="Majora's Mask">Majora's Mask</button>
+        <button type="button" class="search-tag" data-search-term="Conker">Conker 18+</button>
+        <button type="button" class="search-tag" data-search-term="Mario Kart 64">Mario Kart 64</button>
+        <button type="button" class="search-tag" data-search-term="Diddy Kong">Diddy Kong Racing</button>
+        <button type="button" class="search-tag" data-search-term="Aventura / RPG">Aventura / RPG</button>
+        <button type="button" class="search-tag" data-search-term="Corrida">Corrida</button>
+      </div>
+    </div>
+
+    <!-- QUICK SECTION JUMP BAR -->
+    <nav class="section-nav" aria-label="Atalhos da Biblioteca N64">
+      <div class="jump-links">
+        <a class="jump-pill" href="#destaques"><span>A</span> Destaques 3D N64 (7)</a>
+        <a class="jump-pill" href="#catalogo"><span>B</span> Catálogo & Filtros por Gênero</a>
+        <a class="jump-pill" href="#guia-n64"><span>C</span> Comandos do N64 & Dicas</a>
+      </div>
+      <span style="font:600 12px var(--sans);color:var(--muted)">📱 Toque em qualquer jogo para carregar e jogar na hora!</span>
+    </nav>
+
+    <!-- THEATER MODE N64 PLAYER DOCK -->
+    <section class="player-dock" id="player" aria-label="Emulador Nintendo 64">
+      <div class="player-head">
+        <div class="player-now">
+          <img class="player-thumb" id="playing-thumb" src="assets/covers/n64/super-mario-64.png" alt="Capa do jogo">
+          <div>
+            <div class="player-kicker" id="playing-meta">// JOGANDO AGORA • NINTENDO 64 • 3D 64-BIT</div>
+            <div class="player-title" id="playing">Carregando jogo…</div>
+          </div>
+        </div>
+        <div class="player-controls-bar">
+          <button class="dock-btn" type="button" data-open-mapper>🕹️ Controle</button>
+          <button class="dock-btn" id="dock-fav" type="button">★ Favoritar</button>
+          <button class="dock-btn" id="dock-fullscreen" type="button">⛶ Tela Cheia</button>
+          <button class="dock-btn danger" id="close" type="button">✕ Fechar Jogo</button>
+        </div>
+      </div>
+      <div class="control-note">
+        <span>🕹️ <b>ANALÓGICO 3D:</b> Setas ou I/K/J/L · 🅰️ <b>A:</b> Z · 🅱️ <b>B:</b> X · ⚡ <b>Z:</b> A · 🟡 <b>BOTÕES C:</b> Delete, End, Home, PgDn · ▶ <b>START:</b> Enter</span>
+        <span>Quer mudar os botões? Toque em <b>🕹️ Controle</b> acima!</span>
+      </div>
+      <iframe id="game-frame" title="Emulador Nintendo 64" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+    </section>
+
+    <!-- SEÇÃO A: DESTAQUES N64 -->
+    <section class="lib-section" id="destaques">
+      <div class="section-header">
+        <div>
+          <div class="section-index">// seção A · obras-primas da geração 64-bit</div>
+          <h2>Destaques Nintendo 64 (PT-BR)</h2>
+          <p class="section-sub">Aventuras consagradas com gráficos poligonais 3D, todas com tradução em português.</p>
+        </div>
+      </div>
+
+      <div class="n64-showcase" id="n64-showcase"></div>
+    </section>
+
+    <!-- SEÇÃO B: CATÁLOGO COMPLETO & FILTROS -->
+    <section class="lib-section" id="catalogo">
+      <div class="section-header">
+        <div>
+          <div class="section-index">// seção B · acervo completo</div>
+          <h2>Catálogo de Jogos & Filtros</h2>
+          <p class="section-sub">Filtre por estilo de jogo ou pesquise pelo título.</p>
+        </div>
+        <span id="count" style="font:700 12.5px var(--mono);color:#FFFFFF">Carregando jogos…</span>
+      </div>
+
+      <div class="control-deck">
+        <div class="deck-top">
+          <label class="search-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+            </svg>
+            <input id="search" type="search" placeholder="Buscar jogo de Nintendo 64 pelo nome…" aria-label="Buscar jogo pelo nome">
+          </label>
+          <div class="genre-tabs" id="genre-tabs"></div>
+        </div>
+      </div>
+
+      <div class="grid" id="grid">
+        <div class="empty">Carregando os clássicos de Nintendo 64…</div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO C: GUIA DE COMANDOS DO N64 -->
+    <section class="lib-section" id="guia-n64">
+      <div class="section-header">
+        <div>
+          <div class="section-index">// seção C · comandos do controle trident & dicas</div>
+          <h2>Layout do Controle Nintendo 64</h2>
+          <p class="section-sub">Entenda a distribuição do icônico joystick de 3 pontas do N64 no teclado ou gamepad:</p>
+        </div>
+        <button class="btn-mapper-hero" type="button" data-open-mapper style="min-height:42px;padding:10px 16px;font-size:12px">🎯 Mapear Meu Controle</button>
+      </div>
+
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h3>🕹️ Mapeamento Padrão de Teclado & Gamepad</h3>
+          <div class="keymap-grid">
+            <div class="key-row"><span>🕹️ Analógico 3D (Movimentação)</span><b class="blue">Setas / I, K, J, L / Analógico Esquerdo</b></div>
+            <div class="key-row"><span>🅰️ Botão A Azul (Pular / Acelerar)</span><b>Tecla Z / Botão Sul (A ou X)</b></div>
+            <div class="key-row"><span>🅱️ Botão B Verde (Atacar / Falar / Freio)</span><b>Tecla X / Botão Leste (B ou Círculo)</b></div>
+            <div class="key-row"><span>⚡ Gatilho Z Traseiro (Abaixar / Mira Z)</span><b class="yellow">Tecla A / Gatilho L2 (LT)</b></div>
+            <div class="key-row"><span>🟡 Botões C Amarelos (Câmera / Itens)</span><b class="yellow">Home, End, Del, PgDn / Analógico Dir.</b></div>
+            <div class="key-row"><span>🛡️ Gatilho R / L (Escudo / Ajustes)</span><b>Tecla W e Q / Gatilhos R1 e L1</b></div>
+            <div class="key-row"><span>▶ Botão START Vermelho (Pausar)</span><b class="green">Enter / Botão Start</b></div>
+            <div class="key-row"><span>📱 No Celular</span><b class="blue">Analógico Virtual & Botões na Tela</b></div>
+          </div>
+        </div>
+
+        <div class="guide-card">
+          <h3>💡 Dicas para a Melhor Experiência 3D</h3>
+          <p style="color:var(--muted);font-size:13.5px;line-height:1.6;margin:0 0 12px">
+            O Nintendo 64 inaugurou câmeras tridimensionais livres e movimentação analógica analógica de 360 graus:
+          </p>
+          <ol style="color:var(--ink);font-size:13.5px;line-height:1.7;padding-left:18px;margin:0">
+            <li><b>Trava Z (Z-Targeting):</b> Em Zelda Ocarina of Time e Majora's Mask, segure o <b>Gatilho Z</b> (tecla A no PC ou L2 no controle) para travar a câmera nos inimigos.</li>
+            <li><b>Girar o Celular:</b> No celular, vire o aparelho deitado (horizontal) e toque em <b>Tela Cheia</b> para que os botões fiquem confortáveis nas pontas dos dedos.</li>
+            <li><b>Controle Bluetooth:</b> Conecte qualquer joystick de Xbox, PlayStation ou 8BitDo via Bluetooth no celular ou PC — o emulador reconhece automaticamente!</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>NINTENDO 64 NO NAVEGADOR • <b>CONTINUE?</b></span>
+    <span>SUPER NINTENDO • PLAYSTATION 1 • NEO GEO • NINTENDO 64 • 2026</span>
+  </footer>
+</div>
+
+<script>
+// Sintetizador de áudio retro suave (Web Audio API) para cliques nos botões
+const RetroAudio = {
+  ctx: null,
+  init() {
+    if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  },
+  playClick() {
+    try {
+      this.init();
+      if (!this.ctx) return;
+      if (this.ctx.state === 'suspended') this.ctx.resume();
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(780, this.ctx.currentTime + 0.05);
+      gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.05);
+    } catch (e) {}
+  }
+};
+
+const FAV_KEY = 'continue_favorites_v1';
+const grid = document.querySelector('#grid');
+const n64Showcase = document.querySelector('#n64-showcase');
+const search = document.querySelector('#search');
+const searchTop = document.querySelector('#search-top');
+const clearSearchTop = document.querySelector('#clear-search-top');
+const count = document.querySelector('#count');
+const player = document.querySelector('#player');
+const frame = document.querySelector('#game-frame');
+const genreTabs = document.querySelector('#genre-tabs');
+
+let roms = [];
+let selectedCategory = 'Todos';
+let currentPlayingFile = null;
+
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch { return []; }
+}
+
+function toggleFavorite(name) {
+  RetroAudio.playClick();
+  const favs = getFavorites();
+  const idx = favs.indexOf(name);
+  if (idx >= 0) favs.splice(idx, 1);
+  else favs.unshift(name);
+  try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch {}
+  updateFavCount();
+  renderShowcase();
+  renderGenreTabs();
+  render();
+  syncDockFavButton();
+}
+
+function updateFavCount() {
+  const el = document.querySelector('#fav-nav-count');
+  if (el) el.textContent = getFavorites().length;
+}
+
+function cleanName(fileOrName) {
+  if (typeof fileOrName === 'object' && fileOrName !== null) {
+    if (fileOrName.title) return fileOrName.title;
+    fileOrName = fileOrName.name || '';
+  }
+  return String(fileOrName)
+    .replace(/\.(z64|n64|v64|rom|zip)$/i, '')
+    .trim();
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function renderShowcase() {
+  if (!roms.length) {
+    n64Showcase.innerHTML = '';
+    return;
+  }
+  const favs = getFavorites();
+
+  n64Showcase.innerHTML = roms.map(f => {
+    const idx = roms.indexOf(f);
+    const title = cleanName(f);
+    const genre = f.genre || 'Nintendo 64';
+    const isFav = favs.includes(f.name);
+    const cover = f.cover || '';
+    const desc = f.description || 'Clássico 3D do Nintendo 64 totalmente em português!';
+
+    return `
+      <article class="n64-card">
+        <div class="n64-art" data-play-idx="${idx}" title="Toque para jogar ${escapeHtml(title)}">
+          ${cover ? `
+            <img class="n64-art-img" src="${escapeHtml(cover)}" alt="Capa de ${escapeHtml(title)}" loading="lazy" decoding="async">
+          ` : `<span class="art-fallback">${escapeHtml(title)}</span>`}
+        </div>
+        <div class="n64-body">
+          <div>
+            <div class="n64-badges">
+              <span class="pill n64">🌟 N64</span>
+              <span class="pill ptbr">PT-BR</span>
+              <span class="pill">${escapeHtml(genre)}</span>
+              ${f.year ? `<span class="pill">${escapeHtml(f.year)}</span>` : ''}
+            </div>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(desc)}</p>
+          </div>
+          <div class="n64-actions">
+            <button class="btn-launch-n64" type="button" data-play-idx="${idx}">JOGAR AGORA ▶</button>
+            <button class="dock-btn ${isFav ? 'active' : ''}" type="button" data-fav-name="${escapeHtml(f.name)}" title="Favoritar">★</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+function renderGenreTabs() {
+  const favSet = new Set(getFavorites());
+  const tabs = [
+    { id: 'Todos', label: `Todos (${roms.length})` },
+    { id: 'FEATURED', label: `★ Destaques (${roms.filter(r => r.featured).length})` },
+    { id: 'FAV', label: `♥ Favoritos (${roms.filter(r => favSet.has(r.name)).length})` }
+  ];
+
+  const genres = [...new Set(roms.map(r => r.genre || 'Nintendo 64'))].sort();
+  genres.forEach(g => {
+    tabs.push({ id: g, label: `${g} (${roms.filter(r => (r.genre || 'Nintendo 64') === g).length})` });
+  });
+
+  genreTabs.innerHTML = tabs.map(t => `
+    <button class="genre-tab ${selectedCategory === t.id ? 'active' : ''}" type="button" data-cat="${escapeHtml(t.id)}">
+      ${escapeHtml(t.label)}
+    </button>
+  `).join('');
+}
+
+function render() {
+  const q = search.value.trim().toLocaleLowerCase('pt-BR');
+  const favSet = new Set(getFavorites());
+
+  const shown = roms.filter(f => {
+    if (selectedCategory === 'FAV' && !favSet.has(f.name)) return false;
+    if (selectedCategory === 'FEATURED' && !f.featured) return false;
+    if (!['Todos', 'FAV', 'FEATURED'].includes(selectedCategory) && (f.genre || 'Nintendo 64') !== selectedCategory) return false;
+
+    if (q) {
+      const matchName = (f.name || '').toLocaleLowerCase('pt-BR').includes(q);
+      const matchTitle = (f.title || '').toLocaleLowerCase('pt-BR').includes(q);
+      const matchGenre = (f.genre || '').toLocaleLowerCase('pt-BR').includes(q);
+      if (!matchName && !matchTitle && !matchGenre) return false;
+    }
+    return true;
+  });
+
+  count.textContent = `${shown.length} de ${roms.length} jogos disponíveis`;
+
+  grid.innerHTML = shown.length ? shown.map(f => {
+    const idx = roms.indexOf(f);
+    const title = cleanName(f);
+    const isFav = favSet.has(f.name);
+    const genre = f.genre || 'Nintendo 64';
+    const cover = f.cover || '';
+
+    return `
+      <article class="card">
+        <div class="art" data-play-idx="${idx}" title="Toque para jogar ${escapeHtml(title)}">
+          ${cover ? `
+            <img class="art-img" src="${escapeHtml(cover)}" alt="Capa de ${escapeHtml(title)}" loading="lazy" decoding="async">
+          ` : `<span class="art-fallback">${escapeHtml(title)}</span>`}
+          <div class="card-badges">
+            <span class="pill n64">N64</span>
+            <span class="pill ptbr">PT-BR</span>
+          </div>
+          <button class="fav-btn ${isFav ? 'active' : ''}" type="button" data-fav-name="${escapeHtml(f.name)}" title="Guardar nos Favoritos">★</button>
+        </div>
+        <div class="info">
+          <div>
+            <div class="title">${escapeHtml(title)}</div>
+            <div class="raw-sub">${escapeHtml(genre)} ${f.year ? `• ${escapeHtml(f.year)}` : ''}</div>
+          </div>
+          <div class="meta">
+            <span>64-Bit 3D</span>
+            <button class="play" type="button" data-play-idx="${idx}">JOGAR ▶</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('') : '<div class="empty">Nenhum jogo encontrado nessa busca ou filtro.</div>';
+}
+
+function syncDockFavButton() {
+  const btn = document.querySelector('#dock-fav');
+  if (!btn || !currentPlayingFile) return;
+  const isFav = getFavorites().includes(currentPlayingFile.name);
+  btn.classList.toggle('active', isFav);
+  btn.textContent = isFav ? '★ Favoritado' : '☆ Favoritar';
+}
+
+function start(file) {
+  if (!file) return;
+  RetroAudio.playClick();
+  currentPlayingFile = file;
+  const title = cleanName(file);
+  document.querySelector('#playing').textContent = title;
+  document.querySelector('#playing-meta').textContent = `// JOGANDO AGORA • NINTENDO 64 • ${file.genre || '3D'}`;
+  const thumb = document.querySelector('#playing-thumb');
+  if (file.cover) thumb.src = file.cover;
+
+  syncDockFavButton();
+  frame.src = 'n64-player.html?rom=' + encodeURIComponent(file.url) + '&title=' + encodeURIComponent(title);
+  player.classList.add('open');
+  player.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Event Delegation para cliques nos jogos e botões
+document.addEventListener('click', (e) => {
+  const playTarget = e.target.closest('[data-play-idx]');
+  if (playTarget) {
+    const idx = parseInt(playTarget.dataset.playIdx, 10);
+    if (!isNaN(idx) && roms[idx]) {
+      start(roms[idx]);
+    }
+    return;
+  }
+
+  const favTarget = e.target.closest('[data-fav-name]');
+  if (favTarget) {
+    e.stopPropagation();
+    toggleFavorite(favTarget.dataset.favName);
+    return;
+  }
+
+  const catTarget = e.target.closest('.genre-tab');
+  if (catTarget) {
+    RetroAudio.playClick();
+    selectedCategory = catTarget.dataset.cat;
+    renderGenreTabs();
+    render();
+    return;
+  }
+
+  const searchTag = e.target.closest('.search-tag');
+  if (searchTag) {
+    RetroAudio.playClick();
+    const term = searchTag.dataset.searchTerm;
+    if (term === 'Todos') {
+      search.value = '';
+      searchTop.value = '';
+      selectedCategory = 'Todos';
+    } else if (['Aventura / RPG', 'Corrida', 'Plataforma 3D'].includes(term)) {
+      search.value = '';
+      searchTop.value = '';
+      selectedCategory = term;
+    } else {
+      search.value = term;
+      searchTop.value = term;
+      selectedCategory = 'Todos';
+    }
+    clearSearchTop.classList.toggle('visible', searchTop.value.length > 0);
+    renderGenreTabs();
+    render();
+    return;
+  }
+});
+
+// Barra de busca superior e catálogo sincronizadas
+search.addEventListener('input', () => {
+  searchTop.value = search.value;
+  clearSearchTop.classList.toggle('visible', search.value.length > 0);
+  render();
+});
+
+searchTop.addEventListener('input', () => {
+  search.value = searchTop.value;
+  clearSearchTop.classList.toggle('visible', search.value.length > 0);
+  render();
+});
+
+clearSearchTop.addEventListener('click', () => {
+  RetroAudio.playClick();
+  search.value = '';
+  searchTop.value = '';
+  clearSearchTop.classList.remove('visible');
+  render();
+});
+
+// Botão Jogo Surpresa N64
+document.querySelector('#btn-random-n64').addEventListener('click', () => {
+  if (!roms.length) return;
+  const pick = roms[Math.floor(Math.random() * roms.length)];
+  start(pick);
+});
+
+// Controles do Player Dock
+document.querySelector('#close').addEventListener('click', () => {
+  RetroAudio.playClick();
+  frame.src = 'about:blank';
+  player.classList.remove('open');
+  currentPlayingFile = null;
+});
+
+document.querySelector('#dock-fullscreen').addEventListener('click', () => {
+  RetroAudio.playClick();
+  if (!frame) return;
+  if (frame.requestFullscreen) frame.requestFullscreen();
+  else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+});
+
+document.querySelector('#dock-fav').addEventListener('click', () => {
+  if (currentPlayingFile) toggleFavorite(currentPlayingFile.name);
+});
+
+async function fetchN64CatalogWithFallback() {
+  try {
+    const res = await fetch('/api/n64', { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length) return data;
+    }
+  } catch {}
+  const fallback = await fetch('n64-games.json', { cache: 'no-store' });
+  if (!fallback.ok) throw new Error('Não consegui carregar o catálogo de Nintendo 64.');
+  return await fallback.json();
+}
+
+async function loadLibrary() {
+  updateFavCount();
+  try {
+    const payload = await fetchN64CatalogWithFallback();
+    roms = (Array.isArray(payload) ? payload : []).filter(item => item && typeof item.name === 'string' && typeof item.url === 'string');
+    document.querySelector('#nav-n64-count').textContent = roms.length;
+
+    renderShowcase();
+    renderGenreTabs();
+    render();
+
+    const params = new URLSearchParams(location.search);
+    const playParam = params.get('play');
+    if (playParam) {
+      const target = roms.find(r => r.name === playParam || cleanName(r).toLocaleLowerCase('pt-BR') === playParam.toLocaleLowerCase('pt-BR'));
+      if (target) start(target);
+    }
+  } catch (error) {
+    count.textContent = 'Erro ao carregar catálogo';
+    grid.innerHTML = `<div class=\"empty\">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+loadLibrary();
+</script>
+</body>
+</html>

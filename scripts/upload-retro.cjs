@@ -51,6 +51,12 @@ const TARGETS = [
     localDir: path.join(root, 'neogeo'),
     filter: f => /\.zip$/i.test(f),
     contentType: 'application/zip'
+  },
+  {
+    prefix: 'n64',
+    localDir: path.join(root, 'n64'),
+    filter: f => /\.(z64|n64|v64|rom)$/i.test(f),
+    contentType: 'application/octet-stream'
   }
 ];
 
@@ -124,8 +130,11 @@ async function main() {
   console.log(`Bucket: ${BUCKET} | Concorrência: ${CONCURRENCY} workers`);
   console.log(`=======================================================\n`);
 
+  const targetFilter = process.argv[2] ? process.argv[2].toLowerCase() : null;
+  const activeTargets = targetFilter ? TARGETS.filter(t => t.prefix.toLowerCase().includes(targetFilter)) : TARGETS;
+
   const queue = [];
-  for (const t of TARGETS) {
+  for (const t of activeTargets) {
     if (!fs.existsSync(t.localDir)) continue;
     const files = fs.readdirSync(t.localDir).filter(t.filter);
     console.log(`📂 [${t.prefix}] Encontrados ${files.length} arquivos.`);

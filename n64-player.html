@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#111111">
+<title>Nintendo 64 — Continue?</title>
+<style>
+  html, body, #game {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    background: #111111;
+    color: #F5F5F5;
+    font: 13px 'Plus Jakarta Sans', 'JetBrains Mono', sans-serif;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow: hidden;
+  }
+  #notice {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 24px;
+    color: #9E9E9E;
+    line-height: 1.6;
+    pointer-events: none;
+    z-index: 20;
+  }
+  #notice b { color: #00E5FF; display: block; font-size: 16px; margin-bottom: 6px; }
+
+  /* EmulatorJS Touch Gamepad Enhancement */
+  body.touch-large .ejs_virtual_gamepad_button {
+    transform: scale(1.15);
+    font-weight: 800 !important;
+    border-width: 2px !important;
+    background-color: rgba(0, 229, 255, 0.28) !important;
+    border-color: rgba(255, 255, 255, 0.75) !important;
+    color: #FFFFFF !important;
+  }
+  body.touch-large .ejs_dpad_container {
+    transform: scale(1.12);
+  }
+
+  /* BANNER DE DICAS PARA MOBILE (ROTAÇÃO E TELA CHEIA) */
+  #n64-mobile-tips {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background: rgba(18, 18, 18, 0.92);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(0, 229, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 8px 18px;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    color: #F5F5F5;
+    font-size: 12px;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    pointer-events: auto;
+    animation: fadeInDown 0.4s ease;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translate(-50%, -10px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+
+  #n64-mobile-tips b {
+    color: #00E5FF;
+  }
+
+  .btn-tip-action {
+    background: #00E5FF;
+    color: #111111;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+  }
+
+  .btn-tip-close {
+    background: transparent;
+    color: #9E9E9E;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  .btn-tip-close:hover { color: #FFF; }
+
+  /* BOTÃO FLUTUANTE DE TELA CHEIA E MUDANÇA DE ORIENTAÇÃO */
+  .quick-floating-tools {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 90;
+    display: flex;
+    gap: 8px;
+  }
+
+  .floating-pill {
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFF;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .floating-pill:hover {
+    background: rgba(40, 40, 40, 0.95);
+    border-color: #00E5FF;
+  }
+</style>
+<script src="assets/storage-config.js"></script>
+<script src="assets/gamepad-mapper.js"></script>
+</head>
+<body>
+<div id="game"></div>
+
+<div class="quick-floating-tools">
+  <button type="button" class="floating-pill" id="btn-fullscreen-toggle" title="Tela Cheia">
+    ⛶ Tela Cheia
+  </button>
+</div>
+
+<!-- Dica para celulares / tablets -->
+<div id="n64-mobile-tips">
+  <span>📱 <b>Dica Nintendo 64:</b> Gire o celular deitado (horizontal) para visualizar os botões 3D com conforto.</span>
+  <button type="button" class="btn-tip-action" id="btn-tip-fullscreen">⛶ Tela Cheia</button>
+  <button type="button" class="btn-tip-close" id="btn-tip-close" title="Fechar dica">×</button>
+</div>
+
+<div id="notice">
+  <div>
+    <b>🌟 PREPARANDO NINTENDO 64…</b>
+    🕹️ Carregando emulador 3D com gráficos de alta fidelidade.<br>
+    📱 No celular, analógico virtual, botões A, B, C amarelos e gatilho Z aparecem direto na tela!
+  </div>
+</div>
+
+<script>
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (window.innerWidth <= 860);
+const tipsEl = document.getElementById('n64-mobile-tips');
+
+if (isMobile && tipsEl) {
+  // Mostra a dica se estiver em modo retrato
+  if (window.innerHeight > window.innerWidth) {
+    tipsEl.style.display = 'flex';
+  }
+  window.addEventListener('resize', () => {
+    if (window.innerHeight > window.innerWidth) {
+      tipsEl.style.display = 'flex';
+    } else {
+      tipsEl.style.display = 'none';
+    }
+  });
+}
+
+document.getElementById('btn-tip-close')?.addEventListener('click', () => {
+  if (tipsEl) tipsEl.style.display = 'none';
+});
+
+function toggleFullscreen() {
+  const elem = document.documentElement;
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+}
+
+document.getElementById('btn-fullscreen-toggle')?.addEventListener('click', toggleFullscreen);
+document.getElementById('btn-tip-fullscreen')?.addEventListener('click', () => {
+  toggleFullscreen();
+  if (tipsEl) tipsEl.style.display = 'none';
+});
+
+const touchCfg = window.ContinueControls ? window.ContinueControls.getTouchSettings() : { size: 'large' };
+if (touchCfg.size === 'large') document.body.classList.add('touch-large');
+
+const query = new URLSearchParams(location.search);
+const rom = query.get('rom') || '';
+const title = query.get('title') || 'Jogo de Nintendo 64';
+const notice = document.querySelector('#notice');
+document.title = title + ' — Nintendo 64';
+
+const isVSCode = /Electron|Code\//i.test(navigator.userAgent);
+const isCloudWithoutStorage = window.ContinueStorage ? window.ContinueStorage.isCloudWithoutStorage() : false;
+
+function launchEmulator(gameUrl) {
+  notice.style.display = 'grid';
+  notice.innerHTML = '<div><b>🌟 PREPARANDO NINTENDO 64…</b>Iniciando emulador Mupen64Plus, aguarde um instante...</div>';
+  
+  window.EJS_player = '#game';
+  window.EJS_core = 'n64';
+  window.EJS_gameUrl = gameUrl;
+  window.EJS_gameName = title;
+  window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+  window.EJS_language = 'pt-BR';
+  window.EJS_startOnLoaded = true;
+
+  // Opções gráficas para alta compatibilidade e performance
+  window.EJS_defaultOptions = {
+    'mupen64plus-next-GlideN64-BilinearMode': 'standard',
+    'mupen64plus-next-GlideN64-EnableFBEmulation': 'True',
+    'mupen64plus-next-pak1': 'memory'
+  };
+
+  // Controles padrão N64 otimizados para teclado e gamepad
+  window.EJS_defaultControls = window.ContinueControls
+    ? window.ContinueControls.getEJSControls()
+    : {
+        0: {
+          0: { value: 'x', value2: 'BUTTON_2' },          // N64 B
+          1: { value: 'z', value2: 'BUTTON_1' },          // N64 A
+          2: { value: 'a', value2: 'LEFT_BOTTOM_SHOULDER' }, // N64 Z Trigger
+          3: { value: 'enter', value2: 'START' },         // N64 START
+          4: { value: 'up arrow', value2: 'DPAD_UP' },    // D-Pad Cima
+          5: { value: 'down arrow', value2: 'DPAD_DOWN' },// D-Pad Baixo
+          6: { value: 'left arrow', value2: 'DPAD_LEFT' },// D-Pad Esquerda
+          7: { value: 'right arrow', value2: 'DPAD_RIGHT'},// D-Pad Direita
+          8: { value: 'q', value2: 'LEFT_TOP_SHOULDER' }, // N64 L
+          9: { value: 'w', value2: 'RIGHT_TOP_SHOULDER' },// N64 R
+          16: { value: 'j', value2: 'AXIS_X_MINUS' },     // Analog Left
+          17: { value: 'l', value2: 'AXIS_X_PLUS' },      // Analog Right
+          18: { value: 'i', value2: 'AXIS_Y_MINUS' },     // Analog Up
+          19: { value: 'k', value2: 'AXIS_Y_PLUS' },      // Analog Down
+          20: { value: 'delete', value2: 'RIGHT_AXIS_X_MINUS' }, // C-Left
+          21: { value: 'page down', value2: 'RIGHT_AXIS_X_PLUS' }, // C-Right
+          22: { value: 'home', value2: 'RIGHT_AXIS_Y_MINUS' }, // C-Up
+          23: { value: 'end', value2: 'RIGHT_AXIS_Y_PLUS' }    // C-Down
+        },
+        1: {}, 2: {}, 3: {}
+      };
+
+  window.EJS_onGameStart = () => { notice.style.display = 'none'; };
+  window.EJS_ready = () => { notice.style.display = 'none'; };
+
+  const loader = document.createElement('script');
+  loader.src = window.EJS_pathtodata + 'loader.js';
+  loader.onerror = () => {
+    notice.style.display = 'grid';
+    notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #00E5FF;max-width:500px;pointer-events:auto;color:#eee"><b style="color:#00E5FF;font-size:16px;margin-bottom:8px">✕ ERRO AO BAIXAR O JOGO NA NUVEM</b>O arquivo do jogo não está disponível na nuvem ou deu 404.<br><br>👉 <b>Escolha o arquivo do jogo no seu PC ou celular para jogar agora:</b><br><br><label style="display:inline-block;background:#00E5FF;color:#111;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px">📁 Escolher Arquivo (.z64 / .n64 / .v64 / .rom / .zip)<input type="file" id="fallback-rom-input" accept=".z64,.n64,.v64,.rom,.zip" style="display:none"></label></div>';
+    const fallbackInput = document.getElementById('fallback-rom-input');
+    if (fallbackInput) {
+      fallbackInput.addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0];
+        if (file) launchEmulator(URL.createObjectURL(file));
+      });
+    }
+  };
+  document.body.appendChild(loader);
+}
+
+function showRomMissingScreen() {
+  notice.style.display = 'grid';
+  notice.innerHTML = `<div style="background:#181818;padding:28px 24px;border-radius:14px;border:1px solid #333;box-shadow:0 8px 30px rgba(0,0,0,0.8);max-width:480px;text-align:center;pointer-events:auto;line-height:1.5;color:#eee">
+    <div style="font-size:40px;margin-bottom:8px">🌟</div>
+    <b style="color:#FFF;font-size:18px;display:block;margin-bottom:6px">${title}</b>
+    <p style="color:#FFC107;font-size:13px;font-weight:bold;margin:0 0 10px 0">⚠️ Este jogo ainda não foi sincronizado na nuvem da Cloudflare.</p>
+    <p style="color:#9E9E9E;font-size:13px;margin:0 0 18px 0">Você pode jogar agora mesmo selecionando o arquivo do jogo (.z64 / .n64 / .v64 / .rom / .zip) do seu computador ou celular:</p>
+    <label style="display:inline-block;background:#00E5FF;color:#111;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;box-shadow:0 4px 14px rgba(0,229,255,0.4)">
+      📁 Selecionar Arquivo do Jogo (.z64 / .n64 / .zip)
+      <input type="file" id="direct-rom-input" accept=".z64,.n64,.v64,.rom,.zip" style="display:none">
+    </label>
+  </div>`;
+  const directInput = document.getElementById('direct-rom-input');
+  if (directInput) {
+    directInput.addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      if (file) launchEmulator(URL.createObjectURL(file));
+    });
+  }
+}
+
+if (isVSCode) {
+  notice.innerHTML = '<div style="background:#1e1e1e;padding:24px;border-radius:12px;border:2px solid #00E5FF;max-width:500px;pointer-events:auto;line-height:1.6;color:#eee"><b style="color:#00E5FF;font-size:16px;margin-bottom:8px">⚠️ NAVEGADOR DO VS CODE NÃO SUPORTADO</b>O navegador interno do VS Code bloqueia aceleração gráfica (WebGL) e áudio de jogos.<br><br>👉 <b>Para jogar, abra no Google Chrome ou no navegador do celular:</b><br><code style="background:#000;color:#00e5ff;padding:6px 12px;border-radius:6px;display:inline-block;margin-top:10px;font-size:14px;font-weight:bold">http://localhost:4175</code></div>';
+} else if (isCloudWithoutStorage && (!rom || rom.startsWith('/'))) {
+  showRomMissingScreen();
+} else if (!rom.startsWith('/n64/') && !rom.startsWith('http://') && !rom.startsWith('https://') && !rom.startsWith('blob:')) {
+  notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista do Nintendo 64.</div>';
+} else {
+  const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
+  if (finalRom.startsWith('http://') || finalRom.startsWith('https://')) {
+    notice.style.display = 'grid';
+    notice.innerHTML = '<div><b>🌟 CONECTANDO AO SERVIDOR DE JOGOS…</b>Verificando se o jogo está disponível na nuvem...</div>';
+    fetch(finalRom, { method: 'HEAD' }).then(res => {
+      if (!res.ok && res.status === 404) {
+        showRomMissingScreen();
+      } else {
+        launchEmulator(finalRom);
+      }
+    }).catch(() => {
+      launchEmulator(finalRom);
+    });
+  } else {
+    launchEmulator(finalRom);
+  }
+}
+</script>
+</body>
+</html>

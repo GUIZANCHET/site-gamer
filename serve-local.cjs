@@ -493,6 +493,17 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (pathname === '/api/n64') {
+    const catalogPath = path.join(root, 'n64-games.json');
+    if (fs.existsSync(catalogPath)) {
+      serveStaticFile(catalogPath, req, res);
+      return;
+    }
+    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' })
+      .end(JSON.stringify({ error: 'Catálogo de Nintendo 64 não encontrado.' }));
+    return;
+  }
+
   let file = path.resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
   if (!fs.existsSync(file) && fs.existsSync(file + '.html')) {
     file = file + '.html';

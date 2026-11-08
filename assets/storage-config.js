@@ -8,7 +8,7 @@
   // [CORS 100% ATIVO]
   const BUCKET_1_URL = 'https://pub-d47b5e32ad1342f086599fd4c17f1622.r2.dev';
 
-  // URL Cloudflare R2 - Conta 2 (Super Nintendo e Neo Geo)
+  // URL Cloudflare R2 - Conta 2 (Super Nintendo, Neo Geo e Nintendo 64)
   // [CORS 100% ATIVO]: Configuração CORS validada e funcionando no Cloudflare R2
   const BUCKET_2_URL = 'https://pub-b60b23ea89e943358e1ba84d45a1521a.r2.dev';
 
@@ -52,7 +52,7 @@
       return PS1_R2_URL;
     },
 
-    // Retorna a URL base para Super Nintendo e Neo Geo
+    // Retorna a URL base para Super Nintendo, Neo Geo e Nintendo 64
     getRetroUrl() {
       const saved = safeGet('continue_retro_storage_url');
       if (saved && saved.trim()) {
@@ -91,8 +91,8 @@
       const cleanRelative = relativeUrl.startsWith('/') ? relativeUrl : '/' + relativeUrl;
       const decoded = decodeURIComponent(cleanRelative).toLowerCase();
 
-      // Direciona Super Nintendo e Neo Geo para o bucket retro (Conta 2)
-      if (decoded.startsWith('/super nintendo/') || decoded.startsWith('/neogeo/')) {
+      // Direciona Super Nintendo, Neo Geo e Nintendo 64 para o bucket retro (Conta 2)
+      if (decoded.startsWith('/super nintendo/') || decoded.startsWith('/neogeo/') || decoded.startsWith('/n64/')) {
         const retroBase = this.getRetroUrl();
         return retroBase ? retroBase + cleanRelative : cleanRelative;
       }

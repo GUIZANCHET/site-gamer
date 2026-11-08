@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Conker's Bad Fur Day (BR) (Sem Censura)",
+    "title": "Conker's Bad Fur Day (Sem Censura)",
+    "region": "BR (Português)",
+    "genre": "Ação / Aventura 18+",
+    "year": "2001",
+    "featured": true,
+    "url": "/n64/conker-bad-fur-day.z64",
+    "cover": "assets/covers/n64/conker-bad-fur-day.png",
+    "description": "Versão brasileira sem censura da aventura irreverente e ácida do esquilo Conker."
+  },
+  {
+    "name": "Diddy Kong Racing (BR)",
+    "title": "Diddy Kong Racing",
+    "region": "BR (Português)",
+    "genre": "Corrida / Aventura",
+    "year": "1997",
+    "featured": true,
+    "url": "/n64/diddy-kong-racing.z64",
+    "cover": "assets/covers/n64/diddy-kong-racing.png",
+    "description": "Pilote karts, aviões e hovercrafts na clássica aventura de corrida da Rare, totalmente em português."
+  },
+  {
+    "name": "Super Mario 64 (BR)",
+    "title": "Super Mario 64",
+    "region": "BR (Português)",
+    "genre": "Plataforma 3D",
+    "year": "1996",
+    "featured": true,
+    "url": "/n64/super-mario-64.z64",
+    "cover": "assets/covers/n64/super-mario-64.png",
+    "description": "O jogo que revolucionou as plataformas tridimensionais, agora traduzido para o português."
+  },
+  {
+    "name": "Mario Kart 64 (BR)",
+    "title": "Mario Kart 64",
+    "region": "BR (Português)",
+    "genre": "Corrida",
+    "year": "1996",
+    "featured": true,
+    "url": "/n64/mario-kart-64.z64",
+    "cover": "assets/covers/n64/mario-kart-64.png",
+    "description": "Disputas épicas em pistas 3D com cascos, bananas e estrelas em português."
+  },
+  {
+    "name": "The Legend of Zelda: Ocarina of Time Redux (BR)",
+    "title": "The Legend of Zelda: Ocarina of Time Redux",
+    "region": "BR (Português)",
+    "genre": "Aventura / RPG",
+    "year": "1998",
+    "featured": true,
+    "url": "/n64/zelda-ocarina-of-time-redux.z64",
+    "cover": "assets/covers/n64/zelda-ocarina-of-time-redux.png",
+    "description": "A obra-prima dos videogames com melhorias de qualidade de vida Redux (D-pad para itens) e tradução PT-BR."
+  },
+  {
+    "name": "The Legend of Zelda: Ocarina of Time - Master Quest (BR)",
+    "title": "The Legend of Zelda: Ocarina of Time - Master Quest",
+    "region": "BR (Português)",
+    "genre": "Aventura / RPG",
+    "year": "2003",
+    "featured": false,
+    "url": "/n64/zelda-ocarina-of-time-master-quest.z64",
+    "cover": "assets/covers/n64/zelda-ocarina-of-time-master-quest.png",
+    "description": "Versão desafiadora com dungeons e enigmas redesenhados para mestres em Zelda, em português."
+  },
+  {
+    "name": "The Legend of Zelda: Majora's Mask (BR) (Widescreen)",
+    "title": "The Legend of Zelda: Majora's Mask (Widescreen)",
+    "region": "BR (Português)",
+    "genre": "Aventura / RPG",
+    "year": "2000",
+    "featured": true,
+    "url": "/n64/zelda-majoras-mask.z64",
+    "cover": "assets/covers/n64/zelda-majoras-mask.png",
+    "description": "Salve Termina do impacto da lua em 72 horas nesta versão widescreen em português."
+  }
+]
