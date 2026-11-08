@@ -4,16 +4,46 @@
 (function() {
   const STORAGE_KEY = 'continue_rom_storage_url';
 
-  // URL Cloudflare R2 - Conta 1 (PlayStation 1)
-  const PS1_R2_URL = 'https://pub-d47b5e32ad1342f086599fd4c17f1622.r2.dev';
+  // URL Cloudflare R2 - Conta 1 (PlayStation 1 + Super Nintendo + Neo Geo)
+  // [CORS 100% ATIVO]: Possui todos os 608 jogos de SNES, 166 de Neo Geo e PS1 com headers CORS liberados
+  const BUCKET_1_URL = 'https://pub-d47b5e32ad1342f086599fd4c17f1622.r2.dev';
 
   // URL Cloudflare R2 - Conta 2 (Super Nintendo e Neo Geo)
-  const RETRO_R2_URL = 'https://pub-b60b23ea89e943358e1ba84d45a1521a.r2.dev';
+  // [CORS PENDENTE]: Requer inclusão da política CORS no painel Cloudflare R2.
+  const BUCKET_2_URL = 'https://pub-b60b23ea89e943358e1ba84d45a1521a.r2.dev';
+
+  const PS1_R2_URL = BUCKET_1_URL;
+
+  // Por padrão seguro, enquanto a política CORS não for aplicada no painel da Conta 2,
+  // usamos BUCKET_1_URL para eliminar imediatamente o erro "blocked by CORS policy" na Vercel.
+  const RETRO_R2_URL = BUCKET_1_URL;
+
+  function safeGet(key) {
+    try {
+      return typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function safeSet(key, val) {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        if (!val) {
+          window.localStorage.removeItem(key);
+        } else {
+          window.localStorage.setItem(key, val);
+        }
+      }
+    } catch (e) {}
+  }
 
   window.ContinueStorage = {
+    BUCKET_1_URL,
+    BUCKET_2_URL,
     // Retorna a URL base padrão (PlayStation)
     getBaseUrl() {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = safeGet(STORAGE_KEY);
       if (saved && saved.trim()) {
         return saved.trim().replace(/\/+$/, '');
       }
@@ -27,7 +57,7 @@
 
     // Retorna a URL base para Super Nintendo e Neo Geo
     getRetroUrl() {
-      const saved = localStorage.getItem('continue_retro_storage_url');
+      const saved = safeGet('continue_retro_storage_url');
       if (saved && saved.trim()) {
         return saved.trim().replace(/\/+$/, '');
       }
@@ -46,11 +76,7 @@
 
     // Salva uma nova URL de storage
     setBaseUrl(url) {
-      if (!url || !url.trim()) {
-        localStorage.removeItem(STORAGE_KEY);
-      } else {
-        localStorage.setItem(STORAGE_KEY, url.trim().replace(/\/+$/, ''));
-      }
+      safeSet(STORAGE_KEY, url ? url.trim().replace(/\/+$/, '') : null);
     },
 
     // Resolve o caminho final da ROM
