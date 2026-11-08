@@ -250,14 +250,62 @@ if (toggleTouchBtn) {
 const isVSCode = /Electron|Code\//i.test(navigator.userAgent);
 const isCloudWithoutStorage = window.ContinueStorage ? window.ContinueStorage.isCloudWithoutStorage() : false;
 
-function launchEmulator(gameUrl, biosUrl) {
+function launchEmulator(gameUrl, biosUrl, fileName) {
   notice.style.display = 'grid';
   notice.innerHTML = '<div><b>🕹️ PREPARANDO FLIPERAMA NEO GEO…</b>Carregando emulador e BIOS, aguarde um instante...</div>';
   window.EJS_player = '#game';
-  window.EJS_core = 'neogeo';
+  window.EJS_core = 'arcade';
   window.EJS_gameUrl = gameUrl;
-  window.EJS_biosUrl = biosUrl || (window.ContinueStorage ? window.ContinueStorage.resolveUrl('/neogeo/neogeo.zip') : '/neogeo/neogeo.zip');
-  window.EJS_gameName = title;
+  
+  const resolvedBios = biosUrl || (window.ContinueStorage ? window.ContinueStorage.resolveUrl('/neogeo/neogeo.zip') : '/neogeo/neogeo.zip');
+
+  // Pré-baixa os bytes da BIOS oficial completa em paralelo
+  let biosBytes = null;
+  const biosPromise = fetch(resolvedBios)
+    .then(r => {
+      if (!r.ok) throw new Error('Falha HTTP ' + r.status);
+      return r.arrayBuffer();
+    })
+    .then(b => {
+      biosBytes = new Uint8Array(b);
+      return biosBytes;
+    })
+    .catch(err => {
+      console.warn('Aviso: Falha no fetch da BIOS:', err);
+      return null;
+    });
+
+  // Intercepta a criação do EJS_emulator para garantir a injeção da BIOS antes do boot do core
+  let _emu = null;
+  Object.defineProperty(window, 'EJS_emulator', {
+    get() { return _emu; },
+    set(instance) {
+      _emu = instance;
+      if (_emu && typeof _emu.on === 'function') {
+        _emu.on('saveDatabaseLoaded', async () => {
+          try {
+            const bytes = biosBytes || await biosPromise;
+            if (bytes && _emu.gameManager) {
+              const gm = _emu.gameManager;
+              gm.writeFile('/neogeo.zip', bytes);
+              gm.writeFile('/home/web_user/retroarch/userdata/system/neogeo.zip', bytes);
+              gm.writeFile('/home/web_user/retroarch/userdata/system/fbneo/neogeo.zip', bytes);
+              gm.writeFile('/neogeo/neogeo.zip', bytes);
+            }
+          } catch (e) {
+            console.warn('Erro ao injetar BIOS:', e);
+          }
+        });
+      }
+    },
+    configurable: true
+  });
+
+  if (gameUrl.startsWith('blob:') && fileName) {
+    window.EJS_gameName = fileName;
+  } else {
+    window.EJS_gameName = title;
+  }
   window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
   window.EJS_language = 'pt-BR';
   window.EJS_startOnLoaded = true;
@@ -292,7 +340,7 @@ function launchEmulator(gameUrl, biosUrl) {
     if (fallbackInput) {
       fallbackInput.addEventListener('change', e => {
         const file = e.target.files && e.target.files[0];
-        if (file) launchEmulator(URL.createObjectURL(file));
+        if (file) launchEmulator(URL.createObjectURL(file), null, file.name);
       });
     }
   };
@@ -315,7 +363,7 @@ if (isVSCode) {
   if (directInput) {
     directInput.addEventListener('change', e => {
       const file = e.target.files && e.target.files[0];
-      if (file) launchEmulator(URL.createObjectURL(file));
+      if (file) launchEmulator(URL.createObjectURL(file), null, file.name);
     });
   }
 } else if (!rom.startsWith('/neogeo/') && !rom.startsWith('http://') && !rom.startsWith('https://') && !rom.startsWith('blob:')) {
