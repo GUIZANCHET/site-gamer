@@ -1,13 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-
-const filePath = path.join(__dirname, '../neogeo-player.html');
-let cachedHtml = '';
-try {
-  cachedHtml = fs.readFileSync(filePath, 'utf8');
-} catch (e) {
-  console.error('Falha ao ler neogeo-player.html:', e);
-}
+const html = require('./neogeo-html-data.cjs');
 
 module.exports = (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -20,13 +11,13 @@ module.exports = (req, res) => {
     res.end();
     return;
   }
+
   if (req.method === 'HEAD') {
     res.statusCode = 200;
     res.end();
     return;
   }
 
-  const content = cachedHtml || fs.readFileSync(filePath, 'utf8');
   res.statusCode = 200;
-  res.end(content);
+  res.end(html);
 };

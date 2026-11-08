@@ -15,14 +15,9 @@
     { "source": "/api/ps1", "destination": "/api/ps1.js" },
     { "source": "/api/neogeo", "destination": "/api/neogeo.js" },
     { "source": "/neogeo-games.json", "destination": "/api/neogeo.js" },
-    { "source": "/neogeo.html", "destination": "/api/neogeo-html.js" },
-    { "source": "/neogeo-player.html", "destination": "/api/neogeo-player-html.js" },
-    { "source": "/neogeo", "destination": "/api/neogeo-html.js" },
-    { "source": "/neogeo-player", "destination": "/api/neogeo-player-html.js" },
-    { "source": "/snes", "destination": "/snes.html" },
-    { "source": "/snes-player", "destination": "/snes-player.html" },
-    { "source": "/ps1", "destination": "/ps1.html" },
-    { "source": "/ps1-player", "destination": "/ps1-player.html" },
-    { "source": "/player", "destination": "/player.html" }
+    { "source": "/neogeo.html", "destination": "/api/neogeo-page.js" },
+    { "source": "/neogeo-player.html", "destination": "/api/neogeo-player-page.js" },
+    { "source": "/neogeo", "destination": "/api/neogeo-page.js" },
+    { "source": "/neogeo-player", "destination": "/api/neogeo-player-page.js" }
   ]
 }
