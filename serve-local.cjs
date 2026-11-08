@@ -493,7 +493,10 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const file = path.resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
+  let file = path.resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
+  if (!fs.existsSync(file) && fs.existsSync(file + '.html')) {
+    file = file + '.html';
+  }
   if (!file.startsWith(root + path.sep) && file !== path.join(root, 'index.html')) {
     res.writeHead(403).end('Forbidden');
     return;
