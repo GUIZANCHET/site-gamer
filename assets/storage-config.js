@@ -66,9 +66,10 @@
       }
 
       const cleanRelative = relativeUrl.startsWith('/') ? relativeUrl : '/' + relativeUrl;
+      const decoded = decodeURIComponent(cleanRelative).toLowerCase();
 
       // Direciona Super Nintendo e Neo Geo para o bucket retro (Conta 2)
-      if (cleanRelative.startsWith('/Super nintendo/') || cleanRelative.startsWith('/neogeo/')) {
+      if (decoded.startsWith('/super nintendo/') || decoded.startsWith('/neogeo/')) {
         const retroBase = this.getRetroUrl();
         return retroBase ? retroBase + cleanRelative : cleanRelative;
       }
