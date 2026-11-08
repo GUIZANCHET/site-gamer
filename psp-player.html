@@ -349,15 +349,22 @@ function launchEmulator(gameUrl) {
   window.EJS_language = 'pt-BR';
   window.EJS_startOnLoaded = true;
 
-  // Otimizações avançadas de latência, áudio e vídeo PPSSPP
+  // Otimizações de alta performance para PPSSPP (Zero Lag / Fluidez 60 FPS)
   window.EJS_defaultOptions = {
     'ppsspp_cpu_core': 'jit',
     'ppsspp_rendering_mode': 'buffered',
-    'ppsspp_auto_frameskip': 'disabled',
-    'ppsspp_frameskip': '0',
+    'ppsspp_auto_frameskip': 'enabled',
+    'ppsspp_frameskip': '1',
+    'ppsspp_frameskiptype': 'auto',
     'ppsspp_internal_resolution': internalRes,
     'ppsspp_fast_memory': 'enabled',
-    'ppsspp_vertex_cache': 'enabled'
+    'ppsspp_vertex_cache': 'enabled',
+    'ppsspp_sound_speed_hack': 'enabled',
+    'ppsspp_texture_filtering': 'nearest',
+    'ppsspp_lazy_texture_caching': 'enabled',
+    'ppsspp_retain_changed_textures': 'enabled',
+    'ppsspp_io_timing_method': 'fast',
+    'ppsspp_force_max_fps': 'enabled'
   };
 
   // Controles padrão PSP (D-Pad, Analógico Virtual, △, ○, ✕, □, L, R, Start, Select)

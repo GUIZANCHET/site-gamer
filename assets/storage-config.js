@@ -105,14 +105,15 @@
       const cleanRelative = relativeUrl.startsWith('/') ? relativeUrl : '/' + relativeUrl;
       const decoded = decodeURIComponent(cleanRelative).toLowerCase();
 
-      // Direciona Super Nintendo, Neo Geo, Nintendo 64, Game Boy e Sega Genesis para o bucket retro (Conta 2)
+      // Direciona Super Nintendo, Neo Geo, Nintendo 64, Game Boy, Sega Genesis e PSP para o bucket retro (Conta 2 - Alta Disponibilidade)
       if (
         decoded.startsWith('/super nintendo/') ||
         decoded.startsWith('/neogeo/') ||
         decoded.startsWith('/n64/') ||
         decoded.startsWith('/gameboy/') ||
         decoded.startsWith('/segagenisi/') ||
-        decoded.startsWith('/sega/')
+        decoded.startsWith('/sega/') ||
+        decoded.startsWith('/psp/')
       ) {
         const retroBase = this.getRetroUrl();
         const r2Path = decoded.startsWith('/sega/')
@@ -121,9 +122,8 @@
         return retroBase ? retroBase + r2Path : cleanRelative;
       }
 
-      // Direciona PSP e PlayStation 1 para o bucket principal (Conta 1)
+      // Direciona PlayStation 1 para o bucket de alta capacidade (Conta 1)
       if (
-        decoded.startsWith('/psp/') ||
         decoded.startsWith('/ps1/') ||
         decoded.startsWith('/psx/')
       ) {

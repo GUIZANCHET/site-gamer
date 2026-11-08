@@ -3,8 +3,8 @@ const path = require('path');
 const { S3Client, HeadObjectCommand } = require('@aws-sdk/client-s3');
 const { Upload } = require('@aws-sdk/lib-storage');
 
-// Carrega .env.r2
-const envPath = path.resolve(__dirname, '..', '.env.r2');
+// Carrega .env.r2.retro (Conta 2 - Balanço de Armazenamento R2 abaixo de 10GB)
+const envPath = path.resolve(__dirname, '..', '.env.r2.retro');
 if (fs.existsSync(envPath)) {
   const envContent = fs.readFileSync(envPath, 'utf8');
   for (const line of envContent.split('\n')) {
@@ -17,10 +17,10 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const ACCOUNT_ID = process.env.R2_ACCOUNT_ID || '3bc3672f572c0bc9cf7f09176bc6e164';
+const ACCOUNT_ID = process.env.R2_ACCOUNT_ID || '43fbdc342ba5c01eb8b8aeec6e55f6fd';
 const ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
 const SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
-const BUCKET = process.env.R2_BUCKET || 'site-gamer-roms';
+const BUCKET = process.env.R2_BUCKET || 'site-gamer-retro';
 
 if (!ACCESS_KEY_ID || !SECRET_ACCESS_KEY) {
   console.error('❌ ERRO: R2_ACCESS_KEY_ID e R2_SECRET_ACCESS_KEY precisam ser definidos em .env.r2!');
