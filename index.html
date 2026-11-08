@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#0a0c10">
 <title>Continue? — Videogame Grátis no Celular e PC</title>
 <script src="coi-serviceworker.js"></script>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -11,36 +11,49 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
 :root {
-  --bg: #111111;
-  --bg-soft: #161616;
-  --panel: #191919;
-  --panel-elevated: #222222;
-  --panel-hover: #282828;
-  --line: #2A2A2A;
-  --line-bright: #3D3D3D;
-  --ink: #F5F5F5;
-  --muted: #9E9E9E;
-  --dim: #666666;
+  /* Arcade Dark Chassis Theme */
+  --bg: #0a0c12;
+  --bg-soft: #0f131a;
+  --panel: #131722;
+  --panel-elevated: #1a2030;
+  --panel-hover: #21293d;
+  --line: #222a3d;
+  --line-bright: #34405c;
+  --ink: #f0f4fc;
+  --muted: #94a3b8;
+  --dim: #64748b;
 
-  /* Hardware Carbon & Nintendo Red/White */
-  --red: #E60012;
-  --red-hover: #FF1A2B;
-  --red-soft: rgba(230, 0, 18, 0.12);
-  --red-border: rgba(230, 0, 18, 0.35);
-  --amber: #F59E0B;
-  --amber-soft: rgba(245, 158, 11, 0.15);
-  --green: #22C55E;
-  --green-soft: rgba(34, 197, 94, 0.14);
+  /* Neon Arcade Palette */
+  --arcade-red: #ff2a4b;
+  --arcade-red-hover: #ff4763;
+  --arcade-red-soft: rgba(255, 42, 75, 0.14);
+  --arcade-red-border: rgba(255, 42, 75, 0.38);
+
+  --arcade-cyan: #00f0ff;
+  --arcade-cyan-soft: rgba(0, 240, 255, 0.14);
+  --arcade-cyan-border: rgba(0, 240, 255, 0.38);
+
+  --arcade-gold: #ffb800;
+  --arcade-gold-soft: rgba(255, 184, 0, 0.15);
+  --arcade-gold-border: rgba(255, 184, 0, 0.4);
+
+  --arcade-green: #00e676;
+  --arcade-green-soft: rgba(0, 230, 118, 0.14);
+  --arcade-green-border: rgba(0, 230, 118, 0.4);
+
+  --arcade-purple: #a855f7;
+  --arcade-purple-soft: rgba(168, 85, 247, 0.14);
 
   --mono: 'JetBrains Mono', monospace;
   --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --display: 'Space Grotesk', sans-serif;
-  --radius-lg: 12px;
+
+  --radius-lg: 14px;
   --radius-md: 10px;
-  --radius-sm: 8px;
+  --radius-sm: 7px;
 }
 
 * {
@@ -74,18 +87,32 @@ button {
 .shell {
   max-width: 1380px;
   margin: 0 auto;
-  padding: 0 36px;
+  padding: 0 28px;
 }
 
-/* STICKY HARDWARE TOPBAR */
+/* SUBTLE CRT SCANLINE EFFECT (Zero-cost pure CSS) */
+.scanlines-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.22) 50%
+  );
+  background-size: 100% 3px;
+  opacity: 0.55;
+}
+
+/* STICKY ARCADE TOPBAR */
 .topbar-wrap {
   position: sticky;
   top: 0;
-  z-index: 50;
-  background: rgba(17, 17, 17, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid #262626;
+  z-index: 60;
+  background: rgba(10, 12, 18, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
 }
 
 .topbar {
@@ -106,67 +133,42 @@ button {
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 21px;
-  letter-spacing: -0.6px;
   flex-shrink: 0;
   order: 1;
 }
 
 .brand-logo-img {
-  height: 44px;
+  height: 42px;
   width: auto;
   max-width: 140px;
   object-fit: contain;
   display: block;
   border-radius: 6px;
-  box-shadow: 0 0 14px rgba(230, 0, 18, 0.35);
+  box-shadow: 0 0 16px rgba(255, 42, 75, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .brand:hover .brand-logo-img {
-  transform: scale(1.05);
-  box-shadow: 0 0 22px rgba(230, 0, 18, 0.65);
-}
-
-.brand-mark {
-  width: 34px;
-  height: 34px;
-  background: var(--red);
-  color: #FFFFFF;
-  display: grid;
-  place-items: center;
-  border-radius: 6px;
-  font-size: 17px;
-  font-weight: 700;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.brand:hover .brand-mark {
-  background: var(--red-hover);
-  transform: translateY(-1px);
-}
-
-.brand-q {
-  color: var(--red);
-  margin-left: 1px;
+  transform: scale(1.04);
+  box-shadow: 0 0 22px rgba(255, 42, 75, 0.65);
 }
 
 .brand-sub {
-  font: 500 10px var(--mono);
-  color: var(--muted);
+  font: 700 10px var(--mono);
+  color: var(--arcade-cyan);
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  padding-left: 12px;
-  border-left: 1px solid var(--line);
+  letter-spacing: 1.5px;
+  padding: 4px 8px;
+  background: var(--arcade-cyan-soft);
+  border: 1px solid var(--arcade-cyan-border);
+  border-radius: 4px;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
@@ -176,7 +178,7 @@ button {
   min-width: 0;
   padding: 8px 0;
   order: 2;
-  font: 600 12px var(--sans);
+  font: 600 12.5px var(--sans);
 }
 
 .nav::-webkit-scrollbar {
@@ -186,60 +188,92 @@ button {
 .nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
+  gap: 7px;
+  padding: 7px 13px;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   color: var(--muted);
   text-decoration: none;
-  transition: all 0.15s ease;
+  transition: all 0.16s ease;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
+.nav-link svg {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
 .nav-link:hover {
   color: #FFFFFF;
-  background: var(--panel);
-  border-color: var(--line);
+  background: var(--panel-elevated);
+  border-color: var(--line-bright);
 }
 
 .nav-link.active {
-  color: #111111;
-  background: #FFFFFF;
-  border-color: #FFFFFF;
+  color: #FFFFFF;
+  background: var(--arcade-red);
+  border-color: var(--arcade-red);
   font-weight: 700;
+  box-shadow: 0 0 12px rgba(255, 42, 75, 0.35);
+}
+
+.nav-link.active svg {
+  opacity: 1;
 }
 
 .nav-badge {
-  font: 600 10px var(--mono);
+  font: 700 10px var(--mono);
   padding: 2px 6px;
   border-radius: 4px;
-  background: #262626;
-  color: #E5E5E5;
+  background: #1e2536;
+  color: #E2E8F0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .nav-link.active .nav-badge {
-  background: #111111;
+  background: rgba(0, 0, 0, 0.3);
   color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .top-right-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-shrink: 0;
   order: 3;
+}
+
+.btn-top-mapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  color: #FFFFFF;
+  font: 600 12px var(--sans);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-top-mapper:hover {
+  background: var(--panel-hover);
+  border-color: var(--arcade-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
 }
 
 .status-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font: 600 10.5px var(--mono);
-  color: #E5E5E5;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  padding: 7px 13px;
+  gap: 7px;
+  font: 700 10.5px var(--mono);
+  color: var(--arcade-green);
+  background: var(--arcade-green-soft);
+  border: 1px solid var(--arcade-green-border);
+  padding: 6px 12px;
   border-radius: 6px;
   white-space: nowrap;
 }
@@ -248,345 +282,291 @@ button {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--arcade-green);
+  box-shadow: 0 0 8px var(--arcade-green);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
 }
 
 /* HERO SECTION */
 .hero {
-  padding: 42px 0 30px;
+  padding: 38px 0 28px;
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
   gap: 32px;
-  align-items: end;
+  align-items: center;
 }
 
-.eyebrow {
+.arcade-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font: 600 11px var(--mono);
+  font: 700 10.5px var(--mono);
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: #FFFFFF;
-  background: var(--panel);
-  border: 1px solid var(--line-bright);
-  border-left: 3px solid var(--red);
-  padding: 6px 12px;
+  letter-spacing: 1.4px;
+  color: var(--arcade-cyan);
+  background: var(--arcade-cyan-soft);
+  border: 1px solid var(--arcade-cyan-border);
+  padding: 5px 12px;
   border-radius: 6px;
 }
 
 .hero h1 {
   font-family: var(--display);
-  font-size: clamp(40px, 6vw, 74px);
-  line-height: 0.96;
-  letter-spacing: -2.8px;
-  margin: 16px 0 16px;
-  font-weight: 700;
+  font-size: clamp(34px, 5vw, 62px);
+  line-height: 1.02;
+  letter-spacing: -1.8px;
+  margin: 16px 0 14px;
+  font-weight: 800;
   color: #FFFFFF;
 }
 
 .hero h1 em {
   font-style: normal;
-  color: var(--red);
+  color: var(--arcade-red);
+  text-shadow: 0 0 20px rgba(255, 42, 75, 0.4);
 }
 
 .hero-lead {
   color: var(--muted);
-  max-width: 600px;
-  line-height: 1.65;
-  font-size: 15.5px;
-  margin: 0;
+  max-width: 620px;
+  line-height: 1.6;
+  font-size: 15px;
+  margin: 0 0 20px;
 }
 
-.hero-lead b {
+.hero-lead strong {
   color: #FFFFFF;
   font-weight: 600;
 }
 
-.hero-quick-btns {
+.hero-action-row {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-top: 18px;
 }
 
-.btn-hero-red {
+.btn-arcade-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 13px 20px;
+  padding: 12px 22px;
   border-radius: var(--radius-sm);
-  background: var(--red);
+  background: var(--arcade-red);
   color: #FFFFFF;
-  border: 1px solid var(--red);
+  border: 1px solid var(--arcade-red);
   font: 700 13px var(--sans);
   text-decoration: none;
-  transition: background 0.15s, transform 0.15s;
+  box-shadow: 0 0 16px rgba(255, 42, 75, 0.4);
+  transition: all 0.15s ease;
 }
 
-.btn-hero-red:hover {
-  background: var(--red-hover);
-  transform: translateY(-1px);
+.btn-arcade-cta:hover {
+  background: var(--arcade-red-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(255, 42, 75, 0.6);
 }
 
-.btn-hero-dark {
+.btn-arcade-outline {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 13px 18px;
+  padding: 12px 18px;
   border-radius: var(--radius-sm);
   background: var(--panel-elevated);
   color: #FFFFFF;
   border: 1px solid var(--line-bright);
   font: 700 13px var(--sans);
   text-decoration: none;
-  transition: border-color 0.15s, background 0.15s;
+  transition: all 0.15s ease;
 }
 
-.btn-hero-dark:hover {
-  border-color: #FFFFFF;
+.btn-arcade-outline:hover {
+  border-color: var(--arcade-cyan);
   background: var(--panel-hover);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
 }
 
-.hero-panel {
+/* HERO TELEMETRY BOX */
+.hero-telemetry-panel {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
 }
 
-.telemetry-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 14px;
+.hero-telemetry-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--arcade-red), var(--arcade-cyan), var(--arcade-gold));
 }
 
-.stat-box {
-  background: var(--bg-soft);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-}
-
-.stat-box b {
-  display: block;
-  font-family: var(--display);
-  font-size: 25px;
-  font-weight: 700;
-  letter-spacing: -0.8px;
-  color: #FFFFFF;
-}
-
-.stat-box.accent b {
-  color: var(--red);
-}
-
-.stat-box span {
-  font: 500 10px var(--mono);
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}
-
-.search-box {
+.telemetry-title {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #0D0D0D;
-  border: 1px solid var(--line-bright);
-  border-radius: var(--radius-sm);
-  padding: 0 14px;
-  height: 48px;
-  transition: border-color 0.15s;
-}
-
-.search-box:focus-within {
-  border-color: #FFFFFF;
-}
-
-.search-box svg {
-  color: var(--muted);
-  flex-shrink: 0;
-}
-
-.search-box input {
-  background: transparent;
-  border: 0;
-  outline: 0;
-  color: #FFFFFF;
-  width: 100%;
-  font-size: 14px;
-}
-
-.search-box input::placeholder {
-  color: var(--dim);
-}
-
-.kbd {
-  font: 600 10px var(--mono);
-  color: var(--muted);
-  background: var(--panel-elevated);
-  border: 1px solid var(--line-bright);
-  padding: 3px 7px;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-
-/* BANNER DE BUSCA PRINCIPAL (HOME) */
-.home-search-banner {
-  background: var(--panel);
-  border: 1px solid var(--line-bright);
-  border-radius: var(--radius-md);
-  padding: 18px 20px;
-  margin: 10px 0 32px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
-}
-
-.home-search-box {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #0A0A0A;
-  border: 1.5px solid var(--line-bright);
-  border-radius: var(--radius-sm);
-  padding: 0 16px;
-  height: 54px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.home-search-box:focus-within {
-  border-color: var(--red);
-  box-shadow: 0 0 0 3px var(--red-soft);
-}
-
-.home-search-box svg {
-  color: var(--red);
-  flex-shrink: 0;
-}
-
-.home-search-box input {
-  flex: 1;
-  background: transparent;
-  border: 0;
-  outline: 0;
-  color: #FFFFFF;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.home-search-box input::placeholder {
-  color: #888888;
-  font-weight: 400;
-}
-
-.top-clear-btn {
-  background: var(--panel-elevated);
-  border: 1px solid var(--line-bright);
-  border-radius: 6px;
-  color: #FFFFFF;
-  font: 700 11px var(--sans);
-  padding: 6px 12px;
-  cursor: pointer;
-  display: none;
-}
-
-.top-clear-btn.visible {
-  display: inline-block;
-}
-
-.top-clear-btn:hover {
-  background: var(--red);
-  border-color: var(--red);
-}
-
-.top-search-hints {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-  font-size: 12.5px;
-  color: var(--muted);
-}
-
-.home-tag {
-  background: var(--bg-soft);
-  border: 1px solid var(--line-bright);
-  color: #EEEEEE;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font: 600 12px var(--sans);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.home-tag:hover {
-  background: var(--red);
-  color: #FFFFFF;
-  border-color: var(--red);
-  transform: translateY(-1px);
-}
-
-/* SECTION JUMP BAR */
-.section-nav {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 12px 16px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  margin-bottom: 36px;
-}
-
-.section-nav-label {
-  font: 600 11px var(--mono);
+  align-items: center;
+  margin-bottom: 14px;
+  font: 700 11px var(--mono);
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.jump-links {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
 
-.jump-pill {
-  display: inline-flex;
+.telemetry-stat {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+
+.telemetry-stat:hover {
+  border-color: var(--line-bright);
+}
+
+.telemetry-stat b {
+  display: block;
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  color: #FFFFFF;
+  line-height: 1.1;
+}
+
+.telemetry-stat span {
+  display: block;
+  font: 600 10px var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* UNIFIED SEARCH BANNER */
+.search-banner {
+  background: var(--panel);
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin: 10px 0 34px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #080a0f;
+  border: 1.5px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+  padding: 0 16px;
+  height: 52px;
+  transition: all 0.2s ease;
+}
+
+.search-input-wrap:focus-within {
+  border-color: var(--arcade-cyan);
+  box-shadow: 0 0 0 3px var(--arcade-cyan-soft);
+}
+
+.search-input-wrap svg {
+  color: var(--arcade-cyan);
+  flex-shrink: 0;
+}
+
+.search-input-wrap input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.search-input-wrap input::placeholder {
+  color: #64748b;
+  font-weight: 400;
+}
+
+.search-clear-btn {
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  border-radius: 6px;
+  color: #FFFFFF;
+  font: 700 11px var(--mono);
+  padding: 6px 12px;
+  cursor: pointer;
+  display: none;
+}
+
+.search-clear-btn.visible {
+  display: inline-block;
+}
+
+.search-clear-btn:hover {
+  background: var(--arcade-red);
+  border-color: var(--arcade-red);
+}
+
+.search-tags-row {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 14px;
-  border-radius: var(--radius-sm);
-  background: var(--panel-elevated);
-  border: 1px solid #333333;
-  text-decoration: none;
-  font: 600 12.5px var(--sans);
-  color: #E5E5E5;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.search-tag-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 700 11px var(--mono);
+  color: var(--arcade-gold);
+  text-transform: uppercase;
+}
+
+.search-tag-btn {
+  background: var(--bg-soft);
+  border: 1px solid var(--line-bright);
+  color: #e2e8f0;
+  padding: 4px 11px;
+  border-radius: 14px;
+  font: 600 11.5px var(--sans);
+  cursor: pointer;
   transition: all 0.15s ease;
 }
 
-.jump-pill span {
-  font: 700 10px var(--mono);
+.search-tag-btn:hover {
+  background: var(--arcade-red);
   color: #FFFFFF;
-  background: var(--red);
-  padding: 2px 6px;
-  border-radius: 4px;
+  border-color: var(--arcade-red);
+  transform: translateY(-1px);
 }
 
-.jump-pill:hover {
-  background: #FFFFFF;
-  color: #111111;
-  border-color: #FFFFFF;
-}
-
-/* ARCHITECTURAL SECTIONS */
+/* SECTION STRUCTURE */
 .hub-section {
-  padding: 36px 0 42px;
-  border-top: 1px solid var(--line);
+  padding: 24px 0 36px;
   position: relative;
 }
 
@@ -594,8 +574,8 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 20px;
-  margin-bottom: 24px;
+  gap: 16px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
@@ -603,291 +583,347 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font: 600 11px var(--mono);
+  font: 700 10.5px var(--mono);
   text-transform: uppercase;
   letter-spacing: 1.4px;
-  color: var(--red);
+  color: var(--arcade-cyan);
   margin-bottom: 6px;
 }
 
 .section-header h2 {
   font-family: var(--display);
-  font-size: clamp(24px, 3vw, 32px);
-  letter-spacing: -0.9px;
+  font-size: clamp(24px, 3.2vw, 32px);
+  letter-spacing: -0.8px;
   margin: 0;
-  font-weight: 700;
+  font-weight: 800;
   color: #FFFFFF;
 }
 
 .section-desc {
   color: var(--muted);
-  font-size: 14.5px;
+  font-size: 14px;
   margin: 6px 0 0;
-  max-width: 640px;
-  line-height: 1.55;
+  max-width: 660px;
+  line-height: 1.5;
 }
 
-.section-meta {
-  font: 500 11px var(--mono);
-  color: var(--muted);
+/* CONSOLE SELECTOR GRID (CLEAN HARDWARE HUB) */
+.console-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.console-hub-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.console-hub-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--line-bright));
+  transition: height 0.18s ease;
+}
+
+.console-hub-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--card-accent, var(--line-bright));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px var(--card-glow, transparent);
+}
+
+.console-hub-card:hover::after {
+  height: 4px;
+}
+
+.hub-card-top {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
+  margin-bottom: 12px;
 }
 
-/* SECTION 01: CONSOLES & LOCAL LIBRARIES */
-.console-grid {
+.hub-card-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
   display: grid;
-  grid-template-columns: 1.15fr 1.15fr 0.85fr;
-  gap: 18px;
-}
-
-.console-card {
-  background: #181818;
+  place-items: center;
+  background: var(--bg-soft);
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.18s ease, border-color 0.18s ease;
+  color: var(--card-accent, #FFFFFF);
 }
 
-.console-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--red);
-}
-
-.console-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.hw-tag {
-  font: 700 10px var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  padding: 5px 10px;
+.hub-card-count {
+  font: 700 11px var(--mono);
+  padding: 3px 8px;
   border-radius: 5px;
-  background: var(--red);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
   color: #FFFFFF;
 }
 
-.hw-tag.neutral {
-  background: #242424;
-  color: #FFFFFF;
-  border: 1px solid #3D3D3D;
-}
-
-.console-count {
-  font: 600 11px var(--mono);
-  color: #FFFFFF;
-  background: #222222;
-  border: 1px solid #383838;
-  padding: 4px 10px;
-  border-radius: 5px;
-}
-
-.console-card h3 {
+.hub-card-title {
   font-family: var(--display);
-  font-size: 24px;
-  letter-spacing: -0.6px;
-  margin: 0 0 8px;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin: 0 0 4px;
   color: #FFFFFF;
 }
 
-.console-card p {
-  font-size: 13.5px;
+.hub-card-gen {
+  font: 600 11.5px var(--sans);
   color: var(--muted);
-  line-height: 1.55;
-  margin: 0 0 16px;
-}
-
-.cover-strip-label {
-  font: 600 11px var(--sans);
-  color: #E5E5E5;
-  margin-bottom: 8px;
-}
-
-.cover-strip {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-bottom: 18px;
-}
-
-.ps1-strip {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.strip-item {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid #333333;
-  background: #0C0C0C;
-  cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease;
-}
-
-.strip-item:hover {
-  transform: scale(1.04);
-  border-color: #FFFFFF;
-  z-index: 2;
-}
-
-.strip-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: block;
+  margin-bottom: 10px;
 }
 
-.strip-item span {
-  position: absolute;
-  inset: auto 0 0 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.94));
-  color: #FFFFFF;
-  font: 600 9.5px var(--sans);
-  padding: 12px 5px 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-}
-
-.console-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 46px;
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  font: 700 13px var(--sans);
-  text-decoration: none;
-  background: var(--red);
-  color: #FFFFFF;
-  border: 1px solid var(--red);
-  transition: background 0.15s, transform 0.15s;
-}
-
-.console-cta:hover {
-  background: var(--red-hover);
-  border-color: var(--red-hover);
-  transform: translateY(-1px);
-}
-
-.console-cta.outline {
-  background: #242424;
-  color: #FFFFFF;
-  border: 1px solid #3D3D3D;
-}
-
-.console-cta.outline:hover {
-  background: #FFFFFF;
-  color: #111111;
-  border-color: #FFFFFF;
-}
-
-/* SECTION 02: PLAY NOW IN BROWSER */
-.instant-banner-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  margin-bottom: 28px;
-}
-
-.instant-hero-card {
-  display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  background: #181818;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition: transform 0.18s ease, border-color 0.18s ease;
-}
-
-.instant-hero-card:hover {
-  transform: translateY(-2px);
-  border-color: #555555;
-}
-
-.instant-art {
-  position: relative;
-  min-height: 200px;
-  background: #0C0C0C;
-  overflow: hidden;
-  border-right: 1px solid var(--line);
-  cursor: pointer;
-}
-
-.instant-art img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.instant-body {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.live-badge {
+/* HARDWARE PERFORMANCE EXPECTATION BADGES */
+.hw-spec {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font: 700 10px var(--mono);
-  color: #FFFFFF;
-  background: var(--red);
-  padding: 4px 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
   border-radius: 4px;
   width: fit-content;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.live-badge.dark {
-  background: #FFFFFF;
-  color: #111111;
+.hw-spec svg {
+  flex-shrink: 0;
 }
 
-.instant-body h3 {
-  font-family: var(--display);
-  font-size: 22px;
-  letter-spacing: -0.5px;
-  margin: 0 0 8px;
-  color: #FFFFFF;
+.hw-spec.req-light {
+  color: var(--arcade-green);
+  background: var(--arcade-green-soft);
+  border: 1px solid var(--arcade-green-border);
 }
 
-.instant-body p {
-  font-size: 13.5px;
-  color: var(--muted);
-  line-height: 1.55;
-  margin: 0 0 16px;
+.hw-spec.req-medium {
+  color: var(--arcade-gold);
+  background: var(--arcade-gold-soft);
+  border: 1px solid var(--arcade-gold-border);
 }
 
-.sub-kicker {
+.hw-spec.req-heavy {
+  color: #ff3b30;
+  background: rgba(255, 59, 48, 0.15);
+  border: 1px solid rgba(255, 59, 48, 0.4);
+}
+
+.hub-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 26px 0 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
   font: 700 12px var(--sans);
   color: #FFFFFF;
 }
 
-/* GAME CARDS — SUPER LEVE (1 IMAGEM POR CARD, ZERO BLUR PESADO) */
+.hub-card-footer svg {
+  transition: transform 0.15s ease;
+}
+
+.console-hub-card:hover .hub-card-footer svg {
+  transform: translateX(3px);
+}
+
+/* CONSOLE THEMES */
+.theme-snes {
+  --card-accent: #ff2a4b;
+  --card-glow: rgba(255, 42, 75, 0.25);
+}
+
+.theme-ps1 {
+  --card-accent: #00f0ff;
+  --card-glow: rgba(0, 240, 255, 0.25);
+}
+
+.theme-neogeo {
+  --card-accent: #ffb800;
+  --card-glow: rgba(255, 184, 0, 0.25);
+}
+
+.theme-n64 {
+  --card-accent: #ffd700;
+  --card-glow: rgba(255, 215, 0, 0.25);
+}
+
+.theme-gameboy {
+  --card-accent: #9bbc0f;
+  --card-glow: rgba(155, 188, 15, 0.25);
+}
+
+.theme-sega {
+  --card-accent: #0066ff;
+  --card-glow: rgba(0, 102, 255, 0.25);
+}
+
+.theme-psp {
+  --card-accent: #00e5ff;
+  --card-glow: rgba(0, 229, 255, 0.25);
+}
+
+/* INTERACTIVE CONSOLE FILTER TABS */
+.console-tabs-wrap {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+}
+
+.console-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 9px 15px;
+  font: 700 12px var(--sans);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.console-tab svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.console-tab:hover {
+  color: #FFFFFF;
+  border-color: var(--line-bright);
+  background: var(--panel-elevated);
+}
+
+.console-tab.active {
+  background: #FFFFFF;
+  color: #0a0c12;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+.console-tab.active svg {
+  opacity: 1;
+}
+
+.tab-badge {
+  font: 700 10px var(--mono);
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* INSTANT BROWSER MINI-GAMES */
+.instant-banner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.instant-mini-card {
+  display: flex;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all 0.16s ease;
+}
+
+.instant-mini-card:hover {
+  border-color: var(--line-bright);
+  transform: translateY(-2px);
+}
+
+.instant-mini-art {
+  width: 140px;
+  min-height: 110px;
+  background: #080a0f;
+  border-right: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.instant-mini-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.instant-mini-content {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.instant-mini-title {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #FFFFFF;
+}
+
+.instant-mini-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+.btn-mini-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 700 11.5px var(--sans);
+  background: var(--arcade-red);
+  color: #FFFFFF;
+  border: 0;
+  border-radius: 5px;
+  padding: 6px 12px;
+  width: fit-content;
+  transition: background 0.15s;
+}
+
+.btn-mini-play:hover {
+  background: var(--arcade-red-hover);
+}
+
+/* CURATED QUICK-PLAY GAME CARDS */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -895,25 +931,26 @@ button {
 }
 
 .game-card {
-  background: #181818;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.16s ease, border-color 0.16s ease;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
   position: relative;
 }
 
 .game-card:hover {
   transform: translateY(-2px);
-  border-color: #555555;
+  border-color: var(--card-hover-border, var(--arcade-cyan));
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .boxart-wrap {
   position: relative;
   aspect-ratio: 4 / 3;
-  background: #0C0C0C;
+  background: #080a0f;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -931,13 +968,8 @@ button {
   transition: transform 0.2s ease;
 }
 
-.boxart-img.fill-cover {
-  object-fit: cover;
-  padding: 0;
-}
-
 .game-card:hover .boxart-img {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .card-badges {
@@ -956,21 +988,57 @@ button {
   letter-spacing: 0.4px;
   padding: 3px 7px;
   border-radius: 4px;
-  background: rgba(17, 17, 17, 0.92);
+  background: rgba(10, 12, 18, 0.92);
   color: #FFFFFF;
-  border: 1px solid #383838;
+  border: 1px solid #334155;
+}
+
+.pill.snes {
+  background: var(--arcade-red-soft);
+  color: var(--arcade-red);
+  border-color: var(--arcade-red-border);
+}
+
+.pill.ps1 {
+  background: var(--arcade-cyan-soft);
+  color: var(--arcade-cyan);
+  border-color: var(--arcade-cyan-border);
+}
+
+.pill.neogeo {
+  background: var(--arcade-gold-soft);
+  color: var(--arcade-gold);
+  border-color: var(--arcade-gold-border);
+}
+
+.pill.n64 {
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.pill.gameboy {
+  background: rgba(155, 188, 15, 0.18);
+  color: #9bbc0f;
+  border-color: rgba(155, 188, 15, 0.4);
+}
+
+.pill.sega {
+  background: rgba(0, 102, 255, 0.18);
+  color: #38bdf8;
+  border-color: rgba(0, 102, 255, 0.4);
+}
+
+.pill.psp {
+  background: rgba(0, 240, 255, 0.18);
+  color: #00f0ff;
+  border-color: rgba(0, 240, 255, 0.4);
 }
 
 .pill.br {
-  background: #15803D;
-  color: #FFFFFF;
-  border-color: #22C55E;
-}
-
-.pill.red {
-  background: var(--red);
-  color: #FFFFFF;
-  border-color: var(--red);
+  background: var(--arcade-green-soft);
+  color: var(--arcade-green);
+  border-color: var(--arcade-green-border);
 }
 
 .fav-btn {
@@ -978,16 +1046,21 @@ button {
   top: 8px;
   right: 8px;
   z-index: 3;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  border: 1px solid #3D3D3D;
-  background: rgba(17, 17, 17, 0.9);
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  border: 1px solid #334155;
+  background: rgba(10, 12, 18, 0.9);
   color: var(--muted);
   display: grid;
   place-items: center;
-  font-size: 15px;
+  padding: 0;
   transition: all 0.15s ease;
+}
+
+.fav-btn svg {
+  width: 15px;
+  height: 15px;
 }
 
 .fav-btn:hover {
@@ -996,9 +1069,9 @@ button {
 }
 
 .fav-btn.active {
-  color: var(--amber);
-  border-color: var(--amber);
-  background: rgba(245, 158, 11, 0.18);
+  color: var(--arcade-gold);
+  border-color: var(--arcade-gold);
+  background: var(--arcade-gold-soft);
 }
 
 .card-info {
@@ -1022,7 +1095,11 @@ button {
   overflow: hidden;
 }
 
-.card-sub {
+.card-sub-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
   font: 500 11px var(--sans);
   color: var(--muted);
   margin-top: 4px;
@@ -1033,7 +1110,7 @@ button {
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  padding-top: 11px;
+  padding-top: 10px;
   border-top: 1px solid var(--line);
 }
 
@@ -1043,30 +1120,30 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 42px;
-  padding: 9px 14px;
-  border-radius: 7px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 6px;
   font: 700 12px var(--sans);
-  background: var(--red);
+  background: var(--arcade-red);
   color: #FFFFFF;
-  border: 1px solid var(--red);
+  border: 1px solid var(--arcade-red);
   text-decoration: none;
   transition: all 0.15s ease;
 }
 
 .btn-play:hover {
-  background: var(--red-hover);
-  border-color: var(--red-hover);
+  background: var(--arcade-red-hover);
+  border-color: var(--arcade-red-hover);
 }
 
-.btn-secondary {
-  font: 600 11.5px var(--sans);
-  color: #E5E5E5;
-  background: #242424;
-  border: 1px solid #383838;
-  min-height: 42px;
-  padding: 8px 12px;
-  border-radius: 7px;
+.btn-library-link {
+  font: 600 11px var(--sans);
+  color: var(--muted);
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  min-height: 40px;
+  padding: 8px 10px;
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1074,71 +1151,45 @@ button {
   transition: all 0.15s ease;
 }
 
-.btn-secondary:hover {
-  background: #FFFFFF;
-  color: #111111;
-  border-color: #FFFFFF;
-}
-
-/* FILTER BAR */
-.filter-bar {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.chip {
-  border: 1px solid #333333;
-  background: #1C1C1C;
-  min-height: 40px;
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  font: 700 12px var(--sans);
-  color: var(--muted);
-  transition: all 0.15s ease;
-}
-
-.chip:hover {
+.btn-library-link:hover {
+  background: var(--panel-hover);
   color: #FFFFFF;
-  border-color: #555555;
+  border-color: var(--arcade-cyan);
 }
 
-.chip.active {
-  background: #FFFFFF;
-  border-color: #FFFFFF;
-  color: #111111;
-}
-
-.chip .count {
-  opacity: 0.75;
-  margin-left: 5px;
-  font-family: var(--mono);
-  font-size: 10px;
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 20px;
+  border: 1.5px dashed var(--line-bright);
+  border-radius: var(--radius-md);
+  color: var(--muted);
+  font: 600 13px var(--sans);
+  background: var(--panel);
 }
 
 /* FOOTER */
 .footer {
   border-top: 1px solid var(--line);
-  padding: 28px 0 42px;
+  padding: 30px 0 44px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  font: 500 11px var(--mono);
+  font: 600 11px var(--mono);
   color: var(--muted);
 }
 
-.footer b {
-  color: var(--red);
-  font-weight: 600;
+.footer strong {
+  color: var(--arcade-red);
 }
 
-/* THEATER MODAL FOR INLINE PLAY & DETAILS */
+/* THEATER MODAL */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.92);
   z-index: 200;
   display: none;
   place-items: center;
@@ -1153,13 +1204,13 @@ button {
   width: min(980px, 100%);
   max-height: 94vh;
   overflow-y: auto;
-  background: #181818;
-  border: 2px solid #383838;
-  border-top: 4px solid var(--red);
+  background: var(--panel);
+  border: 2px solid var(--line-bright);
+  border-top: 4px solid var(--arcade-red);
   border-radius: var(--radius-lg);
   padding: 20px 22px;
   position: relative;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.95);
 }
 
 .modal-head {
@@ -1188,19 +1239,22 @@ button {
 }
 
 .close-btn {
-  background: #242424;
-  border: 1px solid #3D3D3D;
-  border-radius: 8px;
-  min-height: 40px;
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  border-radius: 6px;
+  min-height: 38px;
   padding: 8px 14px;
   font: 700 12px var(--sans);
   color: #FFFFFF;
   transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .close-btn:hover {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--arcade-red);
+  border-color: var(--arcade-red);
   color: #FFFFFF;
 }
 
@@ -1214,24 +1268,23 @@ button {
 #game-canvas {
   width: 100%;
   display: none;
-  border: 1px solid #383838;
+  border: 1px solid var(--line-bright);
   border-radius: var(--radius-md);
-  background: #111111;
+  background: #080a0f;
   margin: 10px 0;
   touch-action: manipulation;
 }
 
-/* Botão Gigante de Pular no Celular para o Neon Runner */
 .runner-jump-btn {
   display: none;
   width: 100%;
-  min-height: 60px;
+  min-height: 58px;
   margin-top: 8px;
-  border-radius: 10px;
-  border: 2px solid #FF4D5A;
-  background: var(--red);
+  border-radius: 8px;
+  border: 2px solid #ff4d5a;
+  background: var(--arcade-red);
   color: #FFFFFF;
-  font: 800 17px var(--sans);
+  font: 800 16px var(--sans);
   letter-spacing: 0.5px;
   touch-action: manipulation;
   user-select: none;
@@ -1240,17 +1293,17 @@ button {
 
 .runner-jump-btn:active {
   transform: scale(0.98);
-  background: var(--red-hover);
+  background: var(--arcade-red-hover);
 }
 
 #emulator-frame {
   width: 100%;
-  height: min(72vh, 600px);
+  height: min(74vh, 620px);
   min-height: 340px;
   display: none;
-  border: 1px solid #383838;
+  border: 1px solid var(--line-bright);
   border-radius: var(--radius-md);
-  background: #080808;
+  background: #050608;
   margin: 10px 0;
 }
 
@@ -1258,7 +1311,7 @@ button {
   display: none;
   font: 600 12px var(--sans);
   color: var(--muted);
-  background: #121212;
+  background: var(--bg-soft);
   border: 1px solid var(--line);
   padding: 11px 14px;
   border-radius: 8px;
@@ -1270,32 +1323,14 @@ button {
   font-weight: 700;
 }
 
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 40px 20px;
-  border: 1px dashed var(--line-bright);
-  border-radius: var(--radius-md);
-  color: var(--muted);
-  font: 600 13px var(--sans);
-}
-
+/* RESPONSIVE BREAKPOINTS */
 @media (max-width: 1080px) {
-  .console-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .console-card.ps2-card {
-    grid-column: 1 / -1;
-  }
   .cards-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  .instant-banner-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 860px) {
   .shell {
     padding: 0 16px;
   }
@@ -1334,30 +1369,44 @@ button {
     padding: 24px 0 20px;
     gap: 20px;
   }
-  .console-grid {
-    grid-template-columns: 1fr;
-  }
   .cards-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
+  .instant-banner-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 540px) {
-  .instant-hero-card {
-    grid-template-columns: 1fr;
+@media (max-width: 580px) {
+  .hero h1 {
+    font-size: 28px;
+    letter-spacing: -1px;
+  }
+  .console-hub-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .console-hub-card {
+    padding: 14px 12px;
+  }
+  .hub-card-title {
+    font-size: 16px;
+  }
+  .hub-card-gen {
+    font-size: 10.5px;
+    margin-bottom: 6px;
   }
   .cards-grid {
-    grid-template-columns: 1fr;
-  }
-  .cover-strip {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .cover-strip .strip-item:nth-child(n+4) {
-    display: none;
-  }
-  .cover-strip.ps1-strip {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .card-info {
+    padding: 10px;
+    gap: 8px;
+  }
+  .card-title {
+    font-size: 13.5px;
   }
   .btn-top-mapper {
     padding: 6px 10px;
@@ -1366,6 +1415,15 @@ button {
   .brand-logo-img {
     height: 34px;
   }
+  .instant-mini-card {
+    flex-direction: column;
+  }
+  .instant-mini-art {
+    width: 100%;
+    height: 90px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
 }
 </style>
 <script src="assets/gamepad-mapper.js" defer></script>
@@ -1373,517 +1431,428 @@ button {
 </head>
 <body>
 
+<div class="scanlines-overlay"></div>
+
 <div class="topbar-wrap">
   <header class="topbar">
     <a class="brand" href="index.html" title="Continue? — Videogame Grátis">
       <img src="assets/continue-logo.png" alt="Continue?" class="brand-logo-img">
-      <span class="brand-sub">Videogame Grátis</span>
+      <span class="brand-sub">812 Jogos</span>
     </a>
+
     <nav class="nav" aria-label="Navegação Principal">
-      <a class="nav-link active" href="index.html">🏠 Início</a>
-      <a class="nav-link" href="snes.html">🎮 Super Nintendo <span class="nav-badge">608</span></a>
-      <a class="nav-link" href="ps1.html">💿 PlayStation 1 <span class="nav-badge">13</span></a>
-      <a class="nav-link" href="neogeo.html">🕹️ Neo Geo <span class="nav-badge">165</span></a>
-      <a class="nav-link" href="n64.html">🌟 Nintendo 64 <span class="nav-badge" style="background:rgba(0,229,255,0.15);color:#00E5FF;border-color:rgba(0,229,255,0.4)">7</span></a>
-      <a class="nav-link" href="gameboy.html">📱 Game Boy <span class="nav-badge" style="background:rgba(155,188,15,0.18);color:#9bbc0f;border-color:rgba(155,188,15,0.4)">6</span></a>
-      <a class="nav-link" href="sega.html">⚡ Mega Drive <span class="nav-badge" style="background:rgba(0,102,255,0.18);color:#00E5FF;border-color:rgba(0,102,255,0.4)">6</span></a>
-      <a class="nav-link" href="psp.html">🚀 PSP <span class="nav-badge" style="background:rgba(0,229,255,0.18);color:#00E5FF;border-color:rgba(0,229,255,0.4)">2</span></a>
-      <a class="nav-link" href="snes.html#recentes" title="Ver jogos favoritados">★ Favoritos <span class="nav-badge" id="fav-nav-count">0</span></a>
+      <a class="nav-link active" href="index.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Início
+      </a>
+      <a class="nav-link" href="snes.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M7 6h10c2.76 0 5 2.24 5 5v2c0 2.76-2.24 5-5 5H7c-2.76 0-5-2.24-5-5v-2c0-2.76 2.24-5 5-5zm-1 4v1.5H4.5v1H6V14h1v-1.5h1.5v-1H7V10H6zm11 1.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2-2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/></svg>
+        Super Nintendo <span class="nav-badge">613</span>
+      </a>
+      <a class="nav-link" href="ps1.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 0 1 7.07 17.07" stroke-dasharray="2 3"/></svg>
+        PlayStation 1 <span class="nav-badge">13</span>
+      </a>
+      <a class="nav-link" href="neogeo.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="7" y1="13" x2="7" y2="7"/><circle cx="7" cy="6" r="2.5" fill="currentColor"/><circle cx="13" cy="17" r="1" fill="currentColor"/><circle cx="15.5" cy="15" r="1" fill="currentColor"/><circle cx="18" cy="17" r="1" fill="currentColor"/></svg>
+        Neo Geo <span class="nav-badge">165</span>
+      </a>
+      <a class="nav-link" href="n64.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Nintendo 64 <span class="nav-badge">7</span>
+      </a>
+      <a class="nav-link" href="gameboy.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="3"/><rect x="7" y="5" width="10" height="6" rx="1" fill="rgba(155,188,15,0.4)"/><path d="M9 15h2m-1-1v2"/><circle cx="14" cy="16.5" r=".75" fill="currentColor"/><circle cx="16.5" cy="15" r=".75" fill="currentColor"/></svg>
+        Game Boy <span class="nav-badge">6</span>
+      </a>
+      <a class="nav-link" href="sega.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" fill-opacity="0.2"/></svg>
+        Mega Drive <span class="nav-badge">6</span>
+      </a>
+      <a class="nav-link" href="psp.html">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="4"/><rect x="6.5" y="8" width="11" height="8" rx="1" fill="rgba(0,229,255,0.3)"/><circle cx="4.5" cy="12" r=".75" fill="currentColor"/><circle cx="19.5" cy="12" r=".75" fill="currentColor"/></svg>
+        PSP <span class="nav-badge">2</span>
+      </a>
+      <a class="nav-link" href="snes.html#recentes" title="Ver jogos favoritados">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Favoritos <span class="nav-badge" id="fav-nav-count">0</span>
+      </a>
     </nav>
+
     <div class="top-right-actions">
       <button type="button" class="btn-top-mapper" data-open-mapper title="Configurar Controle, Teclado ou Botões do Celular">
-        <span class="pad-dot"></span> 🕹️ Configurar Controle
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4m-2-2v4m10-2h.01m-2.5-1.5h.01M6 6h12a4 4 0 0 1 4 4v5a3 3 0 0 1-5 2.2L14.4 15H9.6L7 17.2A3 3 0 0 1 2 15v-5a4 4 0 0 1 4-4Z"/></svg>
+        Configurar Controle
       </button>
-      <div class="status-pill"><span class="status-dot"></span> GRÁTIS & ONLINE</div>
+      <div class="status-pill"><span class="status-dot"></span> ONLINE & GRÁTIS</div>
     </div>
   </header>
 </div>
 
 <div class="shell">
   <main>
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section class="hero">
       <div>
-        <div class="eyebrow">// videogame grátis para todos • celular, tablet, pc e controle</div>
-        <h1>Escolha um jogo e<br><em>divirta-se!</em></h1>
+        <div class="arcade-eyebrow">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          ARCADE DE BOLSO • 812 JOGOS RETRÔ DISPONÍVEIS
+        </div>
+        <h1>Escolha seu videogame e <em>divirta-se!</em></h1>
         <p class="hero-lead">
-       <p class="hero-description">
-  O seu fliperama de bolso e do PC. Resgate os melhores momentos da sua infância direto no navegador! São centenas de títulos à sua disposição: <strong>centenas de jogos épicos de 16-bits</strong>, <strong>pérolas remasterizadas em português</strong> e toda a nostalgia dos arcades clássicos. Compatível com qualquer aparelho — jogue com os botões virtuais no celular ou conecte seu controle físico e curta sem limites!
-</p>
-        <div class="hero-quick-btns">
-          <a class="btn-hero-red" href="snes.html">🎮 Ver 608 Jogos de Super Nintendo</a>
-          <button class="btn-hero-dark" type="button" data-open-mapper>🕹️ Configurar Controle ou Celular</button>
+          O fliperama definitivo direto no seu navegador. <strong>Sem downloads, sem instalar nada</strong>. Jogue no celular com botões virtuais na tela ou conecte qualquer controle USB/Bluetooth no PC!
+        </p>
+        <div class="hero-action-row">
+          <a class="btn-arcade-cta" href="#consoles">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7 6h10c2.76 0 5 2.24 5 5v2c0 2.76-2.24 5-5 5H7c-2.76 0-5-2.24-5-5v-2c0-2.76 2.24-5 5-5zm-1 4v1.5H4.5v1H6V14h1v-1.5h1.5v-1H7V10H6zm11 1.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/></svg>
+            Explorar 7 Consoles
+          </a>
+          <button class="btn-arcade-outline" type="button" data-open-mapper>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 11h4m-2-2v4m10-2h.01m-2.5-1.5h.01M6 6h12a4 4 0 0 1 4 4v5a3 3 0 0 1-5 2.2L14.4 15H9.6L7 17.2A3 3 0 0 1 2 15v-5a4 4 0 0 1 4-4Z"/></svg>
+            Configurar Controle
+          </button>
         </div>
       </div>
 
-      <div class="hero-panel">
-        <div class="telemetry-row">
-          <div class="stat-box accent">
-            <b>608</b>
-            <span>Jogos SNES</span>
+      <div class="hero-telemetry-panel">
+        <div class="telemetry-title">
+          <span>// TELEMETRIA DE HARDWARE</span>
+          <span style="color:var(--arcade-green)">READY</span>
+        </div>
+        <div class="telemetry-grid">
+          <div class="telemetry-stat" style="border-color:rgba(255,42,75,0.35)">
+            <b style="color:var(--arcade-red)">613</b>
+            <span>SNES</span>
           </div>
-          <div class="stat-box">
-            <b>13</b>
-            <span>Jogos PS1</span>
-          </div>
-          <div class="stat-box" style="border-color:rgba(245,158,11,0.4)">
-            <b style="color:#F59E0B">165</b>
+          <div class="telemetry-stat" style="border-color:rgba(255,184,0,0.35)">
+            <b style="color:var(--arcade-gold)">165</b>
             <span>Neo Geo</span>
           </div>
-          <div class="stat-box" style="border-color:rgba(0,229,255,0.4)">
-            <b style="color:#00E5FF">7</b>
-            <span>Nintendo 64</span>
+          <div class="telemetry-stat" style="border-color:rgba(0,240,255,0.35)">
+            <b style="color:var(--arcade-cyan)">13</b>
+            <span>PS1</span>
           </div>
-          <div class="stat-box" style="border-color:rgba(155,188,15,0.4)">
+          <div class="telemetry-stat" style="border-color:rgba(255,215,0,0.35)">
+            <b style="color:#ffd700">7</b>
+            <span>N64 3D</span>
+          </div>
+          <div class="telemetry-stat" style="border-color:rgba(155,188,15,0.35)">
             <b style="color:#9bbc0f">6</b>
             <span>Game Boy</span>
           </div>
-          <div class="stat-box" style="border-color:rgba(0,102,255,0.4)">
-            <b style="color:#00E5FF">6</b>
+          <div class="telemetry-stat" style="border-color:rgba(0,102,255,0.35)">
+            <b style="color:#38bdf8">6</b>
             <span>Mega Drive</span>
           </div>
-          <div class="stat-box" style="border-color:rgba(0,229,255,0.4)">
-            <b style="color:#00E5FF">2</b>
-            <span>PSP 3D</span>
-          </div>
-          <div class="stat-box">
-            <b>100%</b>
-            <span>Grátis no Celular</span>
-          </div>
         </div>
-        <label class="search-box">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
-          </svg>
-          <input id="global-search" type="search" placeholder="Qual jogo você quer jogar? (Ex: Mario, Donkey Kong, Sonic)…" aria-label="Buscar jogo">
-          <span class="kbd">/</span>
-        </label>
       </div>
     </section>
 
-    <!-- BARRA DE BUSCA PRINCIPAL (NO TOPO) -->
-    <div class="home-search-banner">
-      <label class="home-search-box">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
-        </svg>
-        <input id="main-search-input" type="search" placeholder="🔍 Qual jogo você quer jogar hoje? Digite o nome (ex: Mario, Crash, Donkey Kong, Sonic, Top Gear)..." aria-label="Buscar jogo">
-        <button class="top-clear-btn" id="main-search-clear" type="button">LIMPAR ✕</button>
-      </label>
-      <div class="top-search-hints">
-        <span>⚡ <b>Mais Procurados:</b></span>
-        <button type="button" class="home-tag" data-tag="Mario">Super Mario</button>
-        <button type="button" class="home-tag" data-tag="Pokemon">Pokémon</button>
-        <button type="button" class="home-tag" data-tag="Sonic">Sonic</button>
-        <button type="button" class="home-tag" data-tag="Grand Theft Auto">GTA Vice City</button>
-        <button type="button" class="home-tag" data-tag="King of Fighters">KOF 2002</button>
-        <button type="button" class="home-tag" data-tag="Metal Slug">Metal Slug</button>
-        <button type="button" class="home-tag" data-tag="Crash">Crash Bandicoot</button>
-        <button type="button" class="home-tag" data-tag="Donkey">Donkey Kong</button>
-        <button type="button" class="home-tag" data-tag="Zelda">Zelda</button>
+    <!-- UNIFIED SEARCH BANNER -->
+    <div class="search-banner">
+      <div class="search-input-wrap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="main-search-input" type="search" placeholder="Qual jogo você quer jogar? (Ex: Mario, Sonic, GTA, KOF, Crash, Top Gear, Zelda)..." aria-label="Buscar jogo">
+        <button class="search-clear-btn" id="main-search-clear" type="button">LIMPAR ✕</button>
+      </div>
+      <div class="search-tags-row">
+        <span class="search-tag-label">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72v1.56c2.61.42 4.7 2.37 5.23 4.96.69.1 1.27.56 1.55 1.21.32.76.17 1.63-.38 2.24l-1.57 1.73c.11.45.17.92.17 1.38 0 3.31-2.69 6-6 6s-6-2.69-6-6c0-.46.06-.93.17-1.38L4.6 13.71c-.55-.61-.7-1.48-.38-2.24.28-.65.86-1.11 1.55-1.21.53-2.59 2.62-4.54 5.23-4.96V5.72C10.4 5.38 10 4.74 10 4c0-1.1.9-2 2-2z"/></svg>
+          Mais Buscados:
+        </span>
+        <button type="button" class="search-tag-btn" data-tag="Mario">Super Mario</button>
+        <button type="button" class="search-tag-btn" data-tag="Sonic">Sonic</button>
+        <button type="button" class="search-tag-btn" data-tag="Pokemon">Pokémon</button>
+        <button type="button" class="search-tag-btn" data-tag="Grand Theft Auto">GTA Vice City</button>
+        <button type="button" class="search-tag-btn" data-tag="King of Fighters">KOF 2002</button>
+        <button type="button" class="search-tag-btn" data-tag="Metal Slug">Metal Slug</button>
+        <button type="button" class="search-tag-btn" data-tag="Crash">Crash Bandicoot</button>
+        <button type="button" class="search-tag-btn" data-tag="Donkey">Donkey Kong</button>
+        <button type="button" class="search-tag-btn" data-tag="Zelda">Zelda</button>
+        <button type="button" class="search-tag-btn" data-tag="Top Gear">Top Gear</button>
       </div>
     </div>
 
-    <!-- QUICK SECTION JUMP BAR -->
-    <nav class="section-nav" aria-label="Atalhos das seções">
-      <span class="section-nav-label">// Escolha onde brincar:</span>
-      <div class="jump-links">
-        <a class="jump-pill" href="#consoles"><span>01</span> Videogames (SNES, PS1, Neo Geo, N64, Game Boy, Mega Drive & PSP)</a>
-        <a class="jump-pill" href="#jogar-agora"><span>02</span> Jogar em 1 Toque</a>
-        <a class="jump-pill" href="#fliperama"><span>03</span> Fliperama & Luta</a>
-        <a class="jump-pill" href="#web-classics"><span>04</span> Clássicos da Internet</a>
-      </div>
-    </nav>
-
-    <!-- SEÇÃO 01: CONSOLES & BIBLIOTECAS LOCAIS -->
+    <!-- SEÇÃO 01: HARDWARE HUB (COMPACT CONSOLE SELECTOR) -->
     <section class="hub-section" id="consoles">
       <div class="section-header">
         <div>
-          <div class="section-index">// seção 01 · escolha seu videogame</div>
-          <h2>Videogames Disponíveis</h2>
-          <p class="section-desc">Toque em uma capinha abaixo para começar a jogar na hora, ou abra a biblioteca completa para escolher entre centenas de jogos.</p>
+          <div class="section-index">// SELEÇÃO DE HARDWARE · 7 PLATAFORMAS</div>
+          <h2>Escolha seu Videogame</h2>
+          <p class="section-desc">Toque em qualquer console para abrir seu catálogo completo com capas e busca exclusiva.</p>
         </div>
-        <div class="section-meta">📱 FUNCIONA NO CELULAR E NO PC</div>
       </div>
 
-      <div class="console-grid">
-        <!-- SNES Card -->
-        <article class="console-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag">🎮 SUPER NINTENDO</span>
-              <span class="console-count">608 Jogos Grátis</span>
+      <div class="console-hub-grid">
+        <!-- SNES -->
+        <a class="console-hub-card theme-snes" href="snes.html">
+          <div class="hub-card-top">
+            <div class="hub-card-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7 6h10c2.76 0 5 2.24 5 5v2c0 2.76-2.24 5-5 5H7c-2.76 0-5-2.24-5-5v-2c0-2.76 2.24-5 5-5zm-1 4v1.5H4.5v1H6V14h1v-1.5h1.5v-1H7V10H6zm11 1.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2-2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/></svg>
             </div>
-            <h3>Super Nintendo (SNES)</h3>
-            <p>608 jogos leves que rodam rápido em qualquer celular ou computador! Inclui Mario, Donkey Kong 2 e 3 em Português, Top Gear e Zelda.</p>
-            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
-            <div class="cover-strip">
-              <div class="strip-item" data-quick-snes="/Super%20nintendo/GAMES/Super%20Mario%20World%20(U)%20%5B!%5D.smc" data-title="Super Mario World" title="Jogar Super Mario World">
-                <img src="assets/covers/snes/super-mario-world-u.png" alt="Super Mario World" loading="lazy" decoding="async">
-                <span>Mario World</span>
-              </div>
-              <div class="strip-item" data-quick-snes="/Super%20nintendo/GAMES/Donkey%20kong%202%20(BR)%20(T1.0)%20(www.romsportugues.com).sfc" data-title="Donkey Kong Country 2 (PT-BR)" title="Jogar Donkey Kong Country 2 (BR)">
-                <img src="assets/covers/snes/donkey-kong-2-br-t1-0-www-romsportugues-com.png" alt="Donkey Kong Country 2" loading="lazy" decoding="async">
-                <span>DKC 2 (BR)</span>
-              </div>
-              <div class="strip-item" data-quick-snes="/Super%20nintendo/GAMES/Chrono%20Trigger%20(U)%20%5B!%5D.smc" data-title="Chrono Trigger" title="Jogar Chrono Trigger">
-                <img src="assets/covers/snes/chrono-trigger-u.png" alt="Chrono Trigger" loading="lazy" decoding="async">
-                <span>Chrono</span>
-              </div>
-              <div class="strip-item" data-quick-snes="/Super%20nintendo/GAMES/Top%20Gear%20(U)%20%5B!%5D.smc" data-title="Top Gear" title="Jogar Top Gear">
-                <img src="assets/covers/snes/top-gear-u.png" alt="Top Gear" loading="lazy" decoding="async">
-                <span>Top Gear</span>
-              </div>
-              <div class="strip-item" data-quick-snes="/Super%20nintendo/GAMES/Legend%20of%20Zelda%2C%20The%20-%20A%20Link%20to%20the%20Past%20(E)%20%5B!%5D.smc" data-title="The Legend of Zelda: A Link to the Past" title="Jogar Zelda">
-                <img src="assets/covers/snes/legend-of-zelda-the-a-link-to-the-past-e.png" alt="The Legend of Zelda" loading="lazy" decoding="async">
-                <span>Zelda</span>
-              </div>
+            <span class="hub-card-count">613 Jogos</span>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Super Nintendo</h3>
+            <span class="hub-card-gen">16-Bit Nintendo • Mário, DKC e Top Gear</span>
+            <div class="hw-spec req-light">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Leve • Roda em qualquer aparelho
             </div>
           </div>
-          <a class="console-cta" href="snes.html">Ver todos os 608 Jogos de SNES ▶</a>
-        </article>
+          <div class="hub-card-footer">
+            <span>Acessar Catálogo SNES</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
 
-        <!-- PS1 Card -->
-        <article class="console-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag neutral">💿 PLAYSTATION 1</span>
-              <span class="console-count">12 Clássicos em CD</span>
+        <!-- PS1 -->
+        <a class="console-hub-card theme-ps1" href="ps1.html">
+          <div class="hub-card-top">
+            <div class="hub-card-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 0 1 7.07 17.07" stroke-dasharray="2 3"/></svg>
             </div>
-            <h3>PlayStation 1 (PSX)</h3>
-            <p>13 clássicos marcantes do PS1! Inclui Medal of Honor, Crash Team Racing Dublado, Homem-Aranha 2, Jackie Chan, Driver 2, Castlevania e Marvel vs. Capcom!</p>
-            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
-            <div class="cover-strip">
-              <div class="strip-item" data-quick-ps1="/ps1/Medal%20of%20Honor%20%28USA%29.bin" data-title="Medal of Honor" title="Jogar Medal of Honor">
-                <img src="assets/covers/ps1/medal-of-honor.png" alt="Medal of Honor" loading="lazy" decoding="async">
-                <span>Medal of Honor</span>
-              </div>
-              <div class="strip-item" data-quick-ps1="/ps1/CTR%20-%20Crash%20Team%20Racing%20%28BR%29%20%28DUB%29%20%28www.romsportugues.com%29.bin" data-title="CTR: Crash Team Racing (Dublado PT-BR)" title="Jogar CTR: Crash Team Racing (Dublado)">
-                <img src="assets/covers/ps1/ctr-crash-team-racing.png" alt="CTR: Crash Team Racing" loading="lazy" decoding="async">
-                <span>Crash Kart (BR)</span>
-              </div>
-              <div class="strip-item" data-quick-ps1="/ps1/Spider%202%20%28BR%29%20%28www.romsportugues.com%29.bin" data-title="Homem-Aranha 2: Enter Electro (PT-BR)" title="Jogar Homem-Aranha 2">
-                <img src="assets/covers/ps1/spider-man-2-enter-electro.png" alt="Homem-Aranha 2" loading="lazy" decoding="async">
-                <span>Homem-Aranha 2</span>
-              </div>
-              <div class="strip-item" data-quick-ps1="/ps1/Jackie%20Chan%20Stuntmaster%20%28BR%29%20%28www.romsportugues.com%29.bin" data-title="Jackie Chan Stuntmaster (PT-BR)" title="Jogar Jackie Chan Stuntmaster">
-                <img src="assets/covers/ps1/jackie-chan-stuntmaster.png" alt="Jackie Chan Stuntmaster" loading="lazy" decoding="async">
-                <span>Jackie Chan (BR)</span>
-              </div>
-              <div class="strip-item" data-quick-ps1="/ps1/Castlevania%20Symphony%20of%20the%20Night%20%28BR%29%20%28Dublado%29%20%28www.romsportugues.com%29.bin" data-title="Castlevania: Symphony of the Night (Dublado PT-BR)" title="Jogar Castlevania: Symphony of the Night">
-                <img src="assets/covers/ps1/castlevania-symphony-of-the-night.png" alt="Castlevania: Symphony of the Night" loading="lazy" decoding="async">
-                <span>Castlevania (BR)</span>
-              </div>
-              <div class="strip-item" data-quick-ps1="/ps1/Marvel%20vs.%20Capcom%20-%20Clash%20of%20Super%20Heroes%20%28USA%29.bin" data-title="Marvel vs. Capcom: Clash of Super Heroes" title="Jogar Marvel vs. Capcom">
-                <img src="assets/covers/ps1/marvel-vs-capcom-clash-of-super-heroes.png" alt="Marvel vs. Capcom" loading="lazy" decoding="async">
-                <span>Marvel vs Capcom</span>
-              </div>
+            <span class="hub-card-count">13 Clássicos</span>
+          </div>
+          <div>
+            <h3 class="hub-card-title">PlayStation 1</h3>
+            <span class="hub-card-gen">32-Bit Sony • CTR Dublado, Jackie Chan e Homem-Aranha</span>
+            <div class="hw-spec req-medium">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+              3D Médio • Celular intermediário ou PC
             </div>
           </div>
-          <a class="console-cta" href="ps1.html">Ver todos os 13 Jogos de PS1 ▶</a>
-        </article>
+          <div class="hub-card-footer">
+            <span>Acessar Catálogo PS1</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
 
-        <!-- Neo Geo Card -->
-        <article class="console-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag" style="background:linear-gradient(135deg,#e60012,#b45309);color:#fff">🕹️ NEO GEO MVS</span>
-              <span class="console-count">165 Clássicos de Fliperama</span>
+        <!-- Neo Geo -->
+        <a class="console-hub-card theme-neogeo" href="neogeo.html">
+          <div class="hub-card-top">
+            <div class="hub-card-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="7" y1="13" x2="7" y2="7"/><circle cx="7" cy="6" r="2.5" fill="currentColor"/><circle cx="13" cy="17" r="1" fill="currentColor"/><circle cx="15.5" cy="15" r="1" fill="currentColor"/><circle cx="18" cy="17" r="1" fill="currentColor"/></svg>
             </div>
-            <h3>Neo Geo Arcade (MVS/AES)</h3>
-            <p>165 lendas dos fliperamas da SNK! Inclui The King of Fighters (2002 e '98), Metal Slug X e 3, Samurai Shodown II, Fatal Fury Special e Windjammers.</p>
-            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
-            <div class="cover-strip">
-              <div class="strip-item" data-quick-neogeo="/neogeo/kof2002.zip" data-title="The King of Fighters 2002" title="Jogar The King of Fighters 2002">
-                <img src="assets/covers/neogeo/kof2002.svg" alt="The King of Fighters 2002" loading="lazy" decoding="async">
-                <span>KOF 2002</span>
-              </div>
-              <div class="strip-item" data-quick-neogeo="/neogeo/mslugx.zip" data-title="Metal Slug X" title="Jogar Metal Slug X">
-                <img src="assets/covers/neogeo/mslugx.svg" alt="Metal Slug X" loading="lazy" decoding="async">
-                <span>Metal Slug X</span>
-              </div>
-              <div class="strip-item" data-quick-neogeo="/neogeo/samsho2.zip" data-title="Samurai Shodown II" title="Jogar Samurai Shodown II">
-                <img src="assets/covers/neogeo/samsho2.svg" alt="Samurai Shodown II" loading="lazy" decoding="async">
-                <span>Samurai 2</span>
-              </div>
-              <div class="strip-item" data-quick-neogeo="/neogeo/kof98.zip" data-title="The King of Fighters '98" title="Jogar The King of Fighters '98">
-                <img src="assets/covers/neogeo/kof98.png" alt="The King of Fighters '98" loading="lazy" decoding="async">
-                <span>KOF '98</span>
-              </div>
-              <div class="strip-item" data-quick-neogeo="/neogeo/wjammers.zip" data-title="Windjammers" title="Jogar Windjammers">
-                <img src="assets/covers/neogeo/wjammers.svg" alt="Windjammers" loading="lazy" decoding="async">
-                <span>Windjammers</span>
-              </div>
+            <span class="hub-card-count">165 Jogos</span>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Neo Geo Arcade</h3>
+            <span class="hub-card-gen">SNK MVS/AES • KOF 2002, Metal Slug e Samurai</span>
+            <div class="hw-spec req-light">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Leve • Roda em qualquer aparelho
             </div>
           </div>
-          <a class="console-cta" href="neogeo.html">Ver todos os 165 Jogos de Neo Geo ▶</a>
-        </article>
+          <div class="hub-card-footer">
+            <span>Acessar Catálogo Neo Geo</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
 
-        <!-- Nintendo 64 Card -->
-        <article class="console-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag" style="background:linear-gradient(135deg,#00E5FF,#0077FF);color:#fff">🌟 NINTENDO 64</span>
-              <span class="console-count">7 Obras-Primas em PT-BR</span>
+        <!-- N64 -->
+        <a class="console-hub-card theme-n64" href="n64.html">
+          <div class="hub-card-top">
+            <div class="hub-card-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
             </div>
-            <h3>Nintendo 64 (N64 3D)</h3>
-            <p>7 lendas dos gráficos 3D poligonais em português! Inclui Super Mario 64, Zelda Ocarina of Time Redux & Master Quest, Majora's Mask Widescreen, Conker Sem Censura, Mario Kart 64 e Diddy Kong Racing.</p>
-            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
-            <div class="cover-strip">
-              <div class="strip-item" data-quick-n64="/n64/super-mario-64.z64" data-title="Super Mario 64 (BR)" title="Jogar Super Mario 64">
-                <img src="assets/covers/n64/super-mario-64.png" alt="Super Mario 64" loading="lazy" decoding="async">
-                <span>Mario 64</span>
-              </div>
-              <div class="strip-item" data-quick-n64="/n64/zelda-ocarina-of-time-redux.z64" data-title="The Legend of Zelda: Ocarina of Time Redux (BR)" title="Jogar Zelda Ocarina of Time">
-                <img src="assets/covers/n64/zelda-ocarina-of-time-redux.png" alt="The Legend of Zelda: Ocarina of Time Redux" loading="lazy" decoding="async">
-                <span>Zelda OoT</span>
-              </div>
-              <div class="strip-item" data-quick-n64="/n64/zelda-majoras-mask.z64" data-title="The Legend of Zelda: Majora's Mask (BR)" title="Jogar Zelda Majora's Mask">
-                <img src="assets/covers/n64/zelda-majoras-mask.png" alt="The Legend of Zelda: Majora's Mask" loading="lazy" decoding="async">
-                <span>Majora Mask</span>
-              </div>
-              <div class="strip-item" data-quick-n64="/n64/conker-bad-fur-day.z64" data-title="Conker's Bad Fur Day (BR) (Sem Censura)" title="Jogar Conker's Bad Fur Day">
-                <img src="assets/covers/n64/conker-bad-fur-day.png" alt="Conker's Bad Fur Day" loading="lazy" decoding="async">
-                <span>Conker (18+)</span>
-              </div>
-              <div class="strip-item" data-quick-n64="/n64/mario-kart-64.z64" data-title="Mario Kart 64 (BR)" title="Jogar Mario Kart 64">
-                <img src="assets/covers/n64/mario-kart-64.png" alt="Mario Kart 64" loading="lazy" decoding="async">
-                <span>Mario Kart</span>
-              </div>
-              <div class="strip-item" data-quick-n64="/n64/diddy-kong-racing.z64" data-title="Diddy Kong Racing (BR)" title="Jogar Diddy Kong Racing">
-                <img src="assets/covers/n64/diddy-kong-racing.png" alt="Diddy Kong Racing" loading="lazy" decoding="async">
-                <span>Diddy Kong</span>
-              </div>
+            <span class="hub-card-count">7 Obras em PT-BR</span>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Nintendo 64</h3>
+            <span class="hub-card-gen">64-Bit 3D • Mario 64, Zelda OoT e Conker Sem Censura</span>
+            <div class="hw-spec req-medium">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+              3D Médio • Celular intermediário ou PC
             </div>
           </div>
-          <a class="console-cta" href="n64.html">Ver todos os 7 Jogos de Nintendo 64 ▶</a>
-        </article>
+          <div class="hub-card-footer">
+            <span>Acessar Catálogo N64</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
 
-        <!-- Game Boy Card -->
-        <article class="console-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag" style="background:linear-gradient(135deg,#8bac0f,#306230);color:#fff">📱 GAME BOY</span>
-              <span class="console-count">6 Lendas Portáteis</span>
+        <!-- Game Boy -->
+        <a class="console-hub-card theme-gameboy" href="gameboy.html">
+          <div class="hub-card-top">
+            <div class="hub-card-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="3"/><rect x="7" y="5" width="10" height="6" rx="1" fill="rgba(155,188,15,0.4)"/><path d="M9 15h2m-1-1v2"/><circle cx="14" cy="16.5" r=".75" fill="currentColor"/><circle cx="16.5" cy="15" r=".75" fill="currentColor"/></svg>
             </div>
-            <h3>Nintendo Game Boy (GB)</h3>
-            <p>O portátil que conquistou o planeta! Colecione monstrinhos em Pokémon Red, Blue e Yellow, explore cavernas em Metroid II e jogue Donkey Kong Land 2 direto no navegador com controles clássicos!</p>
-            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
-            <div class="cover-strip">
-              <div class="strip-item" data-quick-gameboy="/gameboy/Pokemon_%20Yellow%20Version%20-%20Special%20Pikachu%20Edition.zip" data-title="Pokémon Yellow: Special Pikachu Edition" title="Jogar Pokémon Yellow">
-                <img src="assets/covers/gameboy/pokemon-yellow.svg" alt="Pokémon Yellow" loading="lazy" decoding="async">
-                <span>Pokémon Yellow</span>
-              </div>
-              <div class="strip-item" data-quick-gameboy="/gameboy/Pokemon_%20Red%20Version.zip" data-title="Pokémon Red Version" title="Jogar Pokémon Red">
-                <img src="assets/covers/gameboy/pokemon-red.svg" alt="Pokémon Red" loading="lazy" decoding="async">
-                <span>Pokémon Red</span>
-              </div>
-              <div class="strip-item" data-quick-gameboy="/gameboy/Pokemon_%20Blue%20Version.zip" data-title="Pokémon Blue Version" title="Jogar Pokémon Blue">
-                <img src="assets/covers/gameboy/pokemon-blue.svg" alt="Pokémon Blue" loading="lazy" decoding="async">
-                <span>Pokémon Blue</span>
-              </div>
-              <div class="strip-item" data-quick-gameboy="/gameboy/Donkey%20Kong%20Land%202.zip" data-title="Donkey Kong Land 2" title="Jogar Donkey Kong Land 2">
-                <img src="assets/covers/gameboy/donkey-kong-land-2.svg" alt="Donkey Kong Land 2" loading="lazy" decoding="async">
-                <span>DK Land 2</span>
-              </div>
-              <div class="strip-item" data-quick-gameboy="/gameboy/Metroid%20II%20-%20Return%20of%20Samus%20%28World%29.zip" data-title="Metroid II: Return of Samus" title="Jogar Metroid II">
-                <img src="assets/covers/gameboy/metroid-2-return-of-samus.svg" alt="Metroid II" loading="lazy" decoding="async">
-                <span>Metroid II</span>
-              </div>
-              <div class="strip-item" data-quick-gameboy="/gameboy/Hercules%20%28USA%2C%20Europe%29%20%28SGB%20Enhanced%29.zip" data-title="Disney's Hércules" title="Jogar Disney's Hércules">
-                <img src="assets/covers/gameboy/hercules.svg" alt="Disney's Hércules" loading="lazy" decoding="async">
-                <span>Hércules</span>
-              </div>
+            <span class="hub-card-count">6 Lendas</span>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Game Boy</h3>
+            <span class="hub-card-gen">Portátil Nintendo • Pokémon Yellow, Red e Metroid II</span>
+            <div class="hw-spec req-light">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Leve • Roda em qualquer aparelho
             </div>
           </div>
-          <a class="console-cta" href="gameboy.html">Ver todos os 6 Jogos de Game Boy ▶</a>
-        </article>
+          <div class="hub-card-footer">
+            <span>Acessar Catálogo Game Boy</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
 
-        <!-- Sega Mega Drive Card -->
-        <article class="console-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag" style="background:linear-gradient(135deg,#0052D4,#4364F7);color:#fff">⚡ MEGA DRIVE</span>
-              <span class="console-count">6 Clássicos de 16-Bit</span>
+        <!-- Mega Drive -->
+        <a class="console-hub-card theme-sega" href="sega.html">
+          <div class="hub-card-top">
+            <div class="hub-card-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" fill-opacity="0.2"/></svg>
             </div>
-            <h3>Sega Mega Drive / Genesis</h3>
-            <p>Velocidade extrema e atitude arcade! Curta a trilogia clássica Sonic The Hedgehog (1, 2 e Sonic 3 & Knuckles), a fantasia de Golden Axe, combates ninja em Shinobi III e o humor de Earthworm Jim 2!</p>
-            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
-            <div class="cover-strip">
-              <div class="strip-item" data-quick-sega="/sega/Sonic%20The%20Hedgehog%202%20%28World%29%20%28Rev%20A%29.zip" data-title="Sonic The Hedgehog 2" title="Jogar Sonic The Hedgehog 2">
-                <img src="assets/covers/sega/sonic-2.svg" alt="Sonic The Hedgehog 2" loading="lazy" decoding="async">
-                <span>Sonic 2</span>
-              </div>
-              <div class="strip-item" data-quick-sega="/sega/Sonic%20%26%20Knuckles%20%2B%20Sonic%20The%20Hedgehog%203%20%28Europe%29.zip" data-title="Sonic 3 & Knuckles" title="Jogar Sonic 3 & Knuckles">
-                <img src="assets/covers/sega/sonic-3-knuckles.svg" alt="Sonic 3 & Knuckles" loading="lazy" decoding="async">
-                <span>Sonic 3 & K</span>
-              </div>
-              <div class="strip-item" data-quick-sega="/sega/Sonic%20The%20Hedgehog%20%28USA%2C%20Europe%29.zip" data-title="Sonic The Hedgehog" title="Jogar Sonic The Hedgehog">
-                <img src="assets/covers/sega/sonic-1.svg" alt="Sonic The Hedgehog" loading="lazy" decoding="async">
-                <span>Sonic 1</span>
-              </div>
-              <div class="strip-item" data-quick-sega="/sega/Golden%20Axe.zip" data-title="Golden Axe" title="Jogar Golden Axe">
-                <img src="assets/covers/sega/golden-axe.svg" alt="Golden Axe" loading="lazy" decoding="async">
-                <span>Golden Axe</span>
-              </div>
-              <div class="strip-item" data-quick-sega="/sega/Shinobi%20III%20-%20Return%20of%20the%20Ninja%20Master%20%28USA%29.zip" data-title="Shinobi III: Return of the Ninja Master" title="Jogar Shinobi III">
-                <img src="assets/covers/sega/shinobi-3.svg" alt="Shinobi III" loading="lazy" decoding="async">
-                <span>Shinobi III</span>
-              </div>
-              <div class="strip-item" data-quick-sega="/sega/Earthworm%20Jim%202.zip" data-title="Earthworm Jim 2" title="Jogar Earthworm Jim 2">
-                <img src="assets/covers/sega/earthworm-jim-2.svg" alt="Earthworm Jim 2" loading="lazy" decoding="async">
-                <span>Earthworm Jim 2</span>
-              </div>
+            <span class="hub-card-count">6 Clássicos</span>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Sega Mega Drive</h3>
+            <span class="hub-card-gen">16-Bit Genesis • Sonic 2, Golden Axe e Shinobi III</span>
+            <div class="hw-spec req-light">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Leve • Roda em qualquer aparelho
             </div>
           </div>
-          <a class="console-cta" href="sega.html">Ver todos os 6 Jogos de Mega Drive ▶</a>
-        </article>
+          <div class="hub-card-footer">
+            <span>Acessar Catálogo Mega Drive</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </a>
 
-        <!-- PSP Card -->
-        <article class="console-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag" style="background:linear-gradient(135deg,#00E5FF,#0077FF);color:#fff">🚀 PSP</span>
-              <span class="console-count">2 Blockbusters 3D</span>
+        <!-- PSP -->
+        <a class="console-hub-card theme-psp" href="psp.html">
+          <div class="hub-card-top">
+            <div class="hub-card-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="4"/><rect x="6.5" y="8" width="11" height="8" rx="1" fill="rgba(0,229,255,0.3)"/><circle cx="4.5" cy="12" r=".75" fill="currentColor"/><circle cx="19.5" cy="12" r=".75" fill="currentColor"/></svg>
             </div>
-            <h3>PlayStation Portable (PSP)</h3>
-            <p>Gráficos 3D de alta performance em formato 16:9 widescreen! Viva as perseguições em Vice City de GTA Vice City Stories e batalhas em Spider-Man: Friend or Foe com analógico virtual e controles touch!</p>
-            <div class="cover-strip-label">Toque em um jogo abaixo para abrir agora:</div>
-            <div class="cover-strip">
-              <div class="strip-item" data-quick-psp="/psp/Grand%20Theft%20Auto%20-%20Vice%20City%20Stories%20%28USA%29.iso" data-title="Grand Theft Auto: Vice City Stories" title="Jogar GTA Vice City Stories">
-                <img src="assets/covers/psp/gta-vice-city-stories.svg" alt="GTA Vice City Stories" loading="lazy" decoding="async">
-                <span>GTA Vice City</span>
-              </div>
-              <div class="strip-item" data-quick-psp="/psp/Spider-Man%20-%20Freund%20oder%20Feind%20%28Germany%29.iso" data-title="Spider-Man: Friend or Foe" title="Jogar Spider-Man: Friend or Foe">
-                <img src="assets/covers/psp/spider-man-friend-or-foe.svg" alt="Spider-Man: Friend or Foe" loading="lazy" decoding="async">
-                <span>Spider-Man</span>
-              </div>
+            <span class="hub-card-count">2 Blockbusters</span>
+          </div>
+          <div>
+            <h3 class="hub-card-title">PSP (PlayStation)</h3>
+            <span class="hub-card-gen">Portátil 16:9 • GTA Vice City Stories e Spider-Man</span>
+            <div class="hw-spec req-heavy">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              3D Pesado • Recomendado PC / Celular potente
             </div>
           </div>
-          <a class="console-cta" href="psp.html">Ver todos os Jogos de PSP ▶</a>
-        </article>
-
-        <!-- PS2 Card -->
-        <article class="console-card ps2-card">
-          <div>
-            <div class="console-top">
-              <span class="hw-tag neutral">🖥️ PLAYSTATION 2</span>
-              <span class="console-count">Para Computador</span>
-            </div>
-            <h3>PlayStation 2 Web</h3>
-            <p>Se você tiver um arquivo de jogo de PS2 (.ISO) salvo no seu computador, pode abrir e testar direto no navegador!</p>
-            <div class="cover-strip-label">Toque para abrir:</div>
-            <div class="strip-item" style="aspect-ratio:16/9;margin-bottom:18px" data-modal-game="PS2 Browser">
-              <img src="assets/covers/ps2-browser.svg" alt="PlayStation 2 Web Emulator" loading="lazy" decoding="async">
-              <span>Abrir Leitor de Jogos PS2</span>
-            </div>
+          <div class="hub-card-footer">
+            <span>Acessar Catálogo PSP</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
           </div>
-          <button class="console-cta outline" type="button" data-modal-game="PS2 Browser">Abrir Emulador PS2 ↗</button>
-        </article>
+        </a>
       </div>
     </section>
 
-    <!-- SEÇÃO 02: JOGAR AGORA NO BROWSER -->
+    <!-- SEÇÃO 02: JOGAR AGORA NO NAVEGADOR (COM TABS E SEM WALL OF CARDS) -->
     <section class="hub-section" id="jogar-agora">
       <div class="section-header">
         <div>
-          <div class="section-index">// seção 02 · diversão rápida em 1 toque</div>
-          <h2>Jogar Agora (Sem Esperar!)</h2>
-          <p class="section-desc">Toque em qualquer capa ou no botão vermelho para começar a brincar imediatamente no celular ou no computador.</p>
+          <div class="section-index">// ACESSO RÁPIDO · 1 TOQUE PARA JOGAR</div>
+          <h2>Jogar Agora no Navegador</h2>
+          <p class="section-desc">Toque em qualquer card abaixo para iniciar a emulação na hora com controles touch na tela.</p>
         </div>
-        <div class="section-meta">⚡ ABRE NA HORA</div>
       </div>
 
-      <!-- 2 Instant Web/Homebrew Banner Cards -->
+      <!-- INTERACTIVE CONSOLE FILTER TABS -->
+      <div class="console-tabs-wrap" id="console-tabs" role="tablist">
+        <button class="console-tab active" data-tab-system="Todos" type="button">
+          Todos os Consoles <span class="tab-badge" id="tab-count-todos">24</span>
+        </button>
+        <button class="console-tab" data-tab-system="SNES" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7 6h10c2.76 0 5 2.24 5 5v2c0 2.76-2.24 5-5 5H7c-2.76 0-5-2.24-5-5v-2c0-2.76 2.24-5 5-5zm-1 4v1.5H4.5v1H6V14h1v-1.5h1.5v-1H7V10H6zm11 1.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/></svg>
+          Super Nintendo
+        </button>
+        <button class="console-tab" data-tab-system="PS1" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 0 1 7.07 17.07" stroke-dasharray="2 3"/></svg>
+          PS1
+        </button>
+        <button class="console-tab" data-tab-system="NEOGEO" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="7" y1="13" x2="7" y2="7"/><circle cx="7" cy="6" r="2.5" fill="currentColor"/></svg>
+          Neo Geo
+        </button>
+        <button class="console-tab" data-tab-system="N64" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/></svg>
+          Nintendo 64
+        </button>
+        <button class="console-tab" data-tab-system="GAMEBOY" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="3"/><circle cx="14" cy="16.5" r=".75" fill="currentColor"/></svg>
+          Game Boy
+        </button>
+        <button class="console-tab" data-tab-system="SEGA" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Mega Drive
+        </button>
+        <button class="console-tab" data-tab-system="PSP" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"/><rect x="6.5" y="8" width="11" height="8" rx="1" fill="currentColor"/></svg>
+          PSP
+        </button>
+      </div>
+
+      <!-- INSTANT BROWSER MINI-GAMES DUO -->
       <div class="instant-banner-grid">
-        <article class="instant-hero-card">
-          <div class="instant-art" data-modal-game="Neon Runner" title="Toque para jogar Neon Runner">
+        <article class="instant-mini-card">
+          <div class="instant-mini-art" data-modal-game="Neon Runner" title="Toque para jogar Neon Runner">
             <img src="assets/covers/neon-runner.svg" alt="Neon Runner Boxart" loading="lazy" decoding="async">
           </div>
-          <div class="instant-body">
+          <div class="instant-mini-content">
             <div>
-              <span class="live-badge">● SUPER LEVE · RODA EM QUALQUER CELULAR</span>
-              <h3>Neon Runner</h3>
-              <p>Jogo de correr e pular super rápido! Toque no botão de Pular na tela do celular (ou aperte Espaço / Controle) para desviar dos blocos vermelhos.</p>
+              <div class="hw-spec req-light" style="margin-bottom:6px">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                LEVE · RODA EM QUALQUER CELULAR
+              </div>
+              <h3 class="instant-mini-title">Neon Runner</h3>
+              <p class="instant-mini-desc">Corrida e pulos super rápidos! Toque no botão de Pular na tela ou aperte Espaço/Controle para desviar dos obstáculos.</p>
             </div>
-            <button class="console-cta" type="button" data-modal-game="Neon Runner">Jogar Neon Runner ▶</button>
+            <button class="btn-mini-play" type="button" data-modal-game="Neon Runner">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Jogar Agora
+            </button>
           </div>
         </article>
 
-        <article class="instant-hero-card">
-          <div class="instant-art" data-modal-game="CodeMaster" title="Toque para jogar CodeMaster">
+        <article class="instant-mini-card">
+          <div class="instant-mini-art" data-modal-game="CodeMaster" title="Toque para jogar CodeMaster">
             <img src="assets/covers/codemaster.svg" alt="CodeMaster NES Boxart" loading="lazy" decoding="async">
           </div>
-          <div class="instant-body">
+          <div class="instant-mini-content">
             <div>
-              <span class="live-badge dark">● DESAFIO DE LÓGICA · NINTENDO 8-BIT</span>
-              <h3>CodeMaster (NES)</h3>
-              <p>Jogo clássico de adivinhar a senha secreta! Use as setinhas na tela do celular ou no teclado para testar sua memória.</p>
+              <div class="hw-spec req-light" style="margin-bottom:6px">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                DESAFIO DE LÓGICA · NINTENDO 8-BIT
+              </div>
+              <h3 class="instant-mini-title">CodeMaster (NES)</h3>
+              <p class="instant-mini-desc">Descubra a combinação secreta da senha usando as setinhas na tela do celular ou no teclado.</p>
             </div>
-            <button class="console-cta outline" type="button" data-modal-game="CodeMaster">Jogar CodeMaster ▶</button>
+            <button class="btn-mini-play" type="button" data-modal-game="CodeMaster" style="background:#242c3d">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Jogar Agora
+            </button>
           </div>
         </article>
       </div>
 
-      <!-- Quick-Launch Local Classics -->
-      <div class="sub-kicker">
-        <span>⭐ Os Jogos Mais Queridos (Toque na capa para jogar agora!)</span>
-        <a href="snes.html" style="color:var(--red);text-decoration:none;font-weight:700">Ver todos os 608 jogos →</a>
-      </div>
+      <!-- CURATED SHOWCASE GRID -->
       <div class="cards-grid" id="quick-local-grid"></div>
-    </section>
-
-    <!-- SEÇÃO 03: VITRINE CLÁSSICOS DE FLIPERAMA & NEO GEO -->
-    <section class="hub-section" id="fliperama">
-      <div class="section-header">
-        <div>
-          <div class="section-index">// seção 03 · clássicos de fliperama</div>
-          <h2>Jogos de Fliperama, Luta e Aventura</h2>
-          <p class="section-desc">Conheça os jogos famosos dos fliperamas e toque em Jogar para abrir a versão disponível no nosso videogame!</p>
-        </div>
-        <div class="filter-bar" id="arcade-filters">
-          <button class="chip active" type="button" data-arcade-filter="Todos">Todos <span class="count">9</span></button>
-          <button class="chip" type="button" data-arcade-filter="Arcade">Fliperama <span class="count">4</span></button>
-          <button class="chip" type="button" data-arcade-filter="Capcom">Capcom <span class="count">3</span></button>
-          <button class="chip" type="button" data-arcade-filter="Neo Geo">Neo Geo <span class="count">2</span></button>
-        </div>
-      </div>
-
-      <div class="cards-grid" id="arcade-grid"></div>
-    </section>
-
-    <!-- SEÇÃO 04: NOSTALGIA WEB, FLASH & PC -->
-    <section class="hub-section" id="web-classics">
-      <div class="section-header">
-        <div>
-          <div class="section-index">// seção 04 · jogos clássicos da internet</div>
-          <h2>Nostalgia da Internet & PC</h2>
-          <p class="section-desc">Jogos que marcaram época nos computadores e navegadores.</p>
-        </div>
-        <div class="section-meta">4 JOGOS</div>
-      </div>
-
-      <div class="cards-grid" id="web-grid"></div>
     </section>
   </main>
 
   <footer class="footer" id="sobre">
-    <span>PROJETO GRATUITO PARA A COMUNIDADE · <b>CONTINUE?</b></span>
-    <span>SUPER NINTENDO · PLAYSTATION 1 · NEO GEO · NINTENDO 64 · 2026</span>
+    <span>PROJETO GRATUITO PARA A COMUNIDADE · <strong>CONTINUE?</strong></span>
+    <span>812 JOGOS RETRÔ · SUPER NINTENDO · PS1 · NEO GEO · N64 · GAME BOY · SEGA · PSP</span>
   </footer>
 </div>
 
-<!-- MODAL UNIVERSAL (JOGOS INSTANTÂNEOS, EMULADOR INLINE & FICHAS) -->
+<!-- UNIVERSAL MODAL -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-box">
     <div class="modal-head">
       <div>
-        <div class="eyebrow" id="modal-kicker">// jogando agora</div>
+        <div class="arcade-eyebrow" id="modal-kicker">// EMULAÇÃO ATIVA</div>
         <h3 id="modal-title">Carregando…</h3>
       </div>
       <div class="modal-actions">
-        <button class="close-btn" type="button" data-open-mapper>🕹️ Controle</button>
-        <a id="modal-open-page" class="btn-secondary" href="snes.html" style="display:none">Ver Biblioteca ↗</a>
+        <button class="close-btn" type="button" data-open-mapper>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 11h4m-2-2v4m10-2h.01m-2.5-1.5h.01M6 6h12a4 4 0 0 1 4 4v5a3 3 0 0 1-5 2.2L14.4 15H9.6L7 17.2A3 3 0 0 1 2 15v-5a4 4 0 0 1 4-4Z"/></svg>
+          Controle
+        </button>
+        <a id="modal-open-page" class="close-btn" href="snes.html" style="display:none;text-decoration:none">Catálogo ↗</a>
         <button class="close-btn" id="modal-fullscreen" type="button" style="display:none">⛶ Tela Cheia</button>
         <button class="close-btn" id="modal-close" type="button" aria-label="Fechar">✕ Fechar</button>
       </div>
@@ -1896,12 +1865,12 @@ button {
     </div>
 
     <canvas id="game-canvas" width="900" height="320" aria-label="Jogo Neon Runner"></canvas>
-    <button type="button" id="runner-touch-jump" class="runner-jump-btn">⬆️ TOQUE AQUI PARA PULAR!</button>
+    <button type="button" id="runner-touch-jump" class="runner-jump-btn">TOQUE AQUI PARA PULAR</button>
 
     <iframe id="emulator-frame" title="Emulador Continue?" allow="cross-origin-isolated; autoplay; fullscreen; gamepad" allowfullscreen></iframe>
 
     <div class="game-help" id="game-help">
-      💡 <span>COMO JOGAR:</span> Toque no botão vermelho acima (no celular), aperte <span>ESPAÇO / SETA ⬆️</span> no teclado ou aperte o botão de <span>PULAR</span> no seu controle!
+      <span>COMO JOGAR:</span> Toque no botão de pular acima (no celular), aperte <span>ESPAÇO ou SETA PARA CIMA</span> no teclado, ou use o botão de <span>PULAR</span> no controle!
     </div>
   </div>
 </div>
@@ -1922,21 +1891,25 @@ function toggleFavorite(id) {
   else favs.push(id);
   try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch {}
   updateFavBadge();
-  renderAll();
+  renderGrid();
 }
 function updateFavBadge() {
   const countEl = document.querySelector('#fav-nav-count');
   if (countEl) countEl.textContent = getFavorites().length;
 }
 
-// 1. Dados de Acesso Rápido Local (SNES, PS1 & N64 com capas reais)
-const quickLocalGames = [
+// 24 Destaques com suporte total a áudio, save state, controle e telas touch
+const curatedGames = [
+  // N64 (3D Médio)
   {
     id: 'super-mario-64.z64',
     title: 'Super Mario 64 (Em Português)',
     system: 'N64',
+    systemPill: 'n64',
     region: '🇧🇷 PT-BR',
     genre: 'Plataforma 3D',
+    hwReq: 'medium',
+    hwText: '3D Médio',
     cover: 'assets/covers/n64/super-mario-64.png',
     romUrl: '/n64/super-mario-64.z64',
     player: 'n64-player.html',
@@ -1946,65 +1919,71 @@ const quickLocalGames = [
     id: 'zelda-ocarina-of-time-redux.z64',
     title: 'Zelda: Ocarina of Time Redux (BR)',
     system: 'N64',
+    systemPill: 'n64',
     region: '🇧🇷 PT-BR',
     genre: 'Aventura / RPG',
+    hwReq: 'medium',
+    hwText: '3D Médio',
     cover: 'assets/covers/n64/zelda-ocarina-of-time-redux.png',
     romUrl: '/n64/zelda-ocarina-of-time-redux.z64',
     player: 'n64-player.html',
     consolePage: 'n64.html'
   },
   {
+    id: 'mario-kart-64.z64',
+    title: 'Mario Kart 64 (Em Português)',
+    system: 'N64',
+    systemPill: 'n64',
+    region: '🇧🇷 PT-BR',
+    genre: 'Corrida',
+    hwReq: 'medium',
+    hwText: '3D Médio',
+    cover: 'assets/covers/n64/mario-kart-64.png',
+    romUrl: '/n64/mario-kart-64.z64',
+    player: 'n64-player.html',
+    consolePage: 'n64.html'
+  },
+  {
+    id: 'conker-bad-fur-day.z64',
+    title: "Conker's Bad Fur Day (Sem Censura)",
+    system: 'N64',
+    systemPill: 'n64',
+    region: '🇧🇷 18+ PT-BR',
+    genre: 'Aventura / Ação',
+    hwReq: 'medium',
+    hwText: '3D Médio',
+    cover: 'assets/covers/n64/conker-bad-fur-day.png',
+    romUrl: '/n64/conker-bad-fur-day.z64',
+    player: 'n64-player.html',
+    consolePage: 'n64.html'
+  },
+
+  // PS1 (3D Médio)
+  {
     id: 'CTR - Crash Team Racing (BR) (DUB) (www.romsportugues.com)',
     title: 'CTR: Crash Team Racing (Dublado BR)',
     system: 'PS1',
+    systemPill: 'ps1',
     region: '🇧🇷 Dublado',
     genre: 'Corrida de Kart',
+    hwReq: 'medium',
+    hwText: '3D Médio',
     cover: 'assets/covers/ps1/ctr-crash-team-racing.png',
     romUrl: '/ps1/CTR%20-%20Crash%20Team%20Racing%20%28BR%29%20%28DUB%29%20%28www.romsportugues.com%29.bin',
     player: 'ps1-player.html',
     consolePage: 'ps1.html'
   },
   {
-    id: 'Super Mario World (U) [!].smc',
-    title: 'Super Mario World',
-    system: 'SNES',
-    region: 'Clássico',
-    genre: 'Aventura / Plataforma',
-    cover: 'assets/covers/snes/super-mario-world-u.png',
-    romUrl: '/Super%20nintendo/GAMES/Super%20Mario%20World%20(U)%20%5B!%5D.smc',
-    player: 'snes-player.html',
-    consolePage: 'snes.html'
-  },
-  {
     id: 'Spider 2 (BR) (www.romsportugues.com)',
     title: 'Homem-Aranha 2: Enter Electro (PT-BR)',
     system: 'PS1',
+    systemPill: 'ps1',
     region: '🇧🇷 PT-BR',
-    genre: 'Ação / Heróis',
+    genre: 'Ação / Super-Herói',
+    hwReq: 'medium',
+    hwText: '3D Médio',
     cover: 'assets/covers/ps1/spider-man-2-enter-electro.png',
     romUrl: '/ps1/Spider%202%20%28BR%29%20%28www.romsportugues.com%29.bin',
-    player: 'ps1-player.html',
-    consolePage: 'ps1.html'
-  },
-  {
-    id: 'Donkey kong 2 (BR) (T1.0) (www.romsportugues.com).sfc',
-    title: "Donkey Kong Country 2 (Em Português)",
-    system: 'SNES',
-    region: '🇧🇷 PT-BR',
-    genre: 'Aventura / Plataforma',
-    cover: 'assets/covers/snes/donkey-kong-2-br-t1-0-www-romsportugues-com.png',
-    romUrl: '/Super%20nintendo/GAMES/Donkey%20kong%202%20(BR)%20(T1.0)%20(www.romsportugues.com).sfc',
-    player: 'snes-player.html',
-    consolePage: 'snes.html'
-  },
-  {
-    id: 'Jackie Chan Stuntmaster (BR) (www.romsportugues.com)',
-    title: 'Jackie Chan Stuntmaster (Em Português)',
-    system: 'PS1',
-    region: '🇧🇷 PT-BR',
-    genre: 'Ação / Kung-Fu',
-    cover: 'assets/covers/ps1/jackie-chan-stuntmaster.png',
-    romUrl: '/ps1/Jackie%20Chan%20Stuntmaster%20%28BR%29%20%28www.romsportugues.com%29.bin',
     player: 'ps1-player.html',
     consolePage: 'ps1.html'
   },
@@ -2012,252 +1991,323 @@ const quickLocalGames = [
     id: 'Castlevania Symphony of the Night (BR) (Dublado) (www.romsportugues.com)',
     title: 'Castlevania: Symphony of the Night (Dublado BR)',
     system: 'PS1',
+    systemPill: 'ps1',
     region: '🇧🇷 Dublado',
     genre: 'Ação / Aventura',
+    hwReq: 'medium',
+    hwText: '3D Médio',
     cover: 'assets/covers/ps1/castlevania-symphony-of-the-night.png',
     romUrl: '/ps1/Castlevania%20Symphony%20of%20the%20Night%20%28BR%29%20%28Dublado%29%20%28www.romsportugues.com%29.bin',
     player: 'ps1-player.html',
     consolePage: 'ps1.html'
   },
   {
-    id: 'Marvel vs. Capcom - Clash of Super Heroes (USA)',
-    title: 'Marvel vs. Capcom: Super Heroes',
+    id: 'Jackie Chan Stuntmaster (BR) (www.romsportugues.com)',
+    title: 'Jackie Chan Stuntmaster (Em Português)',
     system: 'PS1',
-    region: 'Luta 2x2',
-    genre: 'Heróis / Luta',
-    cover: 'assets/covers/ps1/marvel-vs-capcom-clash-of-super-heroes.png',
-    romUrl: '/ps1/Marvel%20vs.%20Capcom%20-%20Clash%20of%20Super%20Heroes%20%28USA%29.bin',
+    systemPill: 'ps1',
+    region: '🇧🇷 PT-BR',
+    genre: 'Luta / Ação',
+    hwReq: 'medium',
+    hwText: '3D Médio',
+    cover: 'assets/covers/ps1/jackie-chan-stuntmaster.png',
+    romUrl: '/ps1/Jackie%20Chan%20Stuntmaster%20%28BR%29%20%28www.romsportugues.com%29.bin',
     player: 'ps1-player.html',
     consolePage: 'ps1.html'
   },
+
+  // PSP (3D Pesado)
+  {
+    id: 'Grand Theft Auto - Vice City Stories (USA).iso',
+    title: 'Grand Theft Auto: Vice City Stories',
+    system: 'PSP',
+    systemPill: 'psp',
+    region: '16:9 Widescreen',
+    genre: 'Mundo Aberto / Ação',
+    hwReq: 'heavy',
+    hwText: '3D Pesado',
+    cover: 'assets/covers/psp/grand-theft-auto-vice-city-stories.png',
+    romUrl: '/psp/Grand%20Theft%20Auto%20-%20Vice%20City%20Stories%20(USA).iso',
+    player: 'psp-player.html',
+    consolePage: 'psp.html'
+  },
+  {
+    id: 'Spider-Man - Freund oder Feind (Germany).iso',
+    title: 'Spider-Man: Friend or Foe',
+    system: 'PSP',
+    systemPill: 'psp',
+    region: '16:9 Widescreen',
+    genre: 'Ação / Heróis',
+    hwReq: 'heavy',
+    hwText: '3D Pesado',
+    cover: 'assets/covers/psp/spider-man-freund-oder-feind.png',
+    romUrl: '/psp/Spider-Man%20-%20Freund%20oder%20Feind%20(Germany).iso',
+    player: 'psp-player.html',
+    consolePage: 'psp.html'
+  },
+
+  // SNES (2D Leve)
+  {
+    id: 'Super Mario World (U) [!].smc',
+    title: 'Super Mario World',
+    system: 'SNES',
+    systemPill: 'snes',
+    region: 'Clássico 16-Bit',
+    genre: 'Aventura / Plataforma',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/snes/super-mario-world-u.png',
+    romUrl: '/Super%20nintendo/GAMES/Super%20Mario%20World%20(U)%20%5B!%5D.smc',
+    player: 'snes-player.html',
+    consolePage: 'snes.html'
+  },
+  {
+    id: 'Donkey kong 2 (BR) (T1.0) (www.romsportugues.com).sfc',
+    title: "Donkey Kong Country 2 (Em Português)",
+    system: 'SNES',
+    systemPill: 'snes',
+    region: '🇧🇷 PT-BR',
+    genre: 'Aventura / Plataforma',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/snes/donkey-kong-2-br-t1-0-www-romsportugues-com.png',
+    romUrl: '/Super%20nintendo/GAMES/Donkey%20kong%202%20(BR)%20(T1.0)%20(www.romsportugues.com).sfc',
+    player: 'snes-player.html',
+    consolePage: 'snes.html'
+  },
   {
     id: 'Top Gear (U) [!].smc',
-    title: 'Top Gear (Corrida)',
+    title: 'Top Gear',
     system: 'SNES',
-    region: 'Clássico',
-    genre: 'Corrida de Carros',
+    systemPill: 'snes',
+    region: 'Corrida Clássica',
+    genre: 'Corrida',
+    hwReq: 'light',
+    hwText: 'Leve',
     cover: 'assets/covers/snes/top-gear-u.png',
     romUrl: '/Super%20nintendo/GAMES/Top%20Gear%20(U)%20%5B!%5D.smc',
     player: 'snes-player.html',
     consolePage: 'snes.html'
+  },
+  {
+    id: 'Chrono Trigger (U) [!].smc',
+    title: 'Chrono Trigger',
+    system: 'SNES',
+    systemPill: 'snes',
+    region: 'RPG Imortal',
+    genre: 'RPG / Viagem no Tempo',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/snes/chrono-trigger-u.png',
+    romUrl: '/Super%20nintendo/GAMES/Chrono%20Trigger%20(U)%20%5B!%5D.smc',
+    player: 'snes-player.html',
+    consolePage: 'snes.html'
+  },
+  {
+    id: 'Legend of Zelda, The - A Link to the Past (E) [!].smc',
+    title: 'The Legend of Zelda: A Link to the Past',
+    system: 'SNES',
+    systemPill: 'snes',
+    region: 'Aventura Épica',
+    genre: 'Aventura / RPG',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/snes/legend-of-zelda-the-a-link-to-the-past-e.png',
+    romUrl: '/Super%20nintendo/GAMES/Legend%20of%20Zelda%2C%20The%20-%20A%20Link%20to%20the%20Past%20(E)%20%5B!%5D.smc',
+    player: 'snes-player.html',
+    consolePage: 'snes.html'
+  },
+
+  // Neo Geo (2D Leve)
+  {
+    id: 'kof2002.zip',
+    title: 'The King of Fighters 2002',
+    system: 'NEOGEO',
+    systemPill: 'neogeo',
+    region: 'Arcade MVS',
+    genre: 'Luta 3x3',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/neogeo/kof2002.svg',
+    romUrl: '/neogeo/kof2002.zip',
+    player: 'neogeo-player.html',
+    consolePage: 'neogeo.html'
+  },
+  {
+    id: 'mslugx.zip',
+    title: 'Metal Slug X',
+    system: 'NEOGEO',
+    systemPill: 'neogeo',
+    region: 'Arcade MVS',
+    genre: 'Ação e Tiro',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/neogeo/mslugx.svg',
+    romUrl: '/neogeo/mslugx.zip',
+    player: 'neogeo-player.html',
+    consolePage: 'neogeo.html'
+  },
+  {
+    id: 'samsho2.zip',
+    title: 'Samurai Shodown II',
+    system: 'NEOGEO',
+    systemPill: 'neogeo',
+    region: 'Arcade MVS',
+    genre: 'Luta de Espadas',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/neogeo/samsho2.svg',
+    romUrl: '/neogeo/samsho2.zip',
+    player: 'neogeo-player.html',
+    consolePage: 'neogeo.html'
+  },
+
+  // Game Boy (2D Leve)
+  {
+    id: 'Pokemon_ Yellow Version - Special Pikachu Edition.zip',
+    title: 'Pokémon Yellow: Special Pikachu',
+    system: 'GAMEBOY',
+    systemPill: 'gameboy',
+    region: 'Portátil',
+    genre: 'RPG de Monstros',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/gameboy/pokemon-yellow.png',
+    romUrl: '/gameboy/Pokemon_%20Yellow%20Version%20-%20Special%20Pikachu%20Edition.zip',
+    player: 'gameboy-player.html',
+    consolePage: 'gameboy.html'
+  },
+  {
+    id: 'Pokemon_ Red Version.zip',
+    title: 'Pokémon Red Version',
+    system: 'GAMEBOY',
+    systemPill: 'gameboy',
+    region: 'Portátil',
+    genre: 'RPG de Monstros',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/gameboy/pokemon-red.png',
+    romUrl: '/gameboy/Pokemon_%20Red%20Version.zip',
+    player: 'gameboy-player.html',
+    consolePage: 'gameboy.html'
+  },
+  {
+    id: 'Donkey Kong Land 2.zip',
+    title: 'Donkey Kong Land 2',
+    system: 'GAMEBOY',
+    systemPill: 'gameboy',
+    region: 'Portátil',
+    genre: 'Plataforma',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/gameboy/donkey-kong-land-2.png',
+    romUrl: '/gameboy/Donkey%20Kong%20Land%202.zip',
+    player: 'gameboy-player.html',
+    consolePage: 'gameboy.html'
+  },
+
+  // Mega Drive (2D Leve)
+  {
+    id: 'Sonic The Hedgehog 2 (World) (Rev A).zip',
+    title: 'Sonic The Hedgehog 2',
+    system: 'SEGA',
+    systemPill: 'sega',
+    region: '16-Bit Genesis',
+    genre: 'Velocidade / Plataforma',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/sega/sonic-the-hedgehog-2.png',
+    romUrl: '/segagenisi/Sonic%20The%20Hedgehog%202%20(World)%20(Rev%20A).zip',
+    player: 'sega-player.html',
+    consolePage: 'sega.html'
+  },
+  {
+    id: 'Sonic & Knuckles + Sonic The Hedgehog 3 (Europe).zip',
+    title: 'Sonic & Knuckles + Sonic 3',
+    system: 'SEGA',
+    systemPill: 'sega',
+    region: '16-Bit Genesis',
+    genre: 'Velocidade / Plataforma',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/sega/sonic-knuckles-sonic-3.png',
+    romUrl: '/segagenisi/Sonic%20%26%20Knuckles%20%2B%20Sonic%20The%20Hedgehog%203%20(Europe).zip',
+    player: 'sega-player.html',
+    consolePage: 'sega.html'
+  },
+  {
+    id: 'Golden Axe.zip',
+    title: 'Golden Axe',
+    system: 'SEGA',
+    systemPill: 'sega',
+    region: '16-Bit Genesis',
+    genre: 'Fantasia / Beat em Up',
+    hwReq: 'light',
+    hwText: 'Leve',
+    cover: 'assets/covers/sega/golden-axe.png',
+    romUrl: '/segagenisi/Golden%20Axe.zip',
+    player: 'sega-player.html',
+    consolePage: 'sega.html'
   }
 ];
 
-// 2. Dados da Vitrine de Fliperama & Neo Geo
-const arcadeGames = [
-  {
-    id: 'arcade-marvel-capcom',
-    title: 'Marvel vs. Capcom: Clash of Super Heroes',
-    platform: 'Capcom',
-    year: 'Heróis',
-    genre: 'Luta de Duplas',
-    cover: 'assets/covers/arcade/marvel-capcom.png',
-    desc: 'Jogue com Homem-Aranha, Wolverine, Ryu, Chun-Li e Mega Man em lutas super animadas!',
-    localPlay: {
-      label: 'Jogar Agora ▶',
-      romUrl: '/ps1/Marvel%20vs.%20Capcom%20-%20Clash%20of%20Super%20Heroes%20%28USA%29.bin',
-      player: 'ps1-player.html',
-      page: 'ps1.html'
-    }
-  },
-  {
-    id: 'arcade-metal-slug',
-    title: 'Metal Slug / Contra III',
-    platform: 'Neo Geo',
-    year: 'Ação',
-    genre: 'Aventura e Tiro',
-    cover: 'assets/covers/arcade/metal-slug.png',
-    desc: 'Clássico de ação intensa e chefes gigantescos! Jogue Contra III direto no emulador.',
-    localPlay: {
-      label: 'Jogar Contra III ▶',
-      romUrl: '/Super%20nintendo/GAMES/Contra%20III%20-%20The%20Alien%20Wars%20(U)%20%5B!%5D.smc',
-      player: 'snes-player.html',
-      page: 'snes.html'
-    }
-  },
-  {
-    id: 'arcade-kof-98',
-    title: 'The King of Fighters / Art of Fighting',
-    platform: 'Neo Geo',
-    year: 'SNK',
-    genre: 'Luta de Rua',
-    cover: 'assets/covers/arcade/kof-98.png',
-    desc: 'Os grandes lutadores dos fliperamas reunidos! Jogue Art of Fighting no Super Nintendo.',
-    localPlay: {
-      label: 'Jogar Agora ▶',
-      romUrl: '/Super%20nintendo/GAMES/Art%20of%20Fighting%20(U).smc',
-      player: 'snes-player.html',
-      page: 'snes.html'
-    }
-  },
-  {
-    id: 'arcade-cadillacs',
-    title: 'Cadillacs & Captain Commando',
-    platform: 'Capcom',
-    year: 'Fliperama',
-    genre: 'Ação em Equipe',
-    cover: 'assets/covers/arcade/cadillacs.png',
-    desc: 'Aventura clássica de fliperama! Jogue Captain Commando direto na tela.',
-    localPlay: {
-      label: 'Jogar Agora ▶',
-      romUrl: '/Super%20nintendo/GAMES/Captain%20Commando%20(U).smc',
-      player: 'snes-player.html',
-      page: 'snes.html'
-    }
-  },
-  {
-    id: 'arcade-street-fighter',
-    title: 'Street Fighter II / Final Fight',
-    platform: 'Capcom',
-    year: 'Clássico',
-    genre: 'Luta e Ação',
-    cover: 'assets/covers/arcade/street-fighter.png',
-    desc: 'O jogo de luta mais famoso de todos os tempos! Jogue Final Fight agora mesmo.',
-    localPlay: {
-      label: 'Jogar Agora ▶',
-      romUrl: '/Super%20nintendo/GAMES/Final%20Fight%20(U).smc',
-      player: 'snes-player.html',
-      page: 'snes.html'
-    }
-  },
-  {
-    id: 'arcade-mortal-kombat',
-    title: 'Mortal Kombat II',
-    platform: 'Arcade',
-    year: 'Luta',
-    genre: 'Torneio de Luta',
-    cover: 'assets/covers/arcade/mortal-kombat.png',
-    desc: 'Os ninjas lendários Sub-Zero e Scorpion nos torneios clássicos dos anos 90.',
-    localPlay: {
-      label: 'Ver Jogos de Luta ↗',
-      page: 'snes.html'
-    }
-  },
-  {
-    id: 'arcade-outrun',
-    title: 'OutRun / Top Gear',
-    platform: 'Arcade',
-    year: 'Corrida',
-    genre: 'Carros Velozes',
-    cover: 'assets/covers/arcade/outrun.png',
-    desc: 'Acelere fundo nas pistas! Toque para jogar o clássico Top Gear de corrida.',
-    localPlay: {
-      label: 'Jogar Top Gear ▶',
-      romUrl: '/Super%20nintendo/GAMES/Top%20Gear%20(U)%20%5B!%5D.smc',
-      player: 'snes-player.html',
-      page: 'snes.html'
-    }
-  },
-  {
-    id: 'arcade-sonic',
-    title: 'Sonic the Hedgehog',
-    platform: 'Arcade',
-    year: 'Aventura',
-    genre: 'Corrida e Pulo',
-    cover: 'assets/covers/arcade/sonic.png',
-    desc: 'O ouriço azul mais rápido dos videogames! Veja dezenas de jogos de plataforma na biblioteca.',
-    localPlay: {
-      label: 'Ver Jogos de Pular ↗',
-      page: 'snes.html'
-    }
-  },
-  {
-    id: 'arcade-pac-man',
-    title: 'Pac-Man / Come-Come',
-    platform: 'Arcade',
-    year: 'Labirinto',
-    genre: 'Clássico para Todos',
-    cover: 'assets/covers/arcade/pac-man.png',
-    desc: 'Fuja dos fantasminhas coloridos e pegue todas as bolinhas do labirinto! Jogue Ms. Pac-Man agora.',
-    localPlay: {
-      label: 'Jogar Pac-Man ▶',
-      romUrl: '/Super%20nintendo/GAMES/Ms.%20Pac-Man%20(U).smc',
-      player: 'snes-player.html',
-      page: 'snes.html'
-    }
-  }
-];
-
-// 3. Dados Nostalgia Web, Flash & PC
-const webClassics = [
-  {
-    id: 'web-fancy-pants',
-    title: 'Fancy Pants Adventures',
-    platform: 'Web',
-    era: 'Boneco Palito',
-    genre: 'Pular e Correr',
-    cover: 'assets/covers/fancy-pants.svg',
-    desc: 'O boneco palito de calça laranja que corre pelas paredes e dá cambalhotas incríveis.'
-  },
-  {
-    id: 'web-bloons',
-    title: 'Bloons Tower Defense',
-    platform: 'Web',
-    era: 'Macaquinhos',
-    genre: 'Estourar Balões',
-    cover: 'assets/covers/bloons.svg',
-    desc: 'Ajude os macaquinhos a estourar todos os balões coloridos antes que eles passem pelo caminho!'
-  },
-  {
-    id: 'web-minecraft',
-    title: 'Minecraft Classic',
-    platform: 'PC',
-    era: 'Blocos',
-    genre: 'Construir Mundos',
-    cover: 'assets/covers/minecraft.svg',
-    desc: 'A primeira versão de construir casas e castelos com bloquinhos no computador.'
-  },
-  {
-    id: 'web-ps2',
-    title: 'PS2 Browser (Play! Web)',
-    platform: 'PS2',
-    era: '128-Bit',
-    genre: 'Emulador no PC',
-    cover: 'assets/covers/ps2-browser.svg',
-    desc: 'Abra jogos de PlayStation 2 salvos no seu computador usando o navegador.',
-    modalTarget: 'PS2 Browser'
-  }
-];
-
-let selectedArcadeFilter = 'Todos';
-const searchInput = document.querySelector('#global-search');
+let activeTabSystem = 'Todos';
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
-function renderQuickLocal(q) {
+function renderGrid() {
   const container = document.querySelector('#quick-local-grid');
+  const mainSearch = document.querySelector('#main-search-input');
+  const q = mainSearch ? mainSearch.value.trim().toLocaleLowerCase('pt-BR') : '';
   const favs = getFavorites();
-  const filtered = quickLocalGames.filter(g =>
-    !q || g.title.toLocaleLowerCase('pt-BR').includes(q) || g.genre.toLocaleLowerCase('pt-BR').includes(q) || g.system.toLocaleLowerCase('pt-BR').includes(q)
-  );
+
+  const filtered = curatedGames.filter(g => {
+    const matchesSystem = activeTabSystem === 'Todos' || g.system === activeTabSystem;
+    const matchesQuery = !q ||
+      g.title.toLocaleLowerCase('pt-BR').includes(q) ||
+      g.genre.toLocaleLowerCase('pt-BR').includes(q) ||
+      g.system.toLocaleLowerCase('pt-BR').includes(q);
+    return matchesSystem && matchesQuery;
+  });
 
   if (!filtered.length) {
-    container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado com esse nome. Tente buscar na biblioteca de 608 jogos!</div>';
+    container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado com esse termo. Tente outro nome ou navegue pelos catálogos completos acima!</div>';
     return;
   }
 
   container.innerHTML = filtered.map(g => {
     const isFav = favs.includes(g.id);
     const isBr = g.region.includes('BR') || g.region.includes('Dublado');
+    const reqClass = g.hwReq === 'heavy' ? 'req-heavy' : (g.hwReq === 'medium' ? 'req-medium' : 'req-light');
+
     return `
       <article class="game-card">
         <div class="boxart-wrap" data-launch-rom="${escapeHtml(g.romUrl)}" data-launch-player="${g.player}" data-launch-title="${escapeHtml(g.title)}" data-launch-page="${g.consolePage}" title="Toque para jogar ${escapeHtml(g.title)}">
           <img class="boxart-img" src="${g.cover}" alt="Capa de ${escapeHtml(g.title)}" loading="lazy" decoding="async">
           <div class="card-badges">
-            <span class="pill red">${g.system}</span>
+            <span class="pill ${g.systemPill}">${g.system}</span>
             <span class="pill ${isBr ? 'br' : ''}">${escapeHtml(g.region)}</span>
           </div>
-          <button class="fav-btn ${isFav ? 'active' : ''}" type="button" data-fav="${escapeHtml(g.id)}" title="Favoritar jogo" aria-label="Favoritar ${escapeHtml(g.title)}">★</button>
+          <button class="fav-btn ${isFav ? 'active' : ''}" type="button" data-fav="${escapeHtml(g.id)}" title="Favoritar jogo" aria-label="Favoritar ${escapeHtml(g.title)}">
+            <svg viewBox="0 0 24 24" fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </button>
         </div>
         <div class="card-info">
           <div>
             <div class="card-title">${escapeHtml(g.title)}</div>
-            <div class="card-sub">${escapeHtml(g.genre)}</div>
+            <div class="card-sub-row">
+              <span>${escapeHtml(g.genre)}</span>
+              <span class="hw-spec ${reqClass}" style="margin:0;padding:2px 6px;font-size:9px">${escapeHtml(g.hwText)}</span>
+            </div>
           </div>
           <div class="card-actions">
-            <button class="btn-play" type="button" data-launch-rom="${escapeHtml(g.romUrl)}" data-launch-player="${g.player}" data-launch-title="${escapeHtml(g.title)}" data-launch-page="${g.consolePage}">Jogar Agora ▶</button>
+            <button class="btn-play" type="button" data-launch-rom="${escapeHtml(g.romUrl)}" data-launch-player="${g.player}" data-launch-title="${escapeHtml(g.title)}" data-launch-page="${g.consolePage}">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Jogar Agora
+            </button>
+            <a class="btn-library-link" href="${g.consolePage}" title="Abrir catálogo completo">Catálogo ↗</a>
           </div>
         </div>
       </article>
@@ -2265,178 +2315,56 @@ function renderQuickLocal(q) {
   }).join('');
 }
 
-function renderArcade(q) {
-  const container = document.querySelector('#arcade-grid');
-  const favs = getFavorites();
-  const filtered = arcadeGames.filter(g => {
-    const matchesSystem = selectedArcadeFilter === 'Todos' || g.platform === selectedArcadeFilter;
-    const matchesQuery = !q || g.title.toLocaleLowerCase('pt-BR').includes(q) || g.platform.toLocaleLowerCase('pt-BR').includes(q) || g.genre.toLocaleLowerCase('pt-BR').includes(q);
-    return matchesSystem && matchesQuery;
+// Interactive Console Tabs
+document.querySelectorAll('[data-tab-system]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('[data-tab-system]').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeTabSystem = tab.dataset.tabSystem;
+    renderGrid();
   });
+});
 
-  if (!filtered.length) {
-    container.innerHTML = '<div class="empty-state">Nenhum jogo de fliperama encontrado para esse filtro.</div>';
-    return;
-  }
+// Search input handling
+const mainSearch = document.querySelector('#main-search-input');
+const mainSearchClear = document.querySelector('#main-search-clear');
 
-  container.innerHTML = filtered.map((g, idx) => {
-    const isFav = favs.includes(g.id);
-    const hasDirectRom = g.localPlay && g.localPlay.romUrl;
-    return `
-      <article class="game-card">
-        <div class="boxart-wrap" ${hasDirectRom ? `data-launch-rom="${escapeHtml(g.localPlay.romUrl)}" data-launch-player="${g.localPlay.player}" data-launch-title="${escapeHtml(g.title)}" data-launch-page="${g.localPlay.page}"` : `data-arcade-info="${idx}"`} title="Toque para abrir ${escapeHtml(g.title)}">
-          <img class="boxart-img" src="${g.cover}" alt="Capa de ${escapeHtml(g.title)}" loading="lazy" decoding="async">
-          <div class="card-badges">
-            <span class="pill red">${escapeHtml(g.platform)}</span>
-            <span class="pill">${escapeHtml(g.year)}</span>
-          </div>
-          <button class="fav-btn ${isFav ? 'active' : ''}" type="button" data-fav="${escapeHtml(g.id)}" title="Favoritar" aria-label="Favoritar ${escapeHtml(g.title)}">★</button>
-        </div>
-        <div class="card-info">
-          <div>
-            <div class="card-title">${escapeHtml(g.title)}</div>
-            <div class="card-sub">${escapeHtml(g.genre)}</div>
-          </div>
-          <div class="card-actions">
-            ${hasDirectRom
-              ? `<button class="btn-play" type="button" data-launch-rom="${escapeHtml(g.localPlay.romUrl)}" data-launch-player="${g.localPlay.player}" data-launch-title="${escapeHtml(g.title)}" data-launch-page="${g.localPlay.page}">${escapeHtml(g.localPlay.label)}</button>`
-              : `<a class="btn-play" href="${g.localPlay ? g.localPlay.page : 'snes.html'}">${escapeHtml(g.localPlay ? g.localPlay.label : 'Ver Jogos ↗')}</a>`
-            }
-            <button class="btn-secondary" type="button" data-arcade-info="${idx}">Info</button>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join('');
+if (mainSearch) {
+  mainSearch.addEventListener('input', () => {
+    if (mainSearchClear) mainSearchClear.classList.toggle('visible', mainSearch.value.length > 0);
+    renderGrid();
+  });
 }
 
-function renderWebClassics(q) {
-  const container = document.querySelector('#web-grid');
-  const favs = getFavorites();
-  const filtered = webClassics.filter(g =>
-    !q || g.title.toLocaleLowerCase('pt-BR').includes(q) || g.platform.toLocaleLowerCase('pt-BR').includes(q) || g.genre.toLocaleLowerCase('pt-BR').includes(q)
-  );
-
-  if (!filtered.length) {
-    container.innerHTML = '<div class="empty-state">Nenhum jogo encontrado para essa busca.</div>';
-    return;
-  }
-
-  container.innerHTML = filtered.map((g, idx) => {
-    const isFav = favs.includes(g.id);
-    return `
-      <article class="game-card">
-        <div class="boxart-wrap" data-web-info="${idx}">
-          <img class="boxart-img fill-cover" src="${g.cover}" alt="Arte de ${escapeHtml(g.title)}" loading="lazy" decoding="async">
-          <div class="card-badges">
-            <span class="pill">${escapeHtml(g.platform)}</span>
-          </div>
-          <button class="fav-btn ${isFav ? 'active' : ''}" type="button" data-fav="${escapeHtml(g.id)}" title="Favoritar" aria-label="Favoritar ${escapeHtml(g.title)}">★</button>
-        </div>
-        <div class="card-info">
-          <div>
-            <div class="card-title">${escapeHtml(g.title)}</div>
-            <div class="card-sub">${escapeHtml(g.genre)} · ${escapeHtml(g.era)}</div>
-          </div>
-          <div class="card-actions">
-            <button class="btn-play" type="button" data-web-info="${idx}">${g.modalTarget ? 'Abrir Emulador ↗' : 'Ver Detalhes ↗'}</button>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join('');
+if (mainSearchClear) {
+  mainSearchClear.addEventListener('click', () => {
+    mainSearch.value = '';
+    mainSearchClear.classList.remove('visible');
+    renderGrid();
+    mainSearch.focus();
+  });
 }
 
-function renderAll() {
-  const q = searchInput.value.trim().toLocaleLowerCase('pt-BR');
-  renderQuickLocal(q);
-  renderArcade(q);
-  renderWebClassics(q);
-}
+document.querySelectorAll('.search-tag-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const term = btn.getAttribute('data-tag');
+    if (!term || !mainSearch) return;
+    mainSearch.value = term;
+    if (mainSearchClear) mainSearchClear.classList.add('visible');
+    activeTabSystem = 'Todos';
+    document.querySelectorAll('[data-tab-system]').forEach(t => t.classList.toggle('active', t.dataset.tabSystem === 'Todos'));
+    renderGrid();
+    const jog = document.getElementById('jogar-agora');
+    if (jog) jog.scrollIntoView({ behavior: 'smooth' });
+  });
+});
 
-// Event delegation para cliques nos cards
+// Event delegation
 document.addEventListener('click', e => {
   const favBtn = e.target.closest('[data-fav]');
   if (favBtn) {
     e.stopPropagation();
     toggleFavorite(favBtn.dataset.fav);
-    return;
-  }
-
-  const quickSnes = e.target.closest('[data-quick-snes]');
-  if (quickSnes) {
-    openRomInModal({
-      title: quickSnes.dataset.title,
-      romUrl: quickSnes.dataset.quickSnes,
-      player: 'snes-player.html',
-      page: 'snes.html'
-    });
-    return;
-  }
-
-  const quickPs1 = e.target.closest('[data-quick-ps1]');
-  if (quickPs1) {
-    openRomInModal({
-      title: quickPs1.dataset.title,
-      romUrl: quickPs1.dataset.quickPs1,
-      player: 'ps1-player.html',
-      page: 'ps1.html'
-    });
-    return;
-  }
-
-  const quickNeogeo = e.target.closest('[data-quick-neogeo]');
-  if (quickNeogeo) {
-    openRomInModal({
-      title: quickNeogeo.dataset.title,
-      romUrl: quickNeogeo.dataset.quickNeogeo,
-      player: 'neogeo-player.html',
-      page: 'neogeo.html'
-    });
-    return;
-  }
-
-  const quickN64 = e.target.closest('[data-quick-n64]');
-  if (quickN64) {
-    openRomInModal({
-      title: quickN64.dataset.title,
-      romUrl: quickN64.dataset.quickN64,
-      player: 'n64-player.html',
-      page: 'n64.html'
-    });
-    return;
-  }
-
-  const quickGameboy = e.target.closest('[data-quick-gameboy]');
-  if (quickGameboy) {
-    openRomInModal({
-      title: quickGameboy.dataset.title,
-      romUrl: quickGameboy.dataset.quickGameboy,
-      player: 'gameboy-player.html',
-      page: 'gameboy.html'
-    });
-    return;
-  }
-
-  const quickSega = e.target.closest('[data-quick-sega]');
-  if (quickSega) {
-    openRomInModal({
-      title: quickSega.dataset.title,
-      romUrl: quickSega.dataset.quickSega,
-      player: 'sega-player.html',
-      page: 'sega.html'
-    });
-    return;
-  }
-
-  const quickPsp = e.target.closest('[data-quick-psp]');
-  if (quickPsp) {
-    openRomInModal({
-      title: quickPsp.dataset.title,
-      romUrl: quickPsp.dataset.quickPsp,
-      player: 'psp-player.html',
-      page: 'psp.html'
-    });
     return;
   }
 
@@ -2456,71 +2384,9 @@ document.addEventListener('click', e => {
     openBuiltInModal(modalGameBtn.dataset.modalGame);
     return;
   }
-
-  const arcadeInfoBtn = e.target.closest('[data-arcade-info]');
-  if (arcadeInfoBtn) {
-    const g = arcadeGames[Number(arcadeInfoBtn.dataset.arcadeInfo)];
-    if (g) openFichaModal(g.title, `// fliperama · ${g.platform}`, g.desc, g.localPlay);
-    return;
-  }
-
-  const webInfoBtn = e.target.closest('[data-web-info]');
-  if (webInfoBtn) {
-    const g = webClassics[Number(webInfoBtn.dataset.webInfo)];
-    if (g) {
-      if (g.modalTarget) openBuiltInModal(g.modalTarget);
-      else openFichaModal(g.title, `// clássico da internet · ${g.platform}`, g.desc, null);
-    }
-  }
 });
 
-// Filtros da seção Fliperama
-document.querySelectorAll('[data-arcade-filter]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('[data-arcade-filter]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedArcadeFilter = btn.dataset.arcadeFilter;
-    renderArcade(searchInput.value.trim().toLocaleLowerCase('pt-BR'));
-  });
-});
-
-searchInput.addEventListener('input', renderAll);
-
-const mainSearch = document.querySelector('#main-search-input');
-const mainSearchClear = document.querySelector('#main-search-clear');
-
-if (mainSearch) {
-  mainSearch.addEventListener('input', () => {
-    searchInput.value = mainSearch.value;
-    if (mainSearchClear) mainSearchClear.classList.toggle('visible', mainSearch.value.length > 0);
-    renderAll();
-  });
-}
-
-if (mainSearchClear) {
-  mainSearchClear.addEventListener('click', () => {
-    mainSearch.value = '';
-    searchInput.value = '';
-    mainSearchClear.classList.remove('visible');
-    renderAll();
-    mainSearch.focus();
-  });
-}
-
-document.querySelectorAll('.home-tag').forEach(tag => {
-  tag.addEventListener('click', () => {
-    const term = tag.getAttribute('data-tag');
-    if (!term) return;
-    if (mainSearch) mainSearch.value = term;
-    searchInput.value = term;
-    if (mainSearchClear) mainSearchClear.classList.add('visible');
-    renderAll();
-    const jog = document.getElementById('jogar-agora');
-    if (jog) jog.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-// Modal & Emulador / Neon Runner Engine
+// Universal Modal & Emulation
 const modal = document.querySelector('#modal');
 const canvas = document.querySelector('#game-canvas');
 const runnerTouchJump = document.querySelector('#runner-touch-jump');
@@ -2550,20 +2416,20 @@ function resetModalMedia() {
 function openRomInModal({ title, romUrl, player, page }) {
   resetModalMedia();
   modalKicker.textContent = player.includes('ps1')
-    ? '// playstation 1 · jogando agora'
+    ? '// PLAYSTATION 1 · EMULAÇÃO 3D'
     : (player.includes('neogeo')
-      ? '// neo geo arcade · jogando agora'
+      ? '// NEO GEO ARCADE · EMULAÇÃO MVS'
       : (player.includes('n64')
-        ? '// nintendo 64 · jogando agora'
+        ? '// NINTENDO 64 · EMULAÇÃO 3D'
         : (player.includes('psp')
-          ? '// playstation portable · jogando agora'
+          ? '// PSP · EMULAÇÃO WIDESCREEN'
           : (player.includes('gameboy')
-            ? '// nintendo game boy · jogando agora'
+            ? '// GAME BOY · EMULAÇÃO PORTÁTIL'
             : (player.includes('sega')
-              ? '// sega mega drive · jogando agora'
-              : '// super nintendo · jogando agora')))));
+              ? '// MEGA DRIVE · EMULAÇÃO 16-BIT'
+              : '// SUPER NINTENDO · EMULAÇÃO 16-BIT')))));
   modalTitle.textContent = title;
-  modalCopy.textContent = '📱 No celular, os botões aparecem direto na tela! Quer mudar algum botão ou usar um controle? Clique em "🕹️ Controle" acima.';
+  modalCopy.textContent = 'No celular, os botões touch aparecem direto na tela! Para personalizar ou conectar um controle USB/Bluetooth, toque em "Controle" acima.';
   emulatorFrame.src = `${player}?rom=${encodeURIComponent(romUrl)}&title=${encodeURIComponent(title)}`;
   emulatorFrame.style.display = 'block';
   modalOpenPage.href = page;
@@ -2572,34 +2438,20 @@ function openRomInModal({ title, romUrl, player, page }) {
   modal.classList.add('open');
 }
 
-// Se a criança mudar os controles enquanto um jogo estiver aberto, atualiza o player
-window.addEventListener('continue:controls-updated', () => {
-  if (modal.classList.contains('open') && emulatorFrame.style.display === 'block' && emulatorFrame.src && !emulatorFrame.src.endsWith('about:blank')) {
-    const currentSrc = emulatorFrame.src;
-    emulatorFrame.src = currentSrc;
-  }
-});
-
 function openBuiltInModal(title) {
   resetModalMedia();
   const playable = title === 'Neon Runner';
   const emulated = title === 'CodeMaster';
-  const ps2 = title === 'PS2 Browser';
 
   modalTitle.textContent = title;
   modalKicker.textContent = playable
-    ? '// jogo rápido · funciona no celular, pc e controle'
-    : emulated
-    ? '// nintendo 8-bit · desafio de senha'
-    : '// playstation 2 · computador';
+    ? '// JOGO RÁPIDO · CONTROLE E TOUCH'
+    : '// NINTENDO 8-BIT · DESAFIO DE LÓGICA';
 
   modalCopy.textContent = playable
-    ? 'Pule por cima dos blocos vermelhos e tente fazer a maior pontuação!'
-    : emulated
-    ? 'Descubra a combinação secreta usando as setinhas na tela ou no controle!'
-    : 'Abra o emulador Play! Web e escolha um arquivo de jogo de PS2 salvo no seu computador.';
+    ? 'Pule por cima dos blocos vermelhos e tente registrar sua maior pontuação!'
+    : 'Descubra a combinação secreta usando os direcionais no celular ou teclado!';
 
-  ps2Launch.style.display = ps2 ? 'inline-flex' : 'none';
   canvas.style.display = playable ? 'block' : 'none';
   runnerTouchJump.style.display = playable ? 'block' : 'none';
   emulatorFrame.style.display = emulated ? 'block' : 'none';
@@ -2612,19 +2464,6 @@ function openBuiltInModal(title) {
   if (playable) startRunner();
 }
 
-function openFichaModal(title, kicker, desc, localPlay) {
-  resetModalMedia();
-  modalTitle.textContent = title;
-  modalKicker.textContent = kicker;
-  modalCopy.textContent = desc + ' Explore nossa biblioteca com 608 jogos gratuitos de Super Nintendo e PlayStation 1!';
-  if (localPlay && localPlay.page) {
-    modalOpenPage.href = localPlay.page;
-    modalOpenPage.textContent = 'Ver Biblioteca de Jogos ↗';
-    modalOpenPage.style.display = 'inline-flex';
-  }
-  modal.classList.add('open');
-}
-
 function closeModal() {
   modal.classList.remove('open');
   resetModalMedia();
@@ -2635,20 +2474,18 @@ modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 
 modalFullscreen.addEventListener('click', () => {
   if (emulatorFrame.requestFullscreen) emulatorFrame.requestFullscreen();
+  else if (emulatorFrame.webkitRequestFullscreen) emulatorFrame.webkitRequestFullscreen();
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === '/' && document.activeElement !== searchInput && document.activeElement !== mainSearch) {
+  if (e.key === '/' && document.activeElement !== mainSearch) {
     e.preventDefault();
     if (mainSearch) mainSearch.focus();
-    else searchInput.focus();
   }
-  if (e.key === 'Escape' && (! document.getElementById('continue-control-modal') || !document.getElementById('continue-control-modal').classList.contains('open'))) {
-    closeModal();
-  }
+  if (e.key === 'Escape') closeModal();
 });
 
-// Neon Runner Mini-Game (Com suporte a Touch Gigante, Teclado Customizado e Controle USB/Bluetooth!)
+// Neon Runner Mini-Game
 function startRunner() {
   const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
   let y = 244, vy = 0, obstacles = [], score = 0, frame = 0, dead = false;
@@ -2666,10 +2503,7 @@ function startRunner() {
   }
 
   runnerKey = e => {
-    const custom = window.ContinueControls ? window.ContinueControls.getControls() : null;
-    const customJumpKey = custom && custom.b ? custom.b.key : 'z';
-    const keyLower = String(e.key).toLowerCase();
-    if (e.key === ' ' || e.key === 'ArrowUp' || keyLower === customJumpKey || keyLower === 'z' || keyLower === 'x') {
+    if (e.key === ' ' || e.key === 'ArrowUp' || e.key.toLowerCase() === 'z' || e.key.toLowerCase() === 'x') {
       e.preventDefault();
       jump();
     }
@@ -2687,15 +2521,10 @@ function startRunner() {
     for (let i = 0; i < pads.length; i++) {
       const p = pads[i];
       if (!p || !p.connected) continue;
-      // Aceita botão 0 (B/Cruz), 1 (A/Círculo), 12 (Cima) ou o botão customizado pela criança
-      const custom = window.ContinueControls ? window.ContinueControls.getControls() : null;
-      const customIdx = custom && typeof custom.b.padIndex === 'number' ? custom.b.padIndex : 0;
       if (
-        (p.buttons[customIdx] && p.buttons[customIdx].pressed) ||
         (p.buttons[0] && p.buttons[0].pressed) ||
         (p.buttons[1] && p.buttons[1].pressed) ||
         (p.buttons[12] && p.buttons[12].pressed) ||
-        // Analógico esquerdo para cima também pula
         (p.axes && p.axes.length > 1 && p.axes[1] < -0.55)
       ) {
         pressedNow = true;
@@ -2708,22 +2537,21 @@ function startRunner() {
 
   function draw() {
     checkGamepadJump();
-
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#111111';
+    ctx.fillStyle = '#0a0c12';
     ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = '#1C1C1C';
+    ctx.fillStyle = '#131722';
     ctx.fillRect(0, 270, w, 50);
-    ctx.strokeStyle = '#E60012';
+    ctx.strokeStyle = '#ff2a4b';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(0, 270);
     ctx.lineTo(w, 270);
     ctx.stroke();
 
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = '#00f0ff';
     ctx.fillRect(105, y, 26, 26);
-    ctx.fillStyle = '#E60012';
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(122, y + 6, 4, 4);
 
     vy += 0.62;
@@ -2733,27 +2561,27 @@ function startRunner() {
     if (++frame % 72 === 0) obstacles.push({ x: w, height: 28 + Math.random() * 24 });
     obstacles.forEach(o => {
       o.x -= 6.4;
-      ctx.fillStyle = '#E60012';
+      ctx.fillStyle = '#ff2a4b';
       ctx.fillRect(o.x, 270 - o.height, 22, o.height);
       if (o.x < 131 && o.x + 22 > 105 && y + 26 > 270 - o.height) dead = true;
     });
     obstacles = obstacles.filter(o => o.x > -30);
     if (!dead) score += 0.08;
 
-    ctx.fillStyle = '#F5F5F5';
-    ctx.font = 'bold 17px monospace';
-    ctx.fillText('PONTOS: ' + String(Math.floor(score)).padStart(4, '0'), 24, 34);
+    ctx.fillStyle = '#F0F4FC';
+    ctx.font = 'bold 16px monospace';
+    ctx.fillText('SCORE: ' + String(Math.floor(score)).padStart(4, '0'), 24, 34);
 
     if (dead) {
-      ctx.fillStyle = 'rgba(17, 17, 17, 0.9)';
+      ctx.fillStyle = 'rgba(10, 12, 18, 0.9)';
       ctx.fillRect(0, 0, w, h);
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#E60012';
-      ctx.font = 'bold 30px monospace';
-      ctx.fillText('FIM DE JOGO!', w / 2, 134);
+      ctx.fillStyle = '#ff2a4b';
+      ctx.font = 'bold 28px monospace';
+      ctx.fillText('CONTINUE? (FIM DE JOGO)', w / 2, 134);
       ctx.fillStyle = '#FFFFFF';
-      ctx.font = 'bold 15px sans-serif';
-      ctx.fillText('TOQUE NO BOTÃO VERMELHO OU APERTE ESPAÇO PARA JOGAR DE NOVO', w / 2, 174);
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText('TOQUE NA TELA OU APERTE ESPAÇO PARA JOGAR DE NOVO', w / 2, 174);
       ctx.textAlign = 'left';
     }
     if (modal.classList.contains('open')) raf = requestAnimationFrame(draw);
@@ -2762,7 +2590,7 @@ function startRunner() {
 }
 
 updateFavBadge();
-renderAll();
+renderGrid();
 </script>
 </body>
 </html>

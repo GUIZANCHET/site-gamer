@@ -1187,16 +1187,16 @@
       bar.setAttribute('aria-label', 'Menu Rápido para Celular');
       bar.innerHTML = [
         '<a class="continue-mobile-item ' + (isHome ? 'active' : '') + '" href="index.html">',
-        '  <span class="m-ico">🏠</span><span>Início</span>',
+        '  <span class="m-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>Início</span>',
         '</a>',
         '<a class="continue-mobile-item ' + (isSnes ? 'active' : '') + '" href="snes.html">',
-        '  <span class="m-ico">🎮</span><span>SNES (608)</span>',
+        '  <span class="m-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 6h10c2.76 0 5 2.24 5 5v2c0 2.76-2.24 5-5 5H7c-2.76 0-5-2.24-5-5v-2c0-2.76 2.24-5 5-5zm-1 4v1.5H4.5v1H6V14h1v-1.5h1.5v-1H7V10H6zm11 1.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/></svg></span><span>SNES (613)</span>',
         '</a>',
         '<a class="continue-mobile-item ' + (isPs1 ? 'active' : '') + '" href="ps1.html">',
-        '  <span class="m-ico">💿</span><span>PS1 (12)</span>',
+        '  <span class="m-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 0 1 7.07 17.07" stroke-dasharray="2 3"/></svg></span><span>PS1 (13)</span>',
         '</a>',
         '<button type="button" class="continue-mobile-item mapper-cta" id="mobile-open-mapper">',
-        '  <span class="m-ico">🕹️</span><span>Controle</span>',
+        '  <span class="m-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4m-2-2v4m10-2h.01m-2.5-1.5h.01M6 6h12a4 4 0 0 1 4 4v5a3 3 0 0 1-5 2.2L14.4 15H9.6L7 17.2A3 3 0 0 1 2 15v-5a4 4 0 0 1 4-4Z"/></svg></span><span>Controle</span>',
         '</button>'
       ].join('\n');
       document.body.appendChild(bar);
