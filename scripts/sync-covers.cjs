@@ -590,7 +590,7 @@ async function syncPs1() {
       region: 'USA',
       genre: 'Luta',
       featured: true,
-      url: '/PlayStation/GAMES/' + encodeSeg('Marvel vs. Capcom - Clash of Super Heroes (USA).bin'),
+      url: '/ps1/' + encodeSeg('Marvel vs. Capcom - Clash of Super Heroes (USA).bin'),
       cover: 'assets/covers/ps1/marvel-vs-capcom-clash-of-super-heroes.png'
     },
     {
