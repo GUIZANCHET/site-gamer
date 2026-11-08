@@ -63,6 +63,15 @@
     "cover": "assets/covers/ps1/marvel-vs-capcom-clash-of-super-heroes.png"
   },
   {
+    "name": "Medal of Honor (USA)",
+    "title": "Medal of Honor",
+    "region": "USA (NTSC)",
+    "genre": "Tiro / FPS / Ação",
+    "featured": true,
+    "url": "/ps1/Medal%20of%20Honor%20%28USA%29.bin",
+    "cover": "assets/covers/ps1/medal-of-honor.png"
+  },
+  {
     "name": "Primal Rage (PT) (v1.2A) (www.romsportugues.com)",
     "title": "Primal Rage",
     "region": "BR (Português)",

@@ -22,6 +22,8 @@
 /ps1/
 /neogeo/*.zip
 /roms neo geo/
+/n64/
+*.apk
 *.zip
 site-jogos.zip
 snes-games.zip
