@@ -1230,6 +1230,17 @@
     }
     window.addEventListener('gamepadconnected', updateTopGamepadIndicator);
     window.addEventListener('gamepaddisconnected', updateTopGamepadIndicator);
+
+    // 4. Suporte a rolagem lateral suave com a roda do mouse na barra de navegação (.nav)
+    var topNav = document.querySelector('.nav');
+    if (topNav) {
+      topNav.addEventListener('wheel', function (e) {
+        if (e.deltaY !== 0 && topNav.scrollWidth > topNav.clientWidth) {
+          e.preventDefault();
+          topNav.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+    }
   }
 
   // =========================================================================

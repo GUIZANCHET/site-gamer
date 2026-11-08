@@ -168,16 +168,35 @@ button {
   overflow-y: hidden;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 42, 75, 0.45) rgba(255, 255, 255, 0.05);
   flex: 1;
   min-width: 0;
-  padding: 8px 0;
+  padding: 8px 12px 10px 4px;
   order: 2;
   font: 600 12px var(--sans);
 }
 
 .nav::-webkit-scrollbar {
-  display: none;
+  height: 5px;
+  display: block;
+}
+
+.nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  margin: 0 4px;
+}
+
+.nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #ff2a4b, #7928ca);
+  border-radius: 999px;
+  box-shadow: 0 0 8px rgba(255, 42, 75, 0.5);
+}
+
+.nav::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #00f0ff, #ff2a4b);
 }
 
 .nav-link {
@@ -235,6 +254,10 @@ button {
   gap: 8px;
   flex-shrink: 0;
   order: 3;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 5;
 }
 
 /* HERO */
@@ -1126,13 +1149,15 @@ button {
     order: 2;
     margin-left: auto;
     gap: 8px;
+    padding-left: 0;
+    border-left: none;
   }
   .nav {
     order: 3;
     width: 100%;
     flex: 0 0 100%;
     margin-top: 8px;
-    padding: 8px 0;
+    padding: 8px 0 10px;
     border-top: 1px solid var(--line);
     overflow-x: auto;
     overflow-y: hidden;

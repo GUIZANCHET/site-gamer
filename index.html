@@ -172,16 +172,35 @@ button {
   overflow-y: hidden;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 240, 255, 0.45) rgba(255, 255, 255, 0.05);
   flex: 1;
   min-width: 0;
-  padding: 8px 0;
+  padding: 8px 12px 10px 4px;
   order: 2;
   font: 600 12.5px var(--sans);
 }
 
 .nav::-webkit-scrollbar {
-  display: none;
+  height: 5px;
+  display: block;
+}
+
+.nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  margin: 0 4px;
+}
+
+.nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #00f0ff, #a855f7, #ff2a4b);
+  border-radius: 999px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+.nav::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #00ff87, #00f0ff);
 }
 
 .nav-link {
@@ -242,6 +261,10 @@ button {
   gap: 10px;
   flex-shrink: 0;
   order: 3;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 5;
 }
 
 .btn-top-mapper {
@@ -614,9 +637,50 @@ button {
   margin-bottom: 36px;
 }
 
+/* ANIMATED ILLUMINATED RGB/NEON BORDER FOR CARDS */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes rotateBorderAngle {
+  0% {
+    --border-angle: 0deg;
+  }
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+@keyframes neonCardPulse {
+  0% {
+    border-color: rgba(0, 240, 255, 0.7);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(0, 240, 255, 0.35);
+  }
+  25% {
+    border-color: rgba(168, 85, 247, 0.7);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(168, 85, 247, 0.35);
+  }
+  50% {
+    border-color: rgba(255, 42, 109, 0.7);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(255, 42, 109, 0.35);
+  }
+  75% {
+    border-color: rgba(0, 255, 135, 0.7);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(0, 255, 135, 0.35);
+  }
+  100% {
+    border-color: rgba(0, 240, 255, 0.7);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(0, 240, 255, 0.35);
+  }
+}
+
 .console-hub-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: 
+    linear-gradient(#0e121b, #0e121b) padding-box,
+    conic-gradient(from var(--border-angle, 0deg), #00f0ff, #a855f7, #ff2a4b, #00ff87, #00f0ff) border-box;
+  border: 1.5px solid transparent;
   border-radius: var(--radius-lg);
   padding: 18px 20px;
   display: flex;
@@ -625,28 +689,22 @@ button {
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  animation: rotateBorderAngle 5s linear infinite, neonCardPulse 5s ease-in-out infinite;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.console-hub-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--card-accent, var(--line-bright));
-  transition: height 0.18s ease;
-}
+.console-hub-card:nth-child(1) { animation-delay: 0s; }
+.console-hub-card:nth-child(2) { animation-delay: -0.7s; }
+.console-hub-card:nth-child(3) { animation-delay: -1.4s; }
+.console-hub-card:nth-child(4) { animation-delay: -2.1s; }
+.console-hub-card:nth-child(5) { animation-delay: -2.8s; }
+.console-hub-card:nth-child(6) { animation-delay: -3.5s; }
+.console-hub-card:nth-child(7) { animation-delay: -4.2s; }
 
 .console-hub-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--card-accent, var(--line-bright));
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px var(--card-glow, transparent);
-}
-
-.console-hub-card:hover::after {
-  height: 4px;
+  transform: translateY(-4px);
+  animation-duration: 2.2s;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 22px rgba(0, 240, 255, 0.6);
 }
 
 .hub-card-top {
@@ -724,9 +782,9 @@ button {
 }
 
 .hw-spec.req-heavy {
-  color: #ff3b30;
-  background: rgba(255, 59, 48, 0.15);
-  border: 1px solid rgba(255, 59, 48, 0.4);
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.4);
 }
 
 .hub-card-footer {
@@ -851,14 +909,19 @@ button {
 .instant-mini-card {
   display: flex;
   background: var(--panel);
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--line);
   border-radius: var(--radius-md);
   overflow: hidden;
-  transition: all 0.16s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .instant-mini-card:hover {
-  border-color: var(--line-bright);
+  background: 
+    linear-gradient(#0e121b, #0e121b) padding-box,
+    conic-gradient(from var(--border-angle, 0deg), #00f0ff, #a855f7, #ff2a4b, #00ff87, #00f0ff) border-box;
+  border-color: transparent;
+  animation: rotateBorderAngle 2.5s linear infinite, neonCardPulse 2.5s ease-in-out infinite;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 240, 255, 0.4);
   transform: translateY(-2px);
 }
 
@@ -931,19 +994,23 @@ button {
 
 .game-card {
   background: var(--panel);
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--line);
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
 }
 
 .game-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--card-hover-border, var(--arcade-cyan));
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+  background: 
+    linear-gradient(#0e121b, #0e121b) padding-box,
+    conic-gradient(from var(--border-angle, 0deg), #00f0ff, #a855f7, #ff2a4b, #00ff87, #00f0ff) border-box;
+  border-color: transparent;
+  animation: rotateBorderAngle 2.5s linear infinite, neonCardPulse 2.5s ease-in-out infinite;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), 0 0 18px rgba(0, 240, 255, 0.45);
 }
 
 .boxart-wrap {
@@ -1350,13 +1417,15 @@ button {
     order: 2;
     margin-left: auto;
     gap: 8px;
+    padding-left: 0;
+    border-left: none;
   }
   .nav {
     order: 3;
     width: 100%;
     flex: 0 0 100%;
     margin-top: 8px;
-    padding: 8px 0;
+    padding: 8px 0 10px;
     border-top: 1px solid var(--line);
     overflow-x: auto;
     overflow-y: hidden;
@@ -1728,7 +1797,7 @@ button {
             <span class="hub-card-gen">Portátil 16:9 • GTA Vice City Stories e Spider-Man</span>
             <div class="hw-spec req-heavy">
               <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              3D Pesado • Recomendado PC / Celular potente
+              3D Avançado • Recomendado aparelhos rápidos
             </div>
           </div>
           <div class="hub-card-footer">
@@ -2015,7 +2084,7 @@ const curatedGames = [
     consolePage: 'ps1.html'
   },
 
-  // PSP (3D Pesado)
+  // PSP (3D Avançado)
   {
     id: 'Grand Theft Auto - Vice City Stories (USA).iso',
     title: 'Grand Theft Auto: Vice City Stories',
@@ -2024,7 +2093,7 @@ const curatedGames = [
     region: '16:9 Widescreen',
     genre: 'Mundo Aberto / Ação',
     hwReq: 'heavy',
-    hwText: '3D Pesado',
+    hwText: '3D Avançado',
     cover: 'assets/covers/psp/grand-theft-auto-vice-city-stories.png',
     romUrl: '/psp/Grand%20Theft%20Auto%20-%20Vice%20City%20Stories%20(USA).iso',
     player: 'psp-player.html',
@@ -2038,7 +2107,7 @@ const curatedGames = [
     region: '16:9 Widescreen',
     genre: 'Ação / Heróis',
     hwReq: 'heavy',
-    hwText: '3D Pesado',
+    hwText: '3D Avançado',
     cover: 'assets/covers/psp/spider-man-freund-oder-feind.png',
     romUrl: '/psp/Spider-Man%20-%20Freund%20oder%20Feind%20(Germany).iso',
     player: 'psp-player.html',
