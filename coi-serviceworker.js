@@ -1,4 +1,4 @@
-/*! coi-serviceworker v0.1.7 - Guido Zuidhof -- MIT License */
+/*! coi-serviceworker v0.1.8-continue-optimized - Guido Zuidhof -- MIT License */
 let coepCredentialless = true;
 if (typeof window === 'undefined') {
   self.addEventListener("install", () => self.skipWaiting());
@@ -24,6 +24,17 @@ if (typeof window === 'undefined') {
   self.addEventListener("fetch", function (event) {
     const r = event.request;
     if (r.cache === "only-if-cached" && r.mode !== "same-origin") {
+      return;
+    }
+
+    const url = r.url || "";
+    // Ignorar e passar direto qualquer URL de ROM grande ou CDN Cloudflare R2
+    // para preservar o streaming nativo HTTP Range e evitar overhead/travamento de I/O
+    if (
+      /\.(iso|cso|bin|cue|zip|z64|7z|gz|pbp)(\?.*)?$/i.test(url) ||
+      url.includes("r2.dev") ||
+      url.includes("r2.cloudflarestorage.com")
+    ) {
       return;
     }
 

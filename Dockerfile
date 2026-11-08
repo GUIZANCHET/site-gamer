@@ -14,6 +14,7 @@ COPY coi-serviceworker.js ./
 COPY *.html ./
 COPY *.json ./
 COPY api/ ./api/
+COPY lib/ ./lib/
 COPY assets/ ./assets/
 COPY licenses/ ./licenses/
 COPY scripts/ ./scripts/

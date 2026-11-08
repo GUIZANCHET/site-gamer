@@ -133,12 +133,14 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    text-decoration: none;
     transition: all 0.2s ease;
   }
   .floating-pill:hover {
     background: rgba(24, 34, 52, 0.95);
     border-color: #00E5FF;
     box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+    color: #FFF;
   }
 </style>
 <script src="assets/storage-config.js"></script>
@@ -148,6 +150,12 @@
 <div id="game"></div>
 
 <div class="quick-floating-tools">
+  <a class="floating-pill" id="btn-direct-window" target="_blank" rel="noopener noreferrer" title="Abrir em Janela Direta sem Iframe (0 Overhead de Iframe para fluidez máxima)">
+    ⚡ Janela Direta (Sem Iframe)
+  </a>
+  <button type="button" class="floating-pill" id="btn-res-toggle" title="Alternar Resolução Interna (1x PSP Nativa 480x272 / 2x HD 960x544)">
+    🎮 Resolução: 1x (480x272)
+  </button>
   <button type="button" class="floating-pill" id="btn-fullscreen-toggle" title="Tela Cheia">
     ⛶ Tela Cheia
   </button>
@@ -224,8 +232,39 @@ function escapeHtml(str) {
 const query = new URLSearchParams(location.search);
 const rom = query.get('rom') || '';
 const title = query.get('title') || 'Jogo de PSP';
+const resParam = (query.get('res') || '1x').toLowerCase();
+const internalRes = resParam === '2x' ? '960x544' : '480x272';
 const notice = document.querySelector('#notice');
 document.title = title + ' — PlayStation Portable';
+
+// Configuração do botão de Janela Direta (Sem Iframe)
+const directLink = document.getElementById('btn-direct-window');
+if (directLink) {
+  directLink.href = window.location.href;
+  if (window.top === window.self) {
+    directLink.innerHTML = '⚡ Janela Direta (0 Iframe)';
+    directLink.style.opacity = '0.65';
+    directLink.style.pointerEvents = 'none';
+  }
+}
+
+// Configuração do seletor de Resolução Interna (1x Nativo vs 2x HD)
+const resToggleBtn = document.getElementById('btn-res-toggle');
+if (resToggleBtn) {
+  resToggleBtn.textContent = internalRes === '960x544' ? '🎮 Resolução: 2x (HD)' : '🎮 Resolução: 1x (Nativa)';
+  resToggleBtn.title = internalRes === '960x544'
+    ? 'Resolução 2x HD (960x544). Clique para voltar ao modo 1x Nativo de alta performance.'
+    : 'Resolução 1x Nativa PSP (480x272) travada a 60 FPS. Clique para testar em 2x HD.';
+  resToggleBtn.addEventListener('click', () => {
+    const nextUrl = new URL(window.location.href);
+    if (resParam === '2x') {
+      nextUrl.searchParams.delete('res');
+    } else {
+      nextUrl.searchParams.set('res', '2x');
+    }
+    window.location.href = nextUrl.toString();
+  });
+}
 
 const isVSCode = /Electron|Code\//i.test(navigator.userAgent);
 const isCloudWithoutStorage = window.ContinueStorage ? window.ContinueStorage.isCloudWithoutStorage() : false;
@@ -310,10 +349,15 @@ function launchEmulator(gameUrl) {
   window.EJS_language = 'pt-BR';
   window.EJS_startOnLoaded = true;
 
+  // Otimizações avançadas de latência, áudio e vídeo PPSSPP
   window.EJS_defaultOptions = {
     'ppsspp_cpu_core': 'jit',
     'ppsspp_rendering_mode': 'buffered',
-    'ppsspp_auto_frameskip': 'True'
+    'ppsspp_auto_frameskip': 'disabled',
+    'ppsspp_frameskip': '0',
+    'ppsspp_internal_resolution': internalRes,
+    'ppsspp_fast_memory': 'enabled',
+    'ppsspp_vertex_cache': 'enabled'
   };
 
   // Controles padrão PSP (D-Pad, Analógico Virtual, △, ○, ✕, □, L, R, Start, Select)

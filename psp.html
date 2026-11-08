@@ -449,6 +449,23 @@ button { cursor: pointer; }
   border-color: var(--cyan);
 }
 
+.dock-btn.direct {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.22), rgba(0, 119, 255, 0.22));
+  border-color: var(--cyan);
+  color: #00E5FF;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dock-btn.direct:hover {
+  background: linear-gradient(135deg, #00C4DF, #0077FF);
+  color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.45);
+}
+
 .dock-btn.danger {
   background: rgba(230, 0, 18, 0.2);
   border-color: rgba(230, 0, 18, 0.4);
@@ -917,6 +934,7 @@ button { cursor: pointer; }
           </div>
         </div>
         <div class="player-controls-bar">
+          <a class="dock-btn direct" id="dock-direct-window" href="#" target="_blank" rel="noopener noreferrer" title="Abrir em Janela Direta sem Iframe (0 Overhead de Iframe para fluidez máxima)">⚡ Janela Direta (Sem Iframe)</a>
           <button class="dock-btn" type="button" data-open-mapper>🕹️ Controle</button>
           <button class="dock-btn" id="dock-fav" type="button">★ Favoritar</button>
           <button class="dock-btn" id="dock-fullscreen" type="button">⛶ Tela Cheia</button>
@@ -994,6 +1012,8 @@ button { cursor: pointer; }
             O emulador PPSSPP utiliza renderização acelerada por hardware WebAssembly Threads:
           </p>
           <ol style="color:var(--ink);font-size:13.5px;line-height:1.7;padding-left:18px;margin:0">
+            <li><b>Janela Direta:</b> Use o botão <b>⚡ Janela Direta (Sem Iframe)</b> no topo do jogo para rodar com aceleração exclusiva de GPU e 0 overhead de iframe.</li>
+            <li><b>Resolução Travada a 1x (480x272):</b> A resolução interna vem travada a 1x nativa do PSP com JIT, Fast Memory e Vertex Cache ativados, sem auto frameskip bugado, rodando liso a 60 FPS com áudio sincronizado.</li>
             <li><b>Tela Widescreen:</b> Gire o celular na horizontal e toque em <b>Tela Cheia</b> para uma visão cinematográfica perfeita de 16:9.</li>
             <li><b>Navegador Recomendado:</b> Utilize o Google Chrome, Edge ou Brave para suporte ideal a WebAssembly Multithread.</li>
             <li><b>Controles Físicos:</b> Conecte seu joystick Bluetooth ou USB no aparelho para jogar com total precisão!</li>
@@ -1197,7 +1217,12 @@ function start(file) {
   if (file.cover) thumb.src = file.cover;
 
   syncDockFavButton();
-  frame.src = 'psp-player.html?rom=' + encodeURIComponent(file.url) + '&title=' + encodeURIComponent(title);
+  const playerUrl = 'psp-player.html?rom=' + encodeURIComponent(file.url) + '&title=' + encodeURIComponent(title);
+  frame.src = playerUrl;
+  const directBtn = document.querySelector('#dock-direct-window');
+  if (directBtn) {
+    directBtn.href = playerUrl;
+  }
   player.classList.add('open');
   player.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -1266,6 +1291,8 @@ document.querySelector('#btn-random-psp').addEventListener('click', () => {
 document.querySelector('#close').addEventListener('click', () => {
   RetroAudio.playClick();
   frame.src = 'about:blank';
+  const directBtn = document.querySelector('#dock-direct-window');
+  if (directBtn) directBtn.href = '#';
   player.classList.remove('open');
   currentPlayingFile = null;
 });
