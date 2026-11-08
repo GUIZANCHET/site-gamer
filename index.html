@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#111111">
 <title>Continue? — Videogame Grátis no Celular e PC</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
 
@@ -103,6 +107,23 @@ button {
   font-size: 21px;
   letter-spacing: -0.6px;
   flex-shrink: 0;
+}
+
+.brand-logo-img {
+  height: 44px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 0 14px rgba(230, 0, 18, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.brand:hover .brand-logo-img {
+  transform: scale(1.05);
+  box-shadow: 0 0 22px rgba(230, 0, 18, 0.65);
 }
 
 .brand-mark {
@@ -1306,9 +1327,8 @@ button {
 
 <div class="topbar-wrap">
   <header class="topbar">
-    <a class="brand" href="index.html">
-      <span class="brand-mark">↗</span>
-      <span>continue<span class="brand-q">?</span></span>
+    <a class="brand" href="index.html" title="Continue? — Videogame Grátis">
+      <img src="assets/continue-logo.png" alt="Continue?" class="brand-logo-img">
       <span class="brand-sub">Videogame Grátis</span>
     </a>
     <nav class="nav" aria-label="Navegação Principal">
