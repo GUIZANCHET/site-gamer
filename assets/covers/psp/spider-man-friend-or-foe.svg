@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg_spid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A0B2E"/>
+      <stop offset="50%" stop-color="#16213E"/>
+      <stop offset="100%" stop-color="#0F3460"/>
+    </linearGradient>
+    <radialGradient id="web_glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#E94560" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#1A0B2E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="480" height="270" fill="url(#bg_spid)"/>
+  <circle cx="240" cy="110" r="90" fill="url(#web_glow)"/>
+  <rect x="0" y="0" width="480" height="28" fill="rgba(10,10,15,0.9)"/>
+  <text x="16" y="19" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="800" fill="#00E5FF" letter-spacing="2">PSP™</text>
+  <text x="64" y="19" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="#CCC">PLAYSTATION PORTABLE</text>
+  <rect x="388" y="6" width="78" height="16" rx="3" fill="#10B981"/>
+  <text x="427" y="18" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#FFF">LIVRE</text>
+  <g transform="translate(240, 115)">
+    <text x="0" y="0" text-anchor="middle" font-size="52">🕷️🕸️</text>
+  </g>
+  <rect x="20" y="170" width="440" height="85" rx="8" fill="rgba(12,12,18,0.85)" stroke="rgba(233,69,96,0.4)" stroke-width="1.5"/>
+  <text x="36" y="194" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#00E5FF" letter-spacing="1">ACTIVISION • MARVEL • 2007</text>
+  <text x="36" y="218" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="800" fill="#FFF">Spider-Man: Friend or Foe</text>
+  <text x="36" y="240" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#9AA5B8">Batalhas épicas e alianças contra vilões cósmicos</text>
+</svg>

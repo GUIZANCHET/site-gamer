@@ -18,7 +18,19 @@ const types = {
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
   '.wasm': 'application/wasm',
-  '.zip': 'application/zip'
+  '.zip': 'application/zip',
+  '.iso': 'application/octet-stream',
+  '.cso': 'application/octet-stream',
+  '.bin': 'application/octet-stream',
+  '.gb': 'application/octet-stream',
+  '.gbc': 'application/octet-stream',
+  '.gen': 'application/octet-stream',
+  '.md': 'application/octet-stream',
+  '.z64': 'application/octet-stream',
+  '.n64': 'application/octet-stream',
+  '.v64': 'application/octet-stream',
+  '.chd': 'application/octet-stream',
+  '.pbp': 'application/octet-stream'
 };
 
 function slugify(str) {
@@ -504,6 +516,39 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (pathname === '/api/gameboy') {
+    const catalogPath = path.join(root, 'gameboy-games.json');
+    if (fs.existsSync(catalogPath)) {
+      serveStaticFile(catalogPath, req, res);
+      return;
+    }
+    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' })
+      .end(JSON.stringify({ error: 'Catálogo de Game Boy não encontrado.' }));
+    return;
+  }
+
+  if (pathname === '/api/sega') {
+    const catalogPath = path.join(root, 'sega-games.json');
+    if (fs.existsSync(catalogPath)) {
+      serveStaticFile(catalogPath, req, res);
+      return;
+    }
+    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' })
+      .end(JSON.stringify({ error: 'Catálogo de Sega Genesis não encontrado.' }));
+    return;
+  }
+
+  if (pathname === '/api/psp') {
+    const catalogPath = path.join(root, 'psp-games.json');
+    if (fs.existsSync(catalogPath)) {
+      serveStaticFile(catalogPath, req, res);
+      return;
+    }
+    res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' })
+      .end(JSON.stringify({ error: 'Catálogo de PSP não encontrado.' }));
+    return;
+  }
+
   // Proteção contra DoS de Null Byte (%00)
   if (pathname.includes('\0')) {
     res.writeHead(400, { 'Content-Type': 'text/plain' }).end('Bad Request');
@@ -526,6 +571,10 @@ const server = http.createServer((req, res) => {
   let file = path.resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
   if (!fs.existsSync(file) && fs.existsSync(file + '.html')) {
     file = file + '.html';
+  }
+  if (pathname.startsWith('/sega/') && !fs.existsSync(file)) {
+    const altFile = path.resolve(root, `.${pathname.replace(/^\/sega\//, '/segagenisi/')}`);
+    if (fs.existsSync(altFile)) file = altFile;
   }
   if (!file.startsWith(root + path.sep) && file !== path.join(root, 'index.html')) {
     res.writeHead(403).end('Forbidden');

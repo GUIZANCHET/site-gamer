@@ -57,6 +57,18 @@ const TARGETS = [
     localDir: path.join(root, 'n64'),
     filter: f => /\.(z64|n64|v64|rom)$/i.test(f),
     contentType: 'application/octet-stream'
+  },
+  {
+    prefix: 'gameboy',
+    localDir: path.join(root, 'gameboy'),
+    filter: f => /\.(zip|gb|gbc)$/i.test(f),
+    contentType: 'application/zip'
+  },
+  {
+    prefix: 'segagenisi',
+    localDir: path.join(root, 'segagenisi'),
+    filter: f => /\.(zip|bin|md|gen)$/i.test(f),
+    contentType: 'application/zip'
   }
 ];
 

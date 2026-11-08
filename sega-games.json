@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Earthworm Jim 2.zip",
+    "title": "Earthworm Jim 2",
+    "region": "USA",
+    "genre": "Ação / Plataforma",
+    "year": "1995",
+    "featured": true,
+    "url": "/segagenisi/Earthworm%20Jim%202.zip",
+    "cover": "assets/covers/sega/earthworm-jim-2.png",
+    "description": "O minhoca espacial mais excêntrico da galáxia retorna com armas absurdas, seu amigo meleca Snot e fases cheias de humor nonsense."
+  },
+  {
+    "name": "Golden Axe.zip",
+    "title": "Golden Axe",
+    "region": "World",
+    "genre": "Ação / Beat 'em up",
+    "year": "1989",
+    "featured": true,
+    "url": "/segagenisi/Golden%20Axe.zip",
+    "cover": "assets/covers/sega/golden-axe.png",
+    "description": "Escolha entre Ax Battler, Tyris Flare e Gilius Thunderhead para derrotar o tirano Death Adder em uma jornada arcade repleta de magias devastadoras."
+  },
+  {
+    "name": "Shinobi III - Return of the Ninja Master (USA).zip",
+    "title": "Shinobi III: Return of the Ninja Master",
+    "region": "USA",
+    "genre": "Ação / Plataforma",
+    "year": "1993",
+    "featured": true,
+    "url": "/segagenisi/Shinobi%20III%20-%20Return%20of%20the%20Ninja%20Master%20(USA).zip",
+    "cover": "assets/covers/sega/shinobi-iii-return-of-the-ninja-master.png",
+    "description": "Controle o mestre Joe Musashi em combates ágeis com espadas, shurikens, saltos duplos, artes ninjas (ninjitsus) e perseguições a cavalo e prancha."
+  },
+  {
+    "name": "Sonic & Knuckles + Sonic The Hedgehog 3 (Europe).zip",
+    "title": "Sonic & Knuckles + Sonic The Hedgehog 3",
+    "region": "EUR",
+    "genre": "Ação / Plataforma",
+    "year": "1994",
+    "featured": true,
+    "url": "/segagenisi/Sonic%20%26%20Knuckles%20%2B%20Sonic%20The%20Hedgehog%203%20(Europe).zip",
+    "cover": "assets/covers/sega/sonic-knuckles-sonic-3.png",
+    "description": "A obra-prima suprema de 16-bits da Sega unindo os dois cartuchos via Lock-On: 14 zonas gigantes, 3 personagens jogáveis e as Super Esmeraldas."
+  },
+  {
+    "name": "Sonic The Hedgehog (USA, Europe).zip",
+    "title": "Sonic The Hedgehog",
+    "region": "USA / EUR",
+    "genre": "Ação / Plataforma",
+    "year": "1991",
+    "featured": true,
+    "url": "/segagenisi/Sonic%20The%20Hedgehog%20(USA%2C%20Europe).zip",
+    "cover": "assets/covers/sega/sonic-the-hedgehog.png",
+    "description": "O jogo que colocou o Mega Drive no topo do mundo! Acelere com Sonic através de Green Hill Zone para deter o maquiavélico Dr. Robotnik."
+  },
+  {
+    "name": "Sonic The Hedgehog 2 (World) (Rev A).zip",
+    "title": "Sonic The Hedgehog 2",
+    "region": "World",
+    "genre": "Ação / Plataforma",
+    "year": "1992",
+    "featured": true,
+    "url": "/segagenisi/Sonic%20The%20Hedgehog%202%20(World)%20(Rev%20A).zip",
+    "cover": "assets/covers/sega/sonic-the-hedgehog-2.png",
+    "description": "Estreia do companheiro Tails e do lendário movimento Spin Dash! Pistas em altíssima velocidade, estágios especiais 3D e a transformação em Super Sonic."
+  }
+]

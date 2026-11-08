@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Donkey Kong Land 2.zip",
+    "title": "Donkey Kong Land 2",
+    "region": "USA / EUR",
+    "genre": "Ação / Plataforma",
+    "featured": true,
+    "url": "/gameboy/Donkey%20Kong%20Land%202.zip",
+    "cover": "assets/covers/gameboy/donkey-kong-land-2.png",
+    "year": "1996",
+    "description": "A clássica sequência de Donkey Kong Land da Rare para Game Boy com Diddy e Dixie Kong."
+  },
+  {
+    "name": "Hercules (USA, Europe) (SGB Enhanced).zip",
+    "title": "Disney's Hercules",
+    "region": "USA / EUR",
+    "genre": "Ação / Plataforma",
+    "featured": true,
+    "url": "/gameboy/Hercules%20(USA%2C%20Europe)%20(SGB%20Enhanced).zip",
+    "cover": "assets/covers/gameboy/hercules.png",
+    "year": "1997",
+    "description": "Aventura mitológica do clássico da Disney, com suporte e paleta especial Super Game Boy."
+  },
+  {
+    "name": "Metroid II - Return of Samus (World).zip",
+    "title": "Metroid II: Return of Samus",
+    "region": "World",
+    "genre": "Ação / Aventura",
+    "featured": true,
+    "url": "/gameboy/Metroid%20II%20-%20Return%20of%20Samus%20(World).zip",
+    "cover": "assets/covers/gameboy/metroid-ii-return-of-samus.png",
+    "year": "1991",
+    "description": "A lendária missão de Samus Aran no planeta SR388 para exterminar a ameaça dos Metroids."
+  },
+  {
+    "name": "Pokemon_ Blue Version.zip",
+    "title": "Pokémon Blue Version",
+    "region": "USA / EUR",
+    "genre": "RPG / Aventura",
+    "featured": true,
+    "url": "/gameboy/Pokemon_%20Blue%20Version.zip",
+    "cover": "assets/covers/gameboy/pokemon-blue-version.png",
+    "year": "1998",
+    "description": "Inicie sua jornada por Kanto, capture todos os 151 Pokémon e vença os líderes de ginásio e a Elite Four."
+  },
+  {
+    "name": "Pokemon_ Red Version.zip",
+    "title": "Pokémon Red Version",
+    "region": "USA / EUR",
+    "genre": "RPG / Aventura",
+    "featured": true,
+    "url": "/gameboy/Pokemon_%20Red%20Version.zip",
+    "cover": "assets/covers/gameboy/pokemon-red-version.png",
+    "year": "1998",
+    "description": "A icônica versão vermelha que iniciou a febre mundial Pokémon. Torne-se um mestre Pokémon."
+  },
+  {
+    "name": "Pokemon_ Yellow Version - Special Pikachu Edition.zip",
+    "title": "Pokémon Yellow Version: Special Pikachu Edition",
+    "region": "USA / EUR",
+    "genre": "RPG / Aventura",
+    "featured": true,
+    "url": "/gameboy/Pokemon_%20Yellow%20Version%20-%20Special%20Pikachu%20Edition.zip",
+    "cover": "assets/covers/gameboy/pokemon-yellow-version.png",
+    "year": "1999",
+    "description": "A versão definitiva inspirada no anime com Pikachu seguindo seus passos fora da Pokébola."
+  }
+]

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0a0e1c">
+<title>Mega Drive / Genesis — Continue?</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<style>
+  html, body, #game {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    background: #080b16;
+    color: #F0F4FF;
+    font: 13px 'Plus Jakarta Sans', 'JetBrains Mono', sans-serif;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow: hidden;
+  }
+
+  #notice {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 24px;
+    color: #94A3B8;
+    line-height: 1.6;
+    pointer-events: none;
+    z-index: 20;
+    background: radial-gradient(circle at 50% 40%, rgba(0, 102, 255, 0.15), rgba(8, 11, 22, 0.98) 70%);
+  }
+  #notice b { color: #00E5FF; display: block; font-size: 16px; margin-bottom: 6px; }
+
+  /* EmulatorJS Touch Gamepad - Tema Sega Arcade Neon */
+  body.touch-large .ejs_virtual_gamepad_button {
+    transform: scale(1.15);
+    font-weight: 800 !important;
+    border-width: 2px !important;
+    background-color: rgba(0, 102, 255, 0.35) !important;
+    border-color: rgba(0, 229, 255, 0.8) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 12px rgba(0, 102, 255, 0.45) !important;
+  }
+  body.touch-large .ejs_dpad_container {
+    transform: scale(1.14);
+  }
+
+  /* BOTÃO FLUTUANTE DE TELA CHEIA */
+  .quick-floating-tools {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 90;
+    display: flex;
+    gap: 8px;
+  }
+
+  .floating-pill {
+    background: rgba(12, 18, 36, 0.9);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #F0F4FF;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .floating-pill:hover {
+    background: rgba(18, 28, 54, 0.95);
+    border-color: #00E5FF;
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.45);
+  }
+</style>
+<script src="assets/storage-config.js"></script>
+<script src="assets/gamepad-mapper.js"></script>
+</head>
+<body>
+<div id="game"></div>
+
+<div class="quick-floating-tools">
+  <button type="button" class="floating-pill" id="btn-fullscreen-toggle" title="Tela Cheia">
+    ⛶ Tela Cheia
+  </button>
+</div>
+
+<div id="notice">
+  <div>
+    <b>⚡ PREPARANDO MEGA DRIVE / GENESIS…</b>
+    🕹️ Carregando clássicos velozes de 16-bits da Sega.<br>
+    📱 No celular, D-Pad e os botões A, B, C (e X, Y, Z) aparecem direto na tela!
+  </div>
+</div>
+
+<script>
+function toggleFullscreen() {
+  const elem = document.documentElement;
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+}
+
+document.getElementById('btn-fullscreen-toggle')?.addEventListener('click', toggleFullscreen);
+
+const touchCfg = window.ContinueControls ? window.ContinueControls.getTouchSettings() : { size: 'large' };
+if (touchCfg.size === 'large') document.body.classList.add('touch-large');
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+const query = new URLSearchParams(location.search);
+const rom = query.get('rom') || '';
+const title = query.get('title') || 'Jogo de Mega Drive';
+const notice = document.querySelector('#notice');
+document.title = title + ' — Sega Mega Drive / Genesis';
+
+const isVSCode = /Electron|Code\//i.test(navigator.userAgent);
+const isCloudWithoutStorage = window.ContinueStorage ? window.ContinueStorage.isCloudWithoutStorage() : false;
+
+function launchEmulator(gameUrl) {
+  notice.style.display = 'grid';
+  notice.innerHTML = '<div><b>⚡ PREPARANDO MEGA DRIVE / GENESIS…</b>Iniciando emulador, aguarde um instante...</div>';
+  
+  window.EJS_player = '#game';
+  window.EJS_core = 'segaMD';
+  window.EJS_gameUrl = gameUrl;
+  window.EJS_gameName = title;
+  window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+  window.EJS_language = 'pt-BR';
+  window.EJS_startOnLoaded = true;
+
+  // Controles Mega Drive (D-Pad, A, B, C, X, Y, Z, Start, Mode)
+  window.EJS_defaultControls = window.ContinueControls
+    ? window.ContinueControls.getEJSControls()
+    : {
+        0: {
+          1: { value: 'z', value2: 'BUTTON_3' },          // Sega A
+          0: { value: 'x', value2: 'BUTTON_1' },          // Sega B
+          8: { value: 'c', value2: 'BUTTON_2' },          // Sega C
+          10: { value: 'a', value2: 'LEFT_TOP_SHOULDER' },// Sega X
+          9: { value: 's', value2: 'BUTTON_4' },          // Sega Y
+          11: { value: 'd', value2: 'RIGHT_TOP_SHOULDER'},// Sega Z
+          3: { value: 'enter', value2: 'START' },         // Sega Start
+          2: { value: 'v', value2: 'SELECT' },            // Sega Mode
+          4: { value: 'up arrow', value2: 'DPAD_UP' },    // D-Pad Cima
+          5: { value: 'down arrow', value2: 'DPAD_DOWN' },// D-Pad Baixo
+          6: { value: 'left arrow', value2: 'DPAD_LEFT' },// D-Pad Esquerda
+          7: { value: 'right arrow', value2: 'DPAD_RIGHT'}// D-Pad Direita
+        },
+        1: {}, 2: {}, 3: {}
+      };
+
+  window.EJS_onGameStart = () => { notice.style.display = 'none'; };
+  window.EJS_ready = () => { notice.style.display = 'none'; };
+
+  const loader = document.createElement('script');
+  loader.src = window.EJS_pathtodata + 'loader.js';
+  loader.onerror = () => {
+    notice.style.display = 'grid';
+    notice.innerHTML = '<div style="background:#10162a;padding:26px;border-radius:14px;border:2px solid #00E5FF;max-width:500px;pointer-events:auto;color:#eee;box-shadow:0 8px 32px rgba(0,102,255,0.3)"><b style="color:#00E5FF;font-size:16px;margin-bottom:8px">✕ ERRO AO BAIXAR O JOGO NA NUVEM</b>O arquivo do jogo não está disponível na nuvem ou deu 404.<br><br>👉 <b>Escolha o arquivo do jogo (.zip / .bin / .gen / .md) no seu aparelho para jogar agora:</b><br><br><label style="display:inline-block;background:#0066FF;color:#FFF;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px">📁 Escolher Arquivo (.zip / .bin / .md)<input type="file" id="fallback-rom-input" accept=".zip,.bin,.gen,.md" style="display:none"></label></div>';
+    const fallbackInput = document.getElementById('fallback-rom-input');
+    if (fallbackInput) {
+      fallbackInput.addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0];
+        if (file) launchEmulator(URL.createObjectURL(file));
+      });
+    }
+  };
+  document.body.appendChild(loader);
+}
+
+function showRomMissingScreen() {
+  notice.style.display = 'grid';
+  notice.innerHTML = `<div style="background:#10162a;padding:28px 24px;border-radius:14px;border:1px solid rgba(0,229,255,0.4);box-shadow:0 8px 32px rgba(0,0,0,0.85);max-width:480px;text-align:center;pointer-events:auto;line-height:1.5;color:#eee">
+    <div style="font-size:40px;margin-bottom:8px">⚡</div>
+    <b style="color:#FFF;font-size:18px;display:block;margin-bottom:6px">${escapeHtml(title)}</b>
+    <p style="color:#FFD700;font-size:13px;font-weight:bold;margin:0 0 10px 0">⚠️ Este jogo de Mega Drive ainda não foi sincronizado na nuvem.</p>
+    <p style="color:#94A3B8;font-size:13px;margin:0 0 18px 0">Você pode jogar agora mesmo selecionando o arquivo do jogo (.zip / .bin / .gen / .md) do seu computador ou celular:</p>
+    <label style="display:inline-block;background:#0066FF;color:#FFF;font-weight:bold;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:14px;box-shadow:0 4px 14px rgba(0,102,255,0.4)">
+      📁 Selecionar Arquivo do Jogo (.zip / .bin / .md)
+      <input type="file" id="direct-rom-input" accept=".zip,.bin,.gen,.md" style="display:none">
+    </label>
+  </div>`;
+  const directInput = document.getElementById('direct-rom-input');
+  if (directInput) {
+    directInput.addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      if (file) launchEmulator(URL.createObjectURL(file));
+    });
+  }
+}
+
+if (isVSCode) {
+  notice.innerHTML = '<div style="background:#10162a;padding:24px;border-radius:12px;border:2px solid #00E5FF;max-width:500px;pointer-events:auto;line-height:1.6;color:#eee"><b style="color:#00E5FF;font-size:16px;margin-bottom:8px">⚠️ NAVEGADOR DO VS CODE NÃO SUPORTADO</b>O navegador interno do VS Code bloqueia aceleração gráfica e áudio Web.<br><br>👉 <b>Para jogar, abra no Google Chrome ou no navegador do celular:</b><br><code style="background:#000;color:#00e5ff;padding:6px 12px;border-radius:6px;display:inline-block;margin-top:10px;font-size:14px;font-weight:bold">http://localhost:4175</code></div>';
+} else if (isCloudWithoutStorage && (!rom || rom.startsWith('/'))) {
+  showRomMissingScreen();
+} else if (!rom.startsWith('/segagenisi/') && !rom.startsWith('/sega/') && !rom.startsWith('http://') && !rom.startsWith('https://') && !rom.startsWith('blob:')) {
+  notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista do Sega Mega Drive.</div>';
+} else {
+  const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
+  if (finalRom.startsWith('http://') || finalRom.startsWith('https://')) {
+    notice.style.display = 'grid';
+    notice.innerHTML = '<div><b>⚡ CONECTANDO AO SERVIDOR DE JOGOS…</b>Verificando se o jogo está disponível na nuvem...</div>';
+    fetch(finalRom, { method: 'HEAD' }).then(res => {
+      if (!res.ok && res.status === 404) {
+        showRomMissingScreen();
+      } else {
+        launchEmulator(finalRom);
+      }
+    }).catch(() => {
+      launchEmulator(finalRom);
+    });
+  } else {
+    launchEmulator(finalRom);
+  }
+}
+</script>
+</body>
+</html>

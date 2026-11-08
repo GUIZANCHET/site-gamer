@@ -2,13 +2,14 @@
  * Arcade Continue? — Gerenciador de Armazenamento de ROMs (Cloudflare R2 / Nuvem / Local)
  */
 (function() {
+  const root = typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this);
   const STORAGE_KEY = 'continue_rom_storage_url';
 
-  // URL Cloudflare R2 - Conta 1 (PlayStation 1)
+  // URL Cloudflare R2 - Conta 1 (PlayStation 1 e PSP)
   // [CORS 100% ATIVO]
   const BUCKET_1_URL = 'https://pub-d47b5e32ad1342f086599fd4c17f1622.r2.dev';
 
-  // URL Cloudflare R2 - Conta 2 (Super Nintendo, Neo Geo e Nintendo 64)
+  // URL Cloudflare R2 - Conta 2 (Super Nintendo, Neo Geo, Nintendo 64, Game Boy e Sega Genesis)
   // [CORS 100% ATIVO]: Configuração CORS validada e funcionando no Cloudflare R2
   const BUCKET_2_URL = 'https://pub-b60b23ea89e943358e1ba84d45a1521a.r2.dev';
 
@@ -47,10 +48,10 @@
     } catch (e) {}
   }
 
-  window.ContinueStorage = {
+  const ContinueStorage = {
     BUCKET_1_URL,
     BUCKET_2_URL,
-    // Retorna a URL base padrão (PlayStation)
+    // Retorna a URL base padrão (PlayStation 1 e PSP - Conta 1)
     getBaseUrl() {
       if (this.isLocalHost()) {
         return ''; // Vazio = usa o próprio servidor local
@@ -64,7 +65,7 @@
       return PS1_R2_URL;
     },
 
-    // Retorna a URL base para Super Nintendo, Neo Geo e Nintendo 64
+    // Retorna a URL base para Super Nintendo, Neo Geo, Nintendo 64, Game Boy e Sega Genesis (Conta 2)
     getRetroUrl() {
       if (this.isLocalHost()) {
         return '';
@@ -79,6 +80,7 @@
     },
 
     isLocalHost() {
+      if (typeof window === 'undefined' || !window.location) return false;
       const host = window.location.hostname;
       return host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.startsWith('10.');
     },
@@ -103,13 +105,33 @@
       const cleanRelative = relativeUrl.startsWith('/') ? relativeUrl : '/' + relativeUrl;
       const decoded = decodeURIComponent(cleanRelative).toLowerCase();
 
-      // Direciona Super Nintendo, Neo Geo e Nintendo 64 para o bucket retro (Conta 2)
-      if (decoded.startsWith('/super nintendo/') || decoded.startsWith('/neogeo/') || decoded.startsWith('/n64/')) {
+      // Direciona Super Nintendo, Neo Geo, Nintendo 64, Game Boy e Sega Genesis para o bucket retro (Conta 2)
+      if (
+        decoded.startsWith('/super nintendo/') ||
+        decoded.startsWith('/neogeo/') ||
+        decoded.startsWith('/n64/') ||
+        decoded.startsWith('/gameboy/') ||
+        decoded.startsWith('/segagenisi/') ||
+        decoded.startsWith('/sega/')
+      ) {
         const retroBase = this.getRetroUrl();
-        return retroBase ? retroBase + cleanRelative : cleanRelative;
+        const r2Path = decoded.startsWith('/sega/')
+          ? '/segagenisi' + cleanRelative.slice('/sega'.length)
+          : cleanRelative;
+        return retroBase ? retroBase + r2Path : cleanRelative;
       }
 
-      // Direciona PlayStation 1 para o bucket principal (Conta 1)
+      // Direciona PSP e PlayStation 1 para o bucket principal (Conta 1)
+      if (
+        decoded.startsWith('/psp/') ||
+        decoded.startsWith('/ps1/') ||
+        decoded.startsWith('/psx/')
+      ) {
+        const base = this.getBaseUrl();
+        return base ? base + cleanRelative : cleanRelative;
+      }
+
+      // Fallback padrão: bucket principal (Conta 1)
       const base = this.getBaseUrl();
       return base ? base + cleanRelative : cleanRelative;
     },
@@ -119,4 +141,9 @@
       return !this.isLocalHost() && !this.getBaseUrl();
     }
   };
+
+  root.ContinueStorage = ContinueStorage;
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ContinueStorage;
+  }
 })();

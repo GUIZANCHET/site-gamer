@@ -2988,6 +2988,24 @@
     "cover": "assets/covers/snes/monopoly-u-v1-1.png"
   },
   {
+    "name": "Mortal Kombat II.zip",
+    "title": "Mortal Kombat II",
+    "region": "USA",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Mortal%20Kombat%20II.zip",
+    "cover": "assets/covers/snes/mortal-kombat-ii.png"
+  },
+  {
+    "name": "Mortal Kombat.zip",
+    "title": "Mortal Kombat",
+    "region": "USA",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Mortal%20Kombat.zip",
+    "cover": "assets/covers/snes/mortal-kombat.png"
+  },
+  {
     "name": "Mr. Do! (U).smc",
     "title": "Mr. Do!",
     "region": "USA",
@@ -4104,6 +4122,24 @@
     "cover": "assets/covers/snes/street-combat-e.png"
   },
   {
+    "name": "Street Fighter Alpha 2.zip",
+    "title": "Street Fighter Alpha 2",
+    "region": "USA",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Street%20Fighter%20Alpha%202.zip",
+    "cover": "assets/covers/snes/street-fighter-alpha-2.png"
+  },
+  {
+    "name": "Street Fighter II Turbo.zip",
+    "title": "Street Fighter II Turbo",
+    "region": "USA",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Street%20Fighter%20II%20Turbo.zip",
+    "cover": "assets/covers/snes/street-fighter-ii-turbo.png"
+  },
+  {
     "name": "Street Racer (U).smc",
     "title": "Street Racer",
     "region": "USA",
@@ -5020,6 +5056,15 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Ultima%20VII%20-%20The%20Black%20Gate%20(U).smc",
     "cover": "assets/covers/snes/ultima-vii-the-black-gate-u.png"
+  },
+  {
+    "name": "Ultimate Mortal Kombat 3.zip",
+    "title": "Ultimate Mortal Kombat 3",
+    "region": "USA",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Ultimate%20Mortal%20Kombat%203.zip",
+    "cover": "assets/covers/snes/ultimate-mortal-kombat-3.png"
   },
   {
     "name": "Ultraman - Towards the Future (U) [!].smc",
