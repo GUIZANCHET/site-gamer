@@ -26,6 +26,7 @@ const pages = {
   'gameboy-player': require('../lib/html-bundles/gameboy-player-data.cjs'),
   sega: require('../lib/html-bundles/sega-html-data.cjs'),
   'sega-player': require('../lib/html-bundles/sega-player-data.cjs'),
+  '404': require('../lib/html-bundles/page-404-data.cjs'),
 };
 
 const ROUTE_MAP = {
@@ -68,6 +69,10 @@ const ROUTE_MAP = {
   '/gameboy-player.html': { type: 'html', body: pages['gameboy-player'] },
   '/sega-player': { type: 'html', body: pages['sega-player'] },
   '/sega-player.html': { type: 'html', body: pages['sega-player'] },
+
+  // Página 404 Interativa (Neon Runner)
+  '/404': { type: 'html', body: pages['404'] },
+  '/404.html': { type: 'html', body: pages['404'] },
 
   // Status / Gateway Info
   '/': { type: 'json', body: JSON.stringify({ status: 'ok', service: 'Arcade Continue Serverless Gateway' }) },
@@ -155,8 +160,8 @@ module.exports = (req, res) => {
 
   if (!route) {
     res.statusCode = 404;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.end(JSON.stringify({ error: 'Not Found', path: targetPath }));
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.end(pages['404']);
     return;
   }
 

@@ -326,6 +326,14 @@ async function streamCueArchive(files, res) {
 function serveStaticFile(file, req, res) {
   fs.stat(file, (statErr, stat) => {
     if (statErr || !stat.isFile()) {
+      if (statErr && statErr.code === 'ENOENT') {
+        const page404 = path.join(root, '404.html');
+        if (fs.existsSync(page404)) {
+          res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+          fs.createReadStream(page404).pipe(res);
+          return;
+        }
+      }
       res.writeHead(statErr && statErr.code === 'ENOENT' ? 404 : 500).end('Not found');
       return;
     }

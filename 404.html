@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0c10">
+<title>404 — Fase Secreta | Continue?</title>
+<script src="coi-serviceworker.js"></script>
+<link rel="icon" type="image/png" href="assets/continue-logo.png">
+<link rel="shortcut icon" type="image/png" href="assets/continue-logo.png">
+<link rel="apple-touch-icon" href="assets/continue-logo.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+
+:root {
+  --bg: #0a0c12;
+  --bg-soft: #0f131a;
+  --panel: #131722;
+  --panel-elevated: #1a2030;
+  --panel-hover: #21293d;
+  --line: #222a3d;
+  --line-bright: #34405c;
+  --ink: #f0f4fc;
+  --muted: #94a3b8;
+  --dim: #64748b;
+
+  --arcade-red: #ff2a4b;
+  --arcade-red-hover: #ff4763;
+  --arcade-cyan: #00f0ff;
+  --arcade-gold: #ffb800;
+  --arcade-green: #00e676;
+  --arcade-purple: #a855f7;
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --display: 'Space Grotesk', sans-serif;
+
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 7px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+}
+
+.shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* CRT SCANLINE EFFECT */
+.scanlines-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.22) 50%
+  );
+  background-size: 100% 3px;
+  opacity: 0.55;
+}
+
+/* TOPBAR */
+.topbar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(10, 12, 18, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 24px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-logo-img {
+  height: 42px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 0 16px rgba(255, 42, 75, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.2s ease;
+}
+
+.brand:hover .brand-logo-img {
+  transform: scale(1.04);
+}
+
+.brand-sub {
+  font: 700 10px var(--mono);
+  color: #ff2a4b;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 4px 8px;
+  background: rgba(255, 42, 75, 0.14);
+  border: 1px solid rgba(255, 42, 75, 0.38);
+  border-radius: 4px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 240, 255, 0.45) rgba(255, 255, 255, 0.05);
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px 10px 4px;
+  font: 600 12.5px var(--sans);
+}
+
+.nav::-webkit-scrollbar {
+  height: 5px;
+  display: block;
+}
+
+.nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  margin: 0 4px;
+}
+
+.nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #00f0ff, #a855f7, #ff2a4b);
+  border-radius: 999px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+.nav::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #00ff87, #00f0ff);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-link:hover {
+  color: #FFFFFF;
+  background: var(--panel-elevated);
+  border-color: var(--line-bright);
+}
+
+.nav-link.active {
+  color: #FFFFFF;
+  background: var(--arcade-red);
+  border-color: var(--arcade-red);
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(255, 42, 75, 0.35);
+}
+
+.top-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-top-mapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel-elevated);
+  border: 1px solid var(--line-bright);
+  color: #FFFFFF;
+  font: 600 12px var(--sans);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-top-mapper:hover {
+  border-color: var(--arcade-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+}
+
+/* 404 MAIN HERO */
+.main-content {
+  flex: 1;
+  padding: 36px 0 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-header {
+  text-align: center;
+  margin-bottom: 24px;
+  max-width: 720px;
+}
+
+.error-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 700 11px var(--mono);
+  color: var(--arcade-cyan);
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 4px;
+  padding: 5px 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.error-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 46px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0 0 10px;
+  background: linear-gradient(135deg, #FFFFFF 40%, var(--arcade-cyan) 80%, var(--arcade-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.error-desc {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ANIMATED ILLUMINATED RGB/NEON BORDER FOR THE RUNNER CARD */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes rotateBorderAngle {
+  0% {
+    --border-angle: 0deg;
+  }
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+@keyframes neonCardPulse {
+  0% {
+    border-color: rgba(0, 240, 255, 0.7);
+    box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.4);
+  }
+  25% {
+    border-color: rgba(168, 85, 247, 0.7);
+    box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.4);
+  }
+  50% {
+    border-color: rgba(255, 42, 109, 0.7);
+    box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 42, 109, 0.4);
+  }
+  75% {
+    border-color: rgba(0, 255, 135, 0.7);
+    box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 135, 0.4);
+  }
+  100% {
+    border-color: rgba(0, 240, 255, 0.7);
+    box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.4);
+  }
+}
+
+/* RUNNER ARCADE CARD */
+.runner-arcade-card {
+  width: 100%;
+  max-width: 900px;
+  background: 
+    linear-gradient(#0e121b, #0e121b) padding-box,
+    conic-gradient(from var(--border-angle, 0deg), #00f0ff, #a855f7, #ff2a4b, #00ff87, #00f0ff) border-box;
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  animation: rotateBorderAngle 4.5s linear infinite, neonCardPulse 4.5s ease-in-out infinite;
+  margin-bottom: 36px;
+}
+
+.runner-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.runner-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.runner-kicker {
+  font: 700 11px var(--mono);
+  color: var(--arcade-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.runner-card-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #FFFFFF;
+}
+
+.runner-scores {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.score-pill {
+  font: 700 12px var(--mono);
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #080a0f;
+  border: 1px solid var(--line-bright);
+  color: #FFFFFF;
+}
+
+.score-pill b {
+  color: var(--arcade-cyan);
+}
+
+.score-pill.high b {
+  color: var(--arcade-gold);
+}
+
+#game-canvas {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 900 / 320;
+  background: #080a0f;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  display: block;
+  touch-action: manipulation;
+}
+
+.runner-jump-btn {
+  width: 100%;
+  min-height: 56px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 2px solid #ff4d5a;
+  background: var(--arcade-red);
+  color: #FFFFFF;
+  font: 800 16px var(--sans);
+  letter-spacing: 0.5px;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.runner-jump-btn:active {
+  transform: scale(0.98);
+  background: var(--arcade-red-hover);
+}
+
+.game-help {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.45;
+}
+
+.game-help span {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* NAVIGATION SHORTCUTS SECTION */
+.nav-section {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.nav-section h2 {
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: #FFFFFF;
+}
+
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.shortcut-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font: 700 13px var(--sans);
+  transition: all 0.16s ease;
+}
+
+.shortcut-btn:hover {
+  background: var(--panel-elevated);
+  border-color: var(--arcade-cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.shortcut-btn.primary {
+  background: var(--arcade-red);
+  border-color: var(--arcade-red);
+  grid-column: 1 / -1;
+  font-size: 14px;
+  padding: 14px 20px;
+}
+
+.shortcut-btn.primary:hover {
+  background: var(--arcade-red-hover);
+  border-color: var(--arcade-red-hover);
+  box-shadow: 0 0 18px rgba(255, 42, 75, 0.4);
+}
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .topbar {
+    flex-wrap: wrap;
+    padding: 10px 16px 6px;
+  }
+  .brand-sub {
+    display: none;
+  }
+  .top-right-actions {
+    margin-left: auto;
+    border-left: none;
+    padding-left: 0;
+  }
+  .nav {
+    order: 3;
+    width: 100%;
+    flex: 0 0 100%;
+    margin-top: 8px;
+    padding: 8px 0 10px;
+    border-top: 1px solid var(--line);
+  }
+  .runner-arcade-card {
+    padding: 16px;
+  }
+  .runner-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="scanlines-overlay"></div>
+
+<!-- STICKY TOPBAR -->
+<header class="topbar-wrap">
+  <div class="topbar">
+    <a class="brand" href="index.html">
+      <img src="assets/branding/continue-logo-wide.png" alt="Continue?" class="brand-logo-img">
+      <span class="brand-sub">404</span>
+    </a>
+
+    <nav class="nav">
+      <a class="nav-link" href="index.html">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Início
+      </a>
+      <a class="nav-link" href="snes.html">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7 6h10c2.76 0 5 2.24 5 5v2c0 2.76-2.24 5-5 5H7c-2.76 0-5-2.24-5-5v-2c0-2.76 2.24-5 5-5zm-1 4v1.5H4.5v1H6V14h1v-1.5h1.5v-1H7V10H6zm11 1.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2-2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/></svg>
+        Super Nintendo
+      </a>
+      <a class="nav-link" href="ps1.html">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 0 1 7.07 17.07" stroke-dasharray="2 3"/></svg>
+        PlayStation 1
+      </a>
+      <a class="nav-link" href="neogeo.html">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="10" r="1" fill="currentColor"/><circle cx="17" cy="12" r="1" fill="currentColor"/></svg>
+        Neo Geo
+      </a>
+      <a class="nav-link" href="n64.html">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Nintendo 64
+      </a>
+      <a class="nav-link" href="gameboy.html">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="3"/><rect x="7" y="5" width="10" height="6" rx="1"/><path d="M9 15h2m-1-1v2"/><circle cx="14" cy="16.5" r=".75" fill="currentColor"/><circle cx="16.5" cy="15" r=".75" fill="currentColor"/></svg>
+        Game Boy
+      </a>
+      <a class="nav-link" href="sega.html">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Mega Drive
+      </a>
+      <a class="nav-link" href="psp.html">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="4"/><rect x="6.5" y="8" width="11" height="8" rx="1"/><circle cx="4.5" cy="12" r=".75" fill="currentColor"/><circle cx="19.5" cy="12" r=".75" fill="currentColor"/></svg>
+        PSP
+      </a>
+    </nav>
+
+    <div class="top-right-actions">
+      <button class="btn-top-mapper" id="open-gamepad-mapper" type="button" title="Configurar botões de controle USB / Bluetooth">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7 6h10c2.76 0 5 2.24 5 5v2c0 2.76-2.24 5-5 5H7c-2.76 0-5-2.24-5-5v-2c0-2.76 2.24-5 5-5zm-1 4v1.5H4.5v1H6V14h1v-1.5h1.5v-1H7V10H6zm11 1.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2 2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm-2-2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z"/></svg>
+        <span>Configurar Controle</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <div class="shell" style="display:flex;flex-direction:column;align-items:center">
+    
+    <div class="error-header">
+      <div class="error-badge">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        // ERRO 404 · ROTA NÃO ENCONTRADA
+      </div>
+      <h1 class="error-title">Fase Secreta: 404!</h1>
+      <p class="error-desc">A página que você tentou acessar caiu num buraco de minhoca retrô... Mas não desanime! Desvie dos obstáculos no <b>Neon Runner</b> enquanto escolhe seu próximo videogame!</p>
+    </div>
+
+    <!-- PLAYABLE RUNNER GAME CARD -->
+    <section class="runner-arcade-card">
+      <div class="runner-card-header">
+        <div class="runner-card-meta">
+          <span class="runner-kicker">// JOGO RÁPIDO · CONTROLE E TOUCH</span>
+          <h2 class="runner-card-title">Neon Runner (404 Edition)</h2>
+        </div>
+        <div class="runner-scores">
+          <div class="score-pill">PONTOS: <b id="runner-score-display">0000</b></div>
+          <div class="score-pill high">RECORDE: <b id="runner-high-display">0000</b></div>
+        </div>
+      </div>
+
+      <canvas id="game-canvas" width="900" height="320" aria-label="Jogo Neon Runner"></canvas>
+      <button type="button" id="runner-touch-jump" class="runner-jump-btn">TOQUE AQUI PARA PULAR</button>
+      
+      <div class="game-help">
+        <span>COMO JOGAR:</span> Toque no botão acima (celular), aperte <span>ESPAÇO, SETA CIMA, Z ou X</span> no teclado, ou use o <span>BOTÃO DE AÇÃO</span> no controle!
+      </div>
+    </section>
+
+    <!-- SHORTCUTS NAVIGATION -->
+    <section class="nav-section">
+      <h2>Escolha seu próximo destino:</h2>
+      <div class="shortcuts-grid">
+        <a class="shortcut-btn primary" href="index.html">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Voltar para a Página Inicial
+        </a>
+        <a class="shortcut-btn" href="snes.html">🎮 Super Nintendo</a>
+        <a class="shortcut-btn" href="ps1.html">💿 PlayStation 1</a>
+        <a class="shortcut-btn" href="neogeo.html">⚡ Neo Geo Arcade</a>
+        <a class="shortcut-btn" href="n64.html">⭐ Nintendo 64</a>
+        <a class="shortcut-btn" href="gameboy.html">📱 Game Boy</a>
+        <a class="shortcut-btn" href="sega.html">⚡ Mega Drive</a>
+        <a class="shortcut-btn" href="psp.html">🚀 PSP (PlayStation)</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="assets/gamepad-mapper.js" defer></script>
+<script src="assets/retro-bg.js" defer></script>
+
+<script>
+(function() {
+  const canvas = document.getElementById('game-canvas');
+  const jumpBtn = document.getElementById('runner-touch-jump');
+  const scoreDisplay = document.getElementById('runner-score-display');
+  const highDisplay = document.getElementById('runner-high-display');
+
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+
+  const STORAGE_KEY_HIGH = 'continue_runner_high_score';
+  let highScore = 0;
+  try {
+    highScore = parseInt(localStorage.getItem(STORAGE_KEY_HIGH) || '0', 10) || 0;
+  } catch (_) {}
+  highDisplay.textContent = String(highScore).padStart(4, '0');
+
+  let y = 244;
+  let vy = 0;
+  let obstacles = [];
+  let score = 0;
+  let frame = 0;
+  let dead = false;
+  let padWasPressed = false;
+  let rafId = null;
+
+  function jump() {
+    if (navigator.vibrate) {
+      try { navigator.vibrate(12); } catch (_) {}
+    }
+    if (dead) {
+      y = 244;
+      vy = 0;
+      obstacles = [];
+      score = 0;
+      frame = 0;
+      dead = false;
+    } else if (y >= 243) {
+      vy = -13;
+    }
+  }
+
+  // Key controls
+  window.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'ArrowUp' || e.key.toLowerCase() === 'z' || e.key.toLowerCase() === 'x') {
+      e.preventDefault();
+      jump();
+    }
+  });
+
+  // Touch & Pointer controls
+  canvas.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    jump();
+  });
+  jumpBtn.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    jump();
+  });
+
+  // Gamepad check
+  function checkGamepadJump() {
+    const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+    let pressedNow = false;
+    for (let i = 0; i < pads.length; i++) {
+      const p = pads[i];
+      if (!p || !p.connected) continue;
+      if (
+        (p.buttons[0] && p.buttons[0].pressed) ||
+        (p.buttons[1] && p.buttons[1].pressed) ||
+        (p.buttons[12] && p.buttons[12].pressed) ||
+        (p.axes && p.axes.length > 1 && p.axes[1] < -0.55)
+      ) {
+        pressedNow = true;
+        break;
+      }
+    }
+    if (pressedNow && !padWasPressed) jump();
+    padWasPressed = pressedNow;
+  }
+
+  function draw() {
+    checkGamepadJump();
+    ctx.clearRect(0, 0, w, h);
+
+    // Dark Arcade Background
+    ctx.fillStyle = '#0a0c12';
+    ctx.fillRect(0, 0, w, h);
+
+    // Floor Track
+    ctx.fillStyle = '#131722';
+    ctx.fillRect(0, 270, w, 50);
+    ctx.strokeStyle = '#00f0ff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, 270);
+    ctx.lineTo(w, 270);
+    ctx.stroke();
+
+    // Player (Cyan Neon Runner)
+    ctx.fillStyle = '#00f0ff';
+    ctx.shadowColor = '#00f0ff';
+    ctx.shadowBlur = 10;
+    ctx.fillRect(105, y, 26, 26);
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(122, y + 6, 4, 4);
+
+    // Gravity
+    vy += 0.62;
+    y = Math.min(244, y + vy);
+    if (y === 244) vy = 0;
+
+    // Obstacles Generation
+    if (++frame % 70 === 0) {
+      obstacles.push({ x: w, height: 28 + Math.random() * 24 });
+    }
+
+    // Move & Render Obstacles
+    obstacles.forEach(o => {
+      o.x -= 6.4;
+      ctx.fillStyle = '#ff2a4b';
+      ctx.shadowColor = '#ff2a4b';
+      ctx.shadowBlur = 8;
+      ctx.fillRect(o.x, 270 - o.height, 22, o.height);
+      ctx.shadowBlur = 0;
+
+      // Collision Detection
+      if (o.x < 131 && o.x + 22 > 105 && y + 26 > 270 - o.height) {
+        dead = true;
+      }
+    });
+
+    obstacles = obstacles.filter(o => o.x > -30);
+
+    if (!dead) {
+      score += 0.08;
+      const currentScoreInt = Math.floor(score);
+      scoreDisplay.textContent = String(currentScoreInt).padStart(4, '0');
+
+      if (currentScoreInt > highScore) {
+        highScore = currentScoreInt;
+        highDisplay.textContent = String(highScore).padStart(4, '0');
+        try {
+          localStorage.setItem(STORAGE_KEY_HIGH, String(highScore));
+        } catch (_) {}
+      }
+    }
+
+    // In-canvas Score
+    ctx.fillStyle = '#F0F4FC';
+    ctx.font = 'bold 16px monospace';
+    ctx.fillText('SCORE: ' + String(Math.floor(score)).padStart(4, '0'), 24, 34);
+
+    // Game Over Overlay
+    if (dead) {
+      ctx.fillStyle = 'rgba(10, 12, 18, 0.9)';
+      ctx.fillRect(0, 0, w, h);
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ff2a4b';
+      ctx.shadowColor = '#ff2a4b';
+      ctx.shadowBlur = 12;
+      ctx.font = 'bold 28px monospace';
+      ctx.fillText('CONTINUE? (FIM DE JOGO)', w / 2, 134);
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText('TOQUE NA TELA OU APERTE ESPAÇO PARA JOGAR DE NOVO', w / 2, 174);
+      ctx.textAlign = 'left';
+    }
+
+    rafId = requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+</script>
+</body>
+</html>
