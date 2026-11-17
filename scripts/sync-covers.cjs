@@ -377,9 +377,9 @@ async function syncSnes() {
     const genre = inferGenre(title);
     const slug = slugify(romFile);
 
+    const pngPath = path.join(COVERS_SNES_DIR, `${slug}.png`);
     let coverRelPath;
     if (match) {
-      const pngPath = path.join(COVERS_SNES_DIR, `${slug}.png`);
       coverRelPath = `assets/covers/snes/${slug}.png`;
       if (!isValidLocalPng(pngPath)) {
         const remoteUrl = `https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Super_Nintendo_Entertainment_System/master/${match.folder}/${encodeURIComponent(match.name)}.png`;
@@ -397,6 +397,9 @@ async function syncSnes() {
       } else {
         stats[match.kind]++;
       }
+    } else if (isValidLocalPng(pngPath)) {
+      coverRelPath = `assets/covers/snes/${slug}.png`;
+      stats.boxart++;
     } else {
       const svgPath = path.join(COVERS_SNES_DIR, `${slug}.svg`);
       fs.writeFileSync(svgPath, createStylizedSvgCover(title, genre, region));

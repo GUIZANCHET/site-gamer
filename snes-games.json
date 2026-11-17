@@ -1791,6 +1791,15 @@
     "cover": "assets/covers/snes/dream-tv-u.png"
   },
   {
+    "name": "DuckTales (World) (REV-F) (Aftermarket) (Unl).zip",
+    "title": "DuckTales",
+    "region": "USA",
+    "genre": "Ação / Plataforma",
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/DuckTales%20(World)%20(REV-F)%20(Aftermarket)%20(Unl).zip",
+    "cover": "assets/covers/snes/ducktales-world-rev-f-aftermarket-unl.png"
+  },
+  {
     "name": "Dungeon Master (U).smc",
     "title": "Dungeon Master",
     "region": "USA",
