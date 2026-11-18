@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { S3Client, HeadObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, HeadObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { Upload } = require('@aws-sdk/lib-storage');
 
 // Carrega .env.r2.retro (Conta 2 - Balanço de Armazenamento R2 abaixo de 10GB)
@@ -30,6 +30,10 @@ if (!ACCESS_KEY_ID || !SECRET_ACCESS_KEY) {
 const s3 = new S3Client({
   region: 'auto',
   endpoint: `https://${ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  requestHandler: {
+    requestTimeout: 120000,
+    connectionTimeout: 30000,
+  },
   credentials: {
     accessKeyId: ACCESS_KEY_ID,
     secretAccessKey: SECRET_ACCESS_KEY,
@@ -70,8 +74,8 @@ async function uploadFile(fileName) {
       Body: fileStream,
       ContentType: 'application/octet-stream',
     },
-    partSize: 15 * 1024 * 1024, // Fatias de 15MB
-    queueSize: 4, // 4 partes paralelas
+    partSize: 25 * 1024 * 1024, // Fatias de 25MB
+    queueSize: 2, // 2 partes paralelas para evitar saturação de socket
   });
 
   let lastPercent = 0;
@@ -91,13 +95,17 @@ async function uploadFile(fileName) {
 
 async function main() {
   const targetFiles = [
+    'Grand Theft Auto - Vice City Stories (USA).cso',
+    'Spider-Man - Freund oder Feind (Germany).cso'
+  ];
+  const obsoleteIsos = [
     'Grand Theft Auto - Vice City Stories (USA).iso',
     'Spider-Man - Freund oder Feind (Germany).iso'
   ];
 
   console.log(`=======================================================`);
-  console.log(`📦 UPLOAD S3 MULTIPART - JOGOS DE PSP PARA CLOUDFLARE R2`);
-  console.log(`Bucket de Alta Capacidade: ${BUCKET} (junto com PS1)`);
+  console.log(`📦 UPLOAD S3 MULTIPART - JOGOS DE PSP (.CSO) PARA CLOUDFLARE R2`);
+  console.log(`Bucket: ${BUCKET}`);
   console.log(`=======================================================`);
   console.log(`Total de arquivos: ${targetFiles.length}\n`);
 
@@ -111,7 +119,14 @@ async function main() {
     }
   }
 
-  console.log('\n🎉 UPLOAD DE PSP PARA CLOUDFLARE R2 CONCLUÍDO COM SUCESSO!');
+  for (const oldIso of obsoleteIsos) {
+    try {
+      await s3.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: `psp/${oldIso}` }));
+      console.log(`🗑️ Removido ISO antigo do R2: psp/${oldIso}`);
+    } catch (err) {}
+  }
+
+  console.log('\n🎉 UPLOAD DE PSP (.CSO) PARA CLOUDFLARE R2 CONCLUÍDO COM SUCESSO!');
 }
 
 main().catch(err => {

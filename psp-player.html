@@ -61,11 +61,9 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
-    background: rgba(14, 18, 28, 0.94);
+    background: rgba(14, 18, 28, 0.96);
     border: 1px solid rgba(0, 229, 255, 0.45);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 18px rgba(0, 229, 255, 0.25);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
     border-radius: 30px;
     padding: 8px 18px;
     display: none;
@@ -75,7 +73,6 @@
     font-size: 12px;
     font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
     pointer-events: auto;
-    animation: fadeInDown 0.4s ease;
   }
 
   @keyframes fadeInDown {
@@ -120,7 +117,7 @@
   }
 
   .floating-pill {
-    background: rgba(16, 22, 34, 0.88);
+    background: rgba(16, 22, 34, 0.94);
     border: 1px solid rgba(0, 229, 255, 0.3);
     color: #FFF;
     border-radius: 20px;
@@ -128,18 +125,15 @@
     font-size: 11.5px;
     font-weight: 600;
     cursor: pointer;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     display: inline-flex;
     align-items: center;
     gap: 6px;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
   }
   .floating-pill:hover {
-    background: rgba(24, 34, 52, 0.95);
+    background: rgba(24, 34, 52, 0.98);
     border-color: #00E5FF;
-    box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
     color: #FFF;
   }
 </style>
@@ -337,34 +331,72 @@ function launchEmulator(gameUrl) {
 
   try { sessionStorage.removeItem('psp_coi_reloaded'); } catch {}
 
+  // Limpa opções legadas/inválidas ('jit' minúsculo, 'auto_frameskip' bugado) e caches gigantes de IndexedDB
+  try {
+    const settingsVersionKey = 'psp_ejs_opts_v3';
+    if (localStorage.getItem(settingsVersionKey) !== '1') {
+      Object.keys(localStorage).forEach(k => {
+        if (k.startsWith('ejs-') && k.includes('-psp-')) {
+          localStorage.removeItem(k);
+        }
+      });
+      localStorage.setItem(settingsVersionKey, '1');
+    }
+    if (window.indexedDB && typeof window.indexedDB.databases === 'function') {
+      window.indexedDB.databases().then(dbs => {
+        (dbs || []).forEach(db => {
+          if (db && db.name && /rom|cache/i.test(db.name)) {
+            try { window.indexedDB.deleteDatabase(db.name); } catch (e) {}
+          }
+        });
+      }).catch(() => {});
+    }
+  } catch (e) {}
+
   notice.style.display = 'grid';
-  notice.innerHTML = '<div><b>🚀 PREPARANDO PLAYSTATION PORTABLE…</b>Iniciando emulador PPSSPP com aceleração multithread, aguarde alguns segundos...</div>';
+  notice.innerHTML = '<div><b>🚀 PREPARANDO PLAYSTATION PORTABLE…</b>Iniciando emulador PPSSPP com aceleração multithread e imagem CSO compactada...</div>';
   
   window.EJS_player = '#game';
   window.EJS_core = 'psp';
   window.EJS_threads = true; // ESSENCIAL PARA PERFORMANCE NO PSP!
+  window.EJS_CacheLimit = 0; // Desativa clonagem de 500MB-900MB no IndexedDB durante o boot!
+  window.EJS_cacheConfig = { enabled: false };
   window.EJS_gameUrl = gameUrl;
   window.EJS_gameName = title;
   window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
   window.EJS_language = 'pt-BR';
   window.EJS_startOnLoaded = true;
 
-  // Otimizações de alta performance para PPSSPP (Zero Lag / Fluidez 60 FPS)
+  // Otimizações oficiais case-sensitive do core @emulatorjs/core-ppsspp (libretro.cpp)
   window.EJS_defaultOptions = {
-    'ppsspp_cpu_core': 'jit',
-    'ppsspp_rendering_mode': 'buffered',
-    'ppsspp_auto_frameskip': 'enabled',
-    'ppsspp_frameskip': '1',
-    'ppsspp_frameskiptype': 'auto',
-    'ppsspp_internal_resolution': internalRes,
+    'ppsspp_cpu_core': 'IR JIT',
     'ppsspp_fast_memory': 'enabled',
-    'ppsspp_vertex_cache': 'enabled',
-    'ppsspp_sound_speed_hack': 'enabled',
-    'ppsspp_texture_filtering': 'nearest',
+    'ppsspp_ignore_bad_memory_access': 'enabled',
+    'ppsspp_io_timing_method': 'Fast',
+    'ppsspp_force_lag_sync': 'disabled',
+    'ppsspp_locked_cpu_speed': 'disabled',
+    'ppsspp_cache_iso': 'disabled',
+    'ppsspp_internal_resolution': internalRes,
+    'ppsspp_frameskip': 'disabled',
+    'ppsspp_frameskiptype': 'Number of frames',
+    'ppsspp_auto_frameskip': 'disabled',
+    'ppsspp_frame_duplication': 'enabled',
+    'ppsspp_inflight_frames': 'No buffer',
+    'ppsspp_skip_buffer_effects': 'disabled',
+    'ppsspp_disable_range_culling': 'disabled',
+    'ppsspp_skip_gpu_readbacks': 'enabled',
     'ppsspp_lazy_texture_caching': 'enabled',
-    'ppsspp_retain_changed_textures': 'enabled',
-    'ppsspp_io_timing_method': 'fast',
-    'ppsspp_force_max_fps': 'enabled'
+    'ppsspp_spline_quality': 'Low',
+    'ppsspp_lower_resolution_for_effects': 'Aggressive',
+    'ppsspp_gpu_hardware_transform': 'enabled',
+    'ppsspp_software_skinning': 'enabled',
+    'ppsspp_hardware_tesselation': 'disabled',
+    'ppsspp_texture_scaling_level': 'disabled',
+    'ppsspp_texture_deposterize': 'disabled',
+    'ppsspp_texture_anisotropic_filtering': 'disabled',
+    'ppsspp_texture_filtering': 'Auto',
+    'ppsspp_smart_2d_texture_filtering': 'disabled',
+    'vsync': 'enabled'
   };
 
   // Controles padrão PSP (D-Pad, Analógico Virtual, △, ○, ✕, □, L, R, Start, Select)
@@ -440,21 +472,7 @@ if (isVSCode) {
   notice.innerHTML = '<div><b>✕ JOGO NÃO ENCONTRADO</b>Escolha outro jogo na lista do PlayStation Portable.</div>';
 } else {
   const finalRom = window.ContinueStorage ? window.ContinueStorage.resolveUrl(rom) : rom;
-  if (finalRom.startsWith('http://') || finalRom.startsWith('https://')) {
-    notice.style.display = 'grid';
-    notice.innerHTML = '<div><b>🚀 CONECTANDO AO SERVIDOR DE JOGOS…</b>Verificando se o jogo está disponível na nuvem...</div>';
-    fetch(finalRom, { method: 'HEAD' }).then(res => {
-      if (!res.ok && res.status === 404) {
-        showRomMissingScreen();
-      } else {
-        launchEmulator(finalRom);
-      }
-    }).catch(() => {
-      launchEmulator(finalRom);
-    });
-  } else {
-    launchEmulator(finalRom);
-  }
+  launchEmulator(finalRom);
 }
 </script>
 </body>

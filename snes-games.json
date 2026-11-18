@@ -27,15 +27,6 @@
     "cover": "assets/covers/snes/7th-saga-the-u.png"
   },
   {
-    "name": "7th Saga, The (U).smc",
-    "title": "The 7th Saga",
-    "region": "USA",
-    "genre": "RPG / Aventura",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/7th%20Saga%2C%20The%20(U).smc",
-    "cover": "assets/covers/snes/7th-saga-the-u.png"
-  },
-  {
     "name": "90 Minutes - European Prime Goal (E) [!].smc",
     "title": "90 Minutes - European Prime Goal",
     "region": "EUR",
@@ -52,15 +43,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/A.S.P.%20Air%20Strike%20Patrol%20(U).smc",
     "cover": "assets/covers/snes/a-s-p-air-strike-patrol-u.png"
-  },
-  {
-    "name": "AAAHH! Real Monsters (U).smc",
-    "title": "AAAHH! Real Monsters",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/AAAHH!%20Real%20Monsters%20(U).smc",
-    "cover": "assets/covers/snes/aaahh-real-monsters-u.png"
   },
   {
     "name": "AAAHH!!! Real Monsters (U) [!].smc",
@@ -90,15 +72,6 @@
     "cover": "assets/covers/snes/acme-animation-factory-u.png"
   },
   {
-    "name": "Act Raiser (U).smc",
-    "title": "Act Raiser",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Act%20Raiser%20(U).smc",
-    "cover": "assets/covers/snes/act-raiser-u.png"
-  },
-  {
     "name": "Act Raiser 2 (U).smc",
     "title": "Act Raiser 2",
     "region": "USA",
@@ -115,15 +88,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/ActRaiser%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/actraiser-u.png"
-  },
-  {
-    "name": "ActRaiser 2 (E).smc",
-    "title": "ActRaiser 2",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/ActRaiser%202%20(E).smc",
-    "cover": "assets/covers/snes/actraiser-2-e.png"
   },
   {
     "name": "AD&D - Eye of the Beholder (U) [!].smc",
@@ -162,15 +126,6 @@
     "cover": "assets/covers/snes/addams-family-the-e.png"
   },
   {
-    "name": "Adventures of Batman & Robin, The  (U).smc",
-    "title": "The Adventures of Batman & Robin",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Adventures%20of%20Batman%20%26%20Robin%2C%20The%20%20(U).smc",
-    "cover": "assets/covers/snes/adventures-of-batman-robin-the-u.png"
-  },
-  {
     "name": "Adventures of Batman & Robin, The (U).smc",
     "title": "The Adventures of Batman & Robin",
     "region": "USA",
@@ -187,15 +142,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Adventures%20of%20Dr.%20Franken%2C%20The%20(U).smc",
     "cover": "assets/covers/snes/adventures-of-dr-franken-the-u.png"
-  },
-  {
-    "name": "Adventures of Kid Kleets (U).smc",
-    "title": "Adventures of Kid Kleets",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Adventures%20of%20Kid%20Kleets%20(U).smc",
-    "cover": "assets/covers/snes/adventures-of-kid-kleets-u.png"
   },
   {
     "name": "Adventures of Kid Kleets, The (U) [!].smc",
@@ -223,24 +169,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Aero%20Fighters%20(U).smc",
     "cover": "assets/covers/snes/aero-fighters-u.png"
-  },
-  {
-    "name": "Aero Fighters (US).smc",
-    "title": "Aero Fighters",
-    "region": "USA",
-    "genre": "Shoot 'em up",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Aero%20Fighters%20(US).smc",
-    "cover": "assets/covers/snes/aero-fighters-us.png"
-  },
-  {
-    "name": "Aero the Acro-Bat (E).smc",
-    "title": "Aero the Acro-Bat",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Aero%20the%20Acro-Bat%20(E).smc",
-    "cover": "assets/covers/snes/aero-the-acro-bat-e.png"
   },
   {
     "name": "Aero the Acro-Bat (U).smc",
@@ -297,15 +225,6 @@
     "cover": "assets/covers/snes/air-cavalry-u.png"
   },
   {
-    "name": "Air Strike Patrol (U).smc",
-    "title": "Air Strike Patrol",
-    "region": "USA",
-    "genre": "Shoot 'em up",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Air%20Strike%20Patrol%20(U).smc",
-    "cover": "assets/covers/snes/air-strike-patrol-u.png"
-  },
-  {
     "name": "Al Unser Jr_s Road to the Top (U).smc",
     "title": "Al Unser Jr's Road to the Top",
     "region": "USA",
@@ -313,15 +232,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Al%20Unser%20Jr_s%20Road%20to%20the%20Top%20(U).smc",
     "cover": "assets/covers/snes/al-unser-jr-s-road-to-the-top-u.png"
-  },
-  {
-    "name": "Aladdin (E).smc",
-    "title": "Aladdin",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Aladdin%20(E).smc",
-    "cover": "assets/covers/snes/aladdin-e.png"
   },
   {
     "name": "Aladdin (U) [!].smc",
@@ -333,30 +243,12 @@
     "cover": "assets/covers/snes/aladdin-u.png"
   },
   {
-    "name": "Alfred Chicken (U).smc",
-    "title": "Alfred Chicken",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Alfred%20Chicken%20(U).smc",
-    "cover": "assets/covers/snes/alfred-chicken-u.png"
-  },
-  {
     "name": "Alien 3 (U) [!].smc",
     "title": "Alien 3",
     "region": "USA",
     "genre": "Ação / Plataforma",
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Alien%203%20(U)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/alien-3-u.png"
-  },
-  {
-    "name": "Alien 3 (U).smc",
-    "title": "Alien 3",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Alien%203%20(U).smc",
     "cover": "assets/covers/snes/alien-3-u.png"
   },
   {
@@ -396,30 +288,12 @@
     "cover": "assets/covers/snes/american-tail-an-fievel-goes-west-u.png"
   },
   {
-    "name": "An American Tale - Fievel Goes West (U).smc",
-    "title": "An American Tale - Fievel Goes West",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/An%20American%20Tale%20-%20Fievel%20Goes%20West%20(U).smc",
-    "cover": "assets/covers/snes/an-american-tale-fievel-goes-west-u.png"
-  },
-  {
     "name": "Andre Agassi Tennis (U) [!].smc",
     "title": "Andre Agassi Tennis",
     "region": "USA",
     "genre": "Esportes",
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Andre%20Agassi%20Tennis%20(U)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/andre-agassi-tennis-u.png"
-  },
-  {
-    "name": "Andre Agassi Tennis (U).smc",
-    "title": "Andre Agassi Tennis",
-    "region": "USA",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Andre%20Agassi%20Tennis%20(U).smc",
     "cover": "assets/covers/snes/andre-agassi-tennis-u.png"
   },
   {
@@ -432,26 +306,8 @@
     "cover": "assets/covers/snes/animaniacs-e.png"
   },
   {
-    "name": "Another World (E) [!].smc",
-    "title": "Another World",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Another%20World%20(E)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/another-world-e.png"
-  },
-  {
-    "name": "Arcade_s Greatest Hits - The Atari Collection 1 (U).smc",
-    "title": "Arcade's Greatest Hits - The Atari Collection 1",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Arcade_s%20Greatest%20Hits%20-%20The%20Atari%20Collection%201%20(U).smc",
-    "cover": "assets/covers/snes/arcade-s-greatest-hits-the-atari-collection-1-u.png"
-  },
-  {
     "name": "Arcade_s Greatest Hits (U) [!].smc",
-    "title": "Arcade's Greatest Hits",
+    "title": "Arcade's Greatest Hits - The Atari Collection 1",
     "region": "USA",
     "genre": "Ação / Plataforma",
     "featured": false,
@@ -502,15 +358,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Aretha%20II%20-%20Ariel%20no%20Fushigi%20na%20Tabi%20(Beta).smc",
     "cover": "assets/covers/snes/aretha-ii-ariel-no-fushigi-na-tabi-beta.png"
-  },
-  {
-    "name": "Arkanoid - Doh it Again (E).smc",
-    "title": "Arkanoid - Doh it Again",
-    "region": "EUR",
-    "genre": "Shoot 'em up",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Arkanoid%20-%20Doh%20it%20Again%20(E).smc",
-    "cover": "assets/covers/snes/arkanoid-doh-it-again-e.png"
   },
   {
     "name": "Arkanoid - Doh It Again (U) [!].smc",
@@ -567,15 +414,6 @@
     "cover": "assets/covers/snes/b-o-b-e.png"
   },
   {
-    "name": "Baby T-Rex (Beta).smc",
-    "title": "Baby T-Rex",
-    "region": "BETA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Baby%20T-Rex%20(Beta).smc",
-    "cover": "assets/covers/snes/baby-t-rex-beta.png"
-  },
-  {
     "name": "Ballz 3D (U) [!].smc",
     "title": "Ballz 3D",
     "region": "USA",
@@ -583,24 +421,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Ballz%203D%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/ballz-3d-u.png"
-  },
-  {
-    "name": "Ballz 3D (U).smc",
-    "title": "Ballz 3D",
-    "region": "USA",
-    "genre": "Luta",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Ballz%203D%20(U).smc",
-    "cover": "assets/covers/snes/ballz-3d-u.png"
-  },
-  {
-    "name": "Bananas de Pijamas [p1][!].smc",
-    "title": "Bananas de Pijamas",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Bananas%20de%20Pijamas%20%5Bp1%5D%5B!%5D.smc",
-    "cover": "assets/covers/snes/bananas-de-pijamas-p1.svg"
   },
   {
     "name": "Barbie Super Model (U).smc",
@@ -648,15 +468,6 @@
     "cover": "assets/covers/snes/bass-masters-classic-u.png"
   },
   {
-    "name": "Bass Masters Classic Pro Edition (U).smc",
-    "title": "Bass Masters Classic Pro Edition",
-    "region": "USA",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Bass%20Masters%20Classic%20Pro%20Edition%20(U).smc",
-    "cover": "assets/covers/snes/bass-masters-classic-pro-edition-u.png"
-  },
-  {
     "name": "Bassin_s Black Bass (U).smc",
     "title": "Bassin's Black Bass",
     "region": "USA",
@@ -673,15 +484,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Batman%20-%20Revenge%20of%20the%20Joker%20(U).smc",
     "cover": "assets/covers/snes/batman-revenge-of-the-joker-u.png"
-  },
-  {
-    "name": "Batman (Beta).smc",
-    "title": "Batman",
-    "region": "BETA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Batman%20(Beta).smc",
-    "cover": "assets/covers/snes/batman-beta.png"
   },
   {
     "name": "Batman Forever (U) [!].smc",
@@ -810,15 +612,6 @@
     "cover": "assets/covers/snes/best-of-the-best-championship-karate-u.png"
   },
   {
-    "name": "Best of the Best (U).smc",
-    "title": "Best of the Best",
-    "region": "USA",
-    "genre": "Luta",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Best%20of%20the%20Best%20(U).smc",
-    "cover": "assets/covers/snes/best-of-the-best-u.png"
-  },
-  {
     "name": "Big Sky Trooper (U) [!].smc",
     "title": "Big Sky Trooper",
     "region": "USA",
@@ -828,30 +621,12 @@
     "cover": "assets/covers/snes/big-sky-trooper-u.png"
   },
   {
-    "name": "Big Sky Trooper (U).smc",
-    "title": "Big Sky Trooper",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Big%20Sky%20Trooper%20(U).smc",
-    "cover": "assets/covers/snes/big-sky-trooper-u.png"
-  },
-  {
     "name": "Biker Mice From Mars (U) [!].smc",
     "title": "Biker Mice From Mars",
     "region": "USA",
     "genre": "Corrida",
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Biker%20Mice%20From%20Mars%20(U)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/biker-mice-from-mars-u.png"
-  },
-  {
-    "name": "Biker Mice From Mars (U).smc",
-    "title": "Biker Mice From Mars",
-    "region": "USA",
-    "genre": "Corrida",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Biker%20Mice%20From%20Mars%20(U).smc",
     "cover": "assets/covers/snes/biker-mice-from-mars-u.png"
   },
   {
@@ -873,15 +648,6 @@
     "cover": "assets/covers/snes/bill-walsh-college-football-u.png"
   },
   {
-    "name": "Bill Walsh College Football (U).smc",
-    "title": "Bill Walsh College Football",
-    "region": "USA",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Bill%20Walsh%20College%20Football%20(U).smc",
-    "cover": "assets/covers/snes/bill-walsh-college-football-u.png"
-  },
-  {
     "name": "Bio Metal (U) [!].smc",
     "title": "Bio Metal",
     "region": "USA",
@@ -889,33 +655,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Bio%20Metal%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/bio-metal-u.png"
-  },
-  {
-    "name": "Bio Metal (U).smc",
-    "title": "Bio Metal",
-    "region": "USA",
-    "genre": "Shoot 'em up",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Bio%20Metal%20(U).smc",
-    "cover": "assets/covers/snes/bio-metal-u.png"
-  },
-  {
-    "name": "Black Hawk (E) [!].smc",
-    "title": "Black Hawk",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Black%20Hawk%20(E)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/black-hawk-e.png"
-  },
-  {
-    "name": "Black Thorne (U).smc",
-    "title": "Black Thorne",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Black%20Thorne%20(U).smc",
-    "cover": "assets/covers/snes/black-thorne-u.png"
   },
   {
     "name": "Blackhawk (E) [!].smc",
@@ -943,24 +682,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Blazeon%20(U).smc",
     "cover": "assets/covers/snes/blazeon-u.png"
-  },
-  {
-    "name": "Blazing Skies (E).smc",
-    "title": "Blazing Skies",
-    "region": "EUR",
-    "genre": "Shoot 'em up",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Blazing%20Skies%20(E).smc",
-    "cover": "assets/covers/snes/blazing-skies-e.png"
-  },
-  {
-    "name": "Blues Brothers, The (E) [!].smc",
-    "title": "The Blues Brothers",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Blues%20Brothers%2C%20The%20(E)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/blues-brothers-the-e.png"
   },
   {
     "name": "Blues Brothers, The (U).smc",
@@ -999,15 +720,6 @@
     "cover": "assets/covers/snes/boogerman-a-pick-and-flick-adventure-u.png"
   },
   {
-    "name": "Boogerman - A Pick and Flick Adventure (U).smc",
-    "title": "Boogerman - A Pick and Flick Adventure",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Boogerman%20-%20A%20Pick%20and%20Flick%20Adventure%20(U).smc",
-    "cover": "assets/covers/snes/boogerman-a-pick-and-flick-adventure-u.png"
-  },
-  {
     "name": "Boxing Legends of the Ring (U).smc",
     "title": "Boxing Legends of the Ring",
     "region": "USA",
@@ -1023,15 +735,6 @@
     "genre": "RPG / Aventura",
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Brain%20Lord%20(U)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/brain-lord-u.png"
-  },
-  {
-    "name": "Brain Lord (U).smc",
-    "title": "Brain Lord",
-    "region": "USA",
-    "genre": "RPG / Aventura",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Brain%20Lord%20(U).smc",
     "cover": "assets/covers/snes/brain-lord-u.png"
   },
   {
@@ -1089,24 +792,6 @@
     "cover": "assets/covers/snes/breath-of-fire-u.png"
   },
   {
-    "name": "Breath of Fire (U).smc",
-    "title": "Breath of Fire",
-    "region": "USA",
-    "genre": "RPG / Aventura",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Breath%20of%20Fire%20(U).smc",
-    "cover": "assets/covers/snes/breath-of-fire-u.png"
-  },
-  {
-    "name": "Breath of Fire II (E).smc",
-    "title": "Breath of Fire II",
-    "region": "EUR",
-    "genre": "RPG / Aventura",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Breath%20of%20Fire%20II%20(E).smc",
-    "cover": "assets/covers/snes/breath-of-fire-ii-e.png"
-  },
-  {
     "name": "Breath of Fire II (U) [!].smc",
     "title": "Breath of Fire II",
     "region": "USA",
@@ -1134,15 +819,6 @@
     "cover": "assets/covers/snes/brett-hull-hockey-u.png"
   },
   {
-    "name": "Brett Hull Hockey (U).smc",
-    "title": "Brett Hull Hockey",
-    "region": "USA",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Brett%20Hull%20Hockey%20(U).smc",
-    "cover": "assets/covers/snes/brett-hull-hockey-u.png"
-  },
-  {
     "name": "Bronkie Health Hero (U).smc",
     "title": "Bronkie Health Hero",
     "region": "USA",
@@ -1150,15 +826,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Bronkie%20Health%20Hero%20(U).smc",
     "cover": "assets/covers/snes/bronkie-health-hero-u.png"
-  },
-  {
-    "name": "Brunswick Bowling (U).smc",
-    "title": "Brunswick Bowling",
-    "region": "USA",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Brunswick%20Bowling%20(U).smc",
-    "cover": "assets/covers/snes/brunswick-bowling-u.png"
   },
   {
     "name": "Brunswick World Tournament of Champions (U).smc",
@@ -1188,15 +855,6 @@
     "cover": "assets/covers/snes/bubsy-ii-u.png"
   },
   {
-    "name": "Bubsy in Claws Encounters of the Furred Kind (E).smc",
-    "title": "Bubsy in Claws Encounters of the Furred Kind",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Bubsy%20in%20Claws%20Encounters%20of%20the%20Furred%20Kind%20(E).smc",
-    "cover": "assets/covers/snes/bubsy-in-claws-encounters-of-the-furred-kind-e.png"
-  },
-  {
     "name": "Bubsy in Claws Encounters of the Furred Kind (U).smc",
     "title": "Bubsy in Claws Encounters of the Furred Kind",
     "region": "USA",
@@ -1204,15 +862,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Bubsy%20in%20Claws%20Encounters%20of%20the%20Furred%20Kind%20(U).smc",
     "cover": "assets/covers/snes/bubsy-in-claws-encounters-of-the-furred-kind-u.png"
-  },
-  {
-    "name": "Bugs Bunny - Rabbit Rampage (E).smc",
-    "title": "Bugs Bunny - Rabbit Rampage",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Bugs%20Bunny%20-%20Rabbit%20Rampage%20(E).smc",
-    "cover": "assets/covers/snes/bugs-bunny-rabbit-rampage-e.png"
   },
   {
     "name": "Bugs Bunny in Rabbit Rampage (U).smc",
@@ -1233,15 +882,6 @@
     "cover": "assets/covers/snes/bulls-vs-blazers-u.png"
   },
   {
-    "name": "Bulls Vs. Blazers (V1.1) (E).smc",
-    "title": "Bulls Vs. Blazers",
-    "region": "EUR",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Bulls%20Vs.%20Blazers%20(V1.1)%20(E).smc",
-    "cover": "assets/covers/snes/bulls-vs-blazers-v1-1-e.png"
-  },
-  {
     "name": "Bust-A-Move (U).smc",
     "title": "Bust-A-Move",
     "region": "USA",
@@ -1251,15 +891,6 @@
     "cover": "assets/covers/snes/bust-a-move-u.png"
   },
   {
-    "name": "Cacoma Knight (U).smc",
-    "title": "Cacoma Knight",
-    "region": "USA",
-    "genre": "Estratégia / Puzzle",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Cacoma%20Knight%20(U).smc",
-    "cover": "assets/covers/snes/cacoma-knight-u.png"
-  },
-  {
     "name": "Cacoma Knight in Bizyland (U).smc",
     "title": "Cacoma Knight in Bizyland",
     "region": "USA",
@@ -1267,15 +898,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Cacoma%20Knight%20in%20Bizyland%20(U).smc",
     "cover": "assets/covers/snes/cacoma-knight-in-bizyland-u.png"
-  },
-  {
-    "name": "Cal Ripken Jr. Baseball (E).smc",
-    "title": "Cal Ripken Jr. Baseball",
-    "region": "EUR",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Cal%20Ripken%20Jr.%20Baseball%20(E).smc",
-    "cover": "assets/covers/snes/cal-ripken-jr-baseball-e.png"
   },
   {
     "name": "Cal Ripken Jr. Baseball (U) [!].smc",
@@ -1303,24 +925,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Cannondale%20Cup%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/cannondale-cup-u.png"
-  },
-  {
-    "name": "Cannondale Cup (U).smc",
-    "title": "Cannondale Cup",
-    "region": "USA",
-    "genre": "Corrida",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Cannondale%20Cup%20(U).smc",
-    "cover": "assets/covers/snes/cannondale-cup-u.png"
-  },
-  {
-    "name": "Capcom MVP Football (U).smc",
-    "title": "Capcom MVP Football",
-    "region": "USA",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Capcom%20MVP%20Football%20(U).smc",
-    "cover": "assets/covers/snes/capcom-mvp-football-u.png"
   },
   {
     "name": "Capcom_s MVP Football (U).smc",
@@ -1384,15 +988,6 @@
     "featured": true,
     "url": "/Super%20nintendo/GAMES/Castlevania%20-%20Dracula%20X%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/castlevania-dracula-x-u.png"
-  },
-  {
-    "name": "Castlevania - Vampire_s Kiss (E).smc",
-    "title": "Castlevania - Vampire's Kiss",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Castlevania%20-%20Vampire_s%20Kiss%20(E).smc",
-    "cover": "assets/covers/snes/castlevania-vampire-s-kiss-e.png"
   },
   {
     "name": "Champions World Class Soccer (U).smc",
@@ -1510,15 +1105,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Clay%20Fighter%20-%20Tournament%20Edition%20(U).smc",
     "cover": "assets/covers/snes/clay-fighter-tournament-edition-u.png"
-  },
-  {
-    "name": "Clay Fighter (E).smc",
-    "title": "Clay Fighter",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Clay%20Fighter%20(E).smc",
-    "cover": "assets/covers/snes/clay-fighter-e.png"
   },
   {
     "name": "Clay Fighter (US).smc",
@@ -1654,15 +1240,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/David%20Crane_s%20Amazing%20Tennis%20(E)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/david-crane-s-amazing-tennis-e.png"
-  },
-  {
-    "name": "Dennis (E) [!].smc",
-    "title": "Dennis",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Dennis%20(E)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/dennis-e.png"
   },
   {
     "name": "Dennis the Menace (U).smc",
@@ -2061,24 +1638,6 @@
     "cover": "assets/covers/snes/fun-n-games-u.png"
   },
   {
-    "name": "Game Genie BIOS V2.0 [!].smc",
-    "title": "Game Genie BIOS V2.0",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Game%20Genie%20BIOS%20V2.0%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/game-genie-bios-v2-0.svg"
-  },
-  {
-    "name": "Game Genie BIOS.smc",
-    "title": "Game Genie BIOS",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Game%20Genie%20BIOS.smc",
-    "cover": "assets/covers/snes/game-genie-bios.svg"
-  },
-  {
     "name": "Gemfire (U).smc",
     "title": "Gemfire",
     "region": "USA",
@@ -2430,15 +1989,6 @@
     "cover": "assets/covers/snes/james-pond-s-crazy-sports-e.png"
   },
   {
-    "name": "Jazz411_s Super Mario World [h1].smc",
-    "title": "Jazz411's Super Mario World",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Jazz411_s%20Super%20Mario%20World%20%5Bh1%5D.smc",
-    "cover": "assets/covers/snes/jazz411-s-super-mario-world-h1.png"
-  },
-  {
     "name": "Jelly Boy (E).smc",
     "title": "Jelly Boy",
     "region": "EUR",
@@ -2626,15 +2176,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Kirby_s%20Dream%20Course%20(E).smc",
     "cover": "assets/covers/snes/kirby-s-dream-course-e.png"
-  },
-  {
-    "name": "Kirby_s Ghost Trap (E).smc",
-    "title": "Kirby's Ghost Trap",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Kirby_s%20Ghost%20Trap%20(E).smc",
-    "cover": "assets/covers/snes/kirby-s-ghost-trap-e.png"
   },
   {
     "name": "Krusty_s Super Fun House (U) (V1.1).smc",
@@ -2889,6 +2430,15 @@
     "cover": "assets/covers/snes/mario-s-time-machine-e.png"
   },
   {
+    "name": "Mask, The.zip",
+    "title": "The Mask",
+    "region": "USA",
+    "genre": "Ação / Plataforma",
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Mask%2C%20The.zip",
+    "cover": "assets/covers/snes/mask-the.png"
+  },
+  {
     "name": "Mecarobot Golf (U).smc",
     "title": "Mecarobot Golf",
     "region": "USA",
@@ -2967,7 +2517,7 @@
     "genre": "RPG / Aventura",
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Might%20and%20Magic%20II%20-%20Gates%20to%20Another%20World%20(E).smc",
-    "cover": "assets/covers/snes/might-and-magic-ii-gates-to-another-world-e.svg"
+    "cover": "assets/covers/snes/might-and-magic-ii-gates-to-another-world-e.png"
   },
   {
     "name": "Mighty Max (U).smc",
@@ -3049,15 +2599,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Musya%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/musya-u.png"
-  },
-  {
-    "name": "Mystic Quest Legend (E).smc",
-    "title": "Mystic Quest Legend",
-    "region": "EUR",
-    "genre": "RPG / Aventura",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Mystic%20Quest%20Legend%20(E).smc",
-    "cover": "assets/covers/snes/mystic-quest-legend-e.png"
   },
   {
     "name": "NBA All-Star Challenge (U).smc",
@@ -3519,15 +3060,6 @@
     "cover": "assets/covers/snes/push-over-u.png"
   },
   {
-    "name": "Puzzle Bobble (E).smc",
-    "title": "Puzzle Bobble",
-    "region": "EUR",
-    "genre": "Estratégia / Puzzle",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Puzzle%20Bobble%20(E).smc",
-    "cover": "assets/covers/snes/puzzle-bobble-e.png"
-  },
-  {
     "name": "Q-bert 3 (U) [!].smc",
     "title": "Q-bert 3",
     "region": "USA",
@@ -3663,15 +3195,6 @@
     "cover": "assets/covers/snes/road-riot-4wd-e.png"
   },
   {
-    "name": "Road Runner (E).smc",
-    "title": "Road Runner",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Road%20Runner%20(E).smc",
-    "cover": "assets/covers/snes/road-runner-e.png"
-  },
-  {
     "name": "Road Runner_s Death Valley Rally (U) [!].smc",
     "title": "Road Runner's Death Valley Rally",
     "region": "USA",
@@ -3771,15 +3294,6 @@
     "cover": "assets/covers/snes/sensible-soccer-international-edition-e.png"
   },
   {
-    "name": "Sensible Soccer (E) (37362).smc",
-    "title": "Sensible Soccer",
-    "region": "EUR",
-    "genre": "Esportes",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Sensible%20Soccer%20(E)%20(37362).smc",
-    "cover": "assets/covers/snes/sensible-soccer-e-37362.png"
-  },
-  {
     "name": "Shadowrun (E).smc",
     "title": "Shadowrun",
     "region": "EUR",
@@ -3832,15 +3346,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Sim%20Earth%20-%20The%20Living%20Planet%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/sim-earth-the-living-planet-u.png"
-  },
-  {
-    "name": "Simpsons - Krusty_s Super Fun House.smc",
-    "title": "Simpsons - Krusty's Super Fun House",
-    "region": "USA",
-    "genre": "Estratégia / Puzzle",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Simpsons%20-%20Krusty_s%20Super%20Fun%20House.smc",
-    "cover": "assets/covers/snes/simpsons-krusty-s-super-fun-house.png"
   },
   {
     "name": "Simpsons, The - Bart_s Nightmare (E).smc",
@@ -4095,15 +3600,6 @@
     "cover": "assets/covers/snes/star-trek-starfleet-academy-starship-bridge-simulator-u.png"
   },
   {
-    "name": "StarWing Super Weekend Competition (E) [!].smc",
-    "title": "StarWing Super Weekend Competition",
-    "region": "EUR",
-    "genre": "Shoot 'em up",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/StarWing%20Super%20Weekend%20Competition%20(E)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/starwing-super-weekend-competition-e.png"
-  },
-  {
     "name": "Steel Talons (U).smc",
     "title": "Steel Talons",
     "region": "USA",
@@ -4203,15 +3699,6 @@
     "cover": "assets/covers/snes/super-air-diver-e.png"
   },
   {
-    "name": "Super Aleste (E).smc",
-    "title": "Super Aleste",
-    "region": "EUR",
-    "genre": "Shoot 'em up",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20Aleste%20(E).smc",
-    "cover": "assets/covers/snes/super-aleste-e.png"
-  },
-  {
     "name": "Super Alfred Chicken (U) [!].smc",
     "title": "Super Alfred Chicken",
     "region": "USA",
@@ -4273,15 +3760,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Super%20Battletank%20-%20War%20in%20the%20Gulf%20(U)%20(V1.1)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/super-battletank-war-in-the-gulf-u-v1-1.png"
-  },
-  {
-    "name": "Super Battletank (E).smc",
-    "title": "Super Battletank",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20Battletank%20(E).smc",
-    "cover": "assets/covers/snes/super-battletank-e.png"
   },
   {
     "name": "Super Black Bass (U) [!].smc",
@@ -4473,13 +3951,13 @@
     "cover": "assets/covers/snes/super-james-pond-u.png"
   },
   {
-    "name": "Super James Pond II (E) [!].smc",
-    "title": "Super James Pond II",
-    "region": "EUR",
+    "name": "Super Mario All-Stars + Super Mario World.zip",
+    "title": "Super Mario All-Stars + Super Mario World",
+    "region": "USA",
     "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20James%20Pond%20II%20(E)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/super-james-pond-ii-e.png"
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Super%20Mario%20All-Stars%20%2B%20Super%20Mario%20World.zip",
+    "cover": "assets/covers/snes/super-mario-all-stars-super-mario-world.png"
   },
   {
     "name": "Super Mario Kart (U) [!].smc",
@@ -4500,22 +3978,13 @@
     "cover": "assets/covers/snes/super-mario-world-u.png"
   },
   {
-    "name": "Super Mario World Hell Edition [h1].smc",
-    "title": "Super Mario World Hell Edition",
+    "name": "Super Mario World 2 - Yoshi's Island (U) (V1.1).zip",
+    "title": "Super Mario World 2 - Yoshi's Island",
     "region": "USA",
     "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20Mario%20World%20Hell%20Edition%20%5Bh1%5D.smc",
-    "cover": "assets/covers/snes/super-mario-world-hell-edition-h1.png"
-  },
-  {
-    "name": "Super Mario World Winter [h1].smc",
-    "title": "Super Mario World Winter",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20Mario%20World%20Winter%20%5Bh1%5D.smc",
-    "cover": "assets/covers/snes/super-mario-world-winter-h1.png"
+    "featured": true,
+    "url": "/Super%20nintendo/GAMES/Super%20Mario%20World%202%20-%20Yoshi's%20Island%20(U)%20(V1.1).zip",
+    "cover": "assets/covers/snes/super-mario-world-2-yoshi-s-island-u-v1-1.png"
   },
   {
     "name": "Super Morph (E).smc",
@@ -4572,15 +4041,6 @@
     "cover": "assets/covers/snes/super-off-road-u.png"
   },
   {
-    "name": "Super Pang (E).smc",
-    "title": "Super Pang",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20Pang%20(E).smc",
-    "cover": "assets/covers/snes/super-pang-e.png"
-  },
-  {
     "name": "Super Pinball - Behind the Mask (E).smc",
     "title": "Super Pinball - Behind the Mask",
     "region": "EUR",
@@ -4597,15 +4057,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Super%20Play%20Action%20Football%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/super-play-action-football-u.png"
-  },
-  {
-    "name": "Super Probotector - The Alien Rebels (E).smc",
-    "title": "Super Probotector - The Alien Rebels",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20Probotector%20-%20The%20Alien%20Rebels%20(E).smc",
-    "cover": "assets/covers/snes/super-probotector-the-alien-rebels-e.png"
   },
   {
     "name": "Super Putty (U).smc",
@@ -4669,15 +4120,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Super%20Solitaire%20(U).smc",
     "cover": "assets/covers/snes/super-solitaire-u.png"
-  },
-  {
-    "name": "Super Star Force (U) [t1S].smc",
-    "title": "Super Star Force",
-    "region": "USA",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Super%20Star%20Force%20(U)%20%5Bt1S%5D.smc",
-    "cover": "assets/covers/snes/super-star-force-u-t1s.svg"
   },
   {
     "name": "Super Star Wars (U) (V1.1) [!].smc",
@@ -4839,7 +4281,7 @@
     "genre": "Corrida",
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Test%20Drive%20II%20-%20The%20Duel%20(E)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/test-drive-ii-the-duel-e.svg"
+    "cover": "assets/covers/snes/test-drive-ii-the-duel-e.png"
   },
   {
     "name": "Tetris 2 (E).smc",
@@ -4921,15 +4363,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Tiny%20Toon%20Adventures%20-%20Wacky%20Sports%20Challenge%20(U).smc",
     "cover": "assets/covers/snes/tiny-toon-adventures-wacky-sports-challenge-u.png"
-  },
-  {
-    "name": "Tiny Toon Adventures - Wild & Wacky Sports (E) (V1.1) [!].smc",
-    "title": "Tiny Toon Adventures - Wild & Wacky Sports",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Tiny%20Toon%20Adventures%20-%20Wild%20%26%20Wacky%20Sports%20(E)%20(V1.1)%20%5B!%5D.smc",
-    "cover": "assets/covers/snes/tiny-toon-adventures-wild-wacky-sports-e-v1-1.png"
   },
   {
     "name": "TKO Super Championship Boxing (U).smc",
@@ -5488,15 +4921,6 @@
     "featured": false,
     "url": "/Super%20nintendo/GAMES/Ys%20III%20-%20Wanderers%20from%20Ys%20(U)%20%5B!%5D.smc",
     "cover": "assets/covers/snes/ys-iii-wanderers-from-ys-u.png"
-  },
-  {
-    "name": "Zombies (E).smc",
-    "title": "Zombies",
-    "region": "EUR",
-    "genre": "Ação / Plataforma",
-    "featured": false,
-    "url": "/Super%20nintendo/GAMES/Zombies%20(E).smc",
-    "cover": "assets/covers/snes/zombies-e.png"
   },
   {
     "name": "Zombies Ate My Neighbors (U) [!].smc",

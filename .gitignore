@@ -3,6 +3,8 @@
 *.BIN
 *.iso
 *.ISO
+*.cso
+*.CSO
 *.chd
 *.CHD
 *.pbp

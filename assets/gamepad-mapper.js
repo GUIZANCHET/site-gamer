@@ -1273,7 +1273,7 @@
 
   function startAnalogBridge() {
     var path = (location.pathname || '').toLowerCase();
-    if (path.indexOf('player.html') === -1) return;
+    if (path.indexOf('player.html') === -1 || path.indexOf('psp-player') !== -1 || path.indexOf('n64-player') !== -1) return;
 
     var DIRS = [
       { id: 'up', ejs: 4 },

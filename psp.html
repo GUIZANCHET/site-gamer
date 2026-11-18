@@ -1008,6 +1008,16 @@ button { cursor: pointer; }
     height: 34px;
   }
 }
+
+/* Libera GPU/Compositor enquanto o Emulador PSP está rodando */
+body.emulator-running .topbar-wrap {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body.emulator-running .showcase-card,
+body.emulator-running .game-card {
+  animation: none !important;
+}
 </style>
 <script src="assets/gamepad-mapper.js" defer></script>
 <script src="assets/retro-bg.js" defer></script>
@@ -1022,7 +1032,7 @@ button { cursor: pointer; }
     </a>
     <nav class="nav" aria-label="Navegação Principal">
       <a class="nav-link" href="index.html">🏠 Início</a>
-      <a class="nav-link" href="snes.html">🎮 Super Nintendo <span class="nav-badge">608</span></a>
+      <a class="nav-link" href="snes.html">🎮 Super Nintendo <span class="nav-badge">550</span></a>
       <a class="nav-link" href="ps1.html">💿 PlayStation 1 <span class="nav-badge">13</span></a>
       <a class="nav-link" href="neogeo.html">🕹️ Neo Geo <span class="nav-badge">165</span></a>
       <a class="nav-link" href="n64.html">🌟 Nintendo 64 <span class="nav-badge">7</span></a>
@@ -1088,7 +1098,7 @@ button { cursor: pointer; }
     <section class="player-dock" id="player" aria-label="Emulador PlayStation Portable">
       <div class="player-head">
         <div class="player-now">
-          <img class="player-thumb" id="playing-thumb" src="assets/covers/psp/gta-vice-city-stories.svg" alt="Capa do jogo">
+          <img class="player-thumb" id="playing-thumb" src="assets/covers/psp/grand-theft-auto-vice-city-stories.png" alt="Capa do jogo">
           <div>
             <div class="player-kicker" id="playing-meta">// JOGANDO AGORA • PLAYSTATION PORTABLE • PPSSPP</div>
             <div class="player-title" id="playing">Carregando jogo…</div>
@@ -1288,7 +1298,7 @@ function renderShowcase() {
     return `
       <article class="showcase-card">
         <div class="showcase-art" data-play-name="${escapeHtml(file.name)}">
-          <img src="${escapeHtml(file.cover || 'assets/covers/psp/gta-vice-city-stories.svg')}" alt="${escapeHtml(title)}" loading="lazy">
+          <img src="${escapeHtml(file.cover || 'assets/covers/psp/grand-theft-auto-vice-city-stories.png')}" alt="${escapeHtml(title)}" loading="lazy">
         </div>
         <div class="showcase-body">
           <div>
@@ -1340,7 +1350,7 @@ function render() {
     return `
       <article class="game-card">
         <div class="game-thumb" data-play-name="${escapeHtml(file.name)}">
-          <img src="${escapeHtml(file.cover || 'assets/covers/psp/gta-vice-city-stories.svg')}" alt="${escapeHtml(title)}" loading="lazy">
+          <img src="${escapeHtml(file.cover || 'assets/covers/psp/grand-theft-auto-vice-city-stories.png')}" alt="${escapeHtml(title)}" loading="lazy">
         </div>
         <div class="game-info">
           <div>
@@ -1384,6 +1394,7 @@ function start(file) {
   if (directBtn) {
     directBtn.href = playerUrl;
   }
+  document.body.classList.add('emulator-running');
   player.classList.add('open');
   player.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -1454,6 +1465,7 @@ document.querySelector('#close').addEventListener('click', () => {
   frame.src = 'about:blank';
   const directBtn = document.querySelector('#dock-direct-window');
   if (directBtn) directBtn.href = '#';
+  document.body.classList.remove('emulator-running');
   player.classList.remove('open');
   currentPlayingFile = null;
 });
