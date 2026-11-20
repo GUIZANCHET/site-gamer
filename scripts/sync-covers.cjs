@@ -484,6 +484,10 @@ async function syncPs1() {
       file: 'Driver 2 (USA) (Disc 2).png'
     },
     {
+      slug: 'harry-potter-and-the-chamber-of-secrets',
+      file: 'Harry Potter and the Chamber of Secrets (Europe) (En,Fr,De).png'
+    },
+    {
       slug: 'jackie-chan-stuntmaster',
       file: 'Jackie Chan Stuntmaster (USA).png'
     },
@@ -494,6 +498,10 @@ async function syncPs1() {
     {
       slug: 'spider-man-2-enter-electro',
       file: 'Spider-Man 2 - Enter - Electro (USA).png'
+    },
+    {
+      slug: 'tekken-3',
+      file: 'Tekken 3 (USA).png'
     },
     {
       slug: 'vigilante-8',
@@ -570,6 +578,15 @@ async function syncPs1() {
       cover: 'assets/covers/ps1/driver-2-disc-2.png'
     },
     {
+      name: 'Harry Potter and the Chamber of Secrets (PT) (www.romsportugues.com)',
+      title: 'Harry Potter e a Câmara Secreta',
+      region: 'PT (Português)',
+      genre: 'Ação / Aventura',
+      featured: true,
+      url: '/ps1/' + encodeSeg('Harry Potter and the Chamber of Secrets (PT) (www.romsportugues.com).bin'),
+      cover: 'assets/covers/ps1/harry-potter-and-the-chamber-of-secrets.png'
+    },
+    {
       name: 'Jackie Chan Stuntmaster (BR) (www.romsportugues.com)',
       title: 'Jackie Chan Stuntmaster',
       region: 'BR (Português)',
@@ -613,6 +630,15 @@ async function syncPs1() {
       featured: true,
       url: '/ps1/' + encodeSeg('Spider 2 (BR) (www.romsportugues.com).bin'),
       cover: 'assets/covers/ps1/spider-man-2-enter-electro.png'
+    },
+    {
+      name: 'Tekken 3 (BR) (www.romsportugues.com)',
+      title: 'Tekken 3',
+      region: 'BR (Português)',
+      genre: 'Luta',
+      featured: true,
+      url: '/ps1/' + encodeSeg('Tekken 3 (BR) (www.romsportugues.com).bin'),
+      cover: 'assets/covers/ps1/tekken-3.png'
     },
     {
       name: 'Vigilante 8 (BR) (T1.2) (www.romsportugues.com)',

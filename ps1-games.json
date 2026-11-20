@@ -45,6 +45,15 @@
     "cover": "assets/covers/ps1/driver-2-disc-2.png"
   },
   {
+    "name": "Harry Potter and the Chamber of Secrets (PT) (www.romsportugues.com)",
+    "title": "Harry Potter e a Câmara Secreta",
+    "region": "PT (Português)",
+    "genre": "Ação / Aventura",
+    "featured": true,
+    "url": "/ps1/Harry%20Potter%20and%20the%20Chamber%20of%20Secrets%20%28PT%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/harry-potter-and-the-chamber-of-secrets.png"
+  },
+  {
     "name": "Jackie Chan Stuntmaster (BR) (www.romsportugues.com)",
     "title": "Jackie Chan Stuntmaster",
     "region": "BR (Português)",
@@ -88,6 +97,15 @@
     "featured": true,
     "url": "/ps1/Spider%202%20%28BR%29%20%28www.romsportugues.com%29.bin",
     "cover": "assets/covers/ps1/spider-man-2-enter-electro.png"
+  },
+  {
+    "name": "Tekken 3 (BR) (www.romsportugues.com)",
+    "title": "Tekken 3",
+    "region": "BR (Português)",
+    "genre": "Luta",
+    "featured": true,
+    "url": "/ps1/Tekken%203%20%28BR%29%20%28www.romsportugues.com%29.bin",
+    "cover": "assets/covers/ps1/tekken-3.png"
   },
   {
     "name": "Vigilante 8 (BR) (T1.2) (www.romsportugues.com)",
