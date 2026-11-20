@@ -108,6 +108,15 @@
     "cover": "assets/covers/ps1/tekken-3.png"
   },
   {
+    "name": "Tony Hawk's Pro Skater 4 (USA)",
+    "title": "Tony Hawk's Pro Skater 4",
+    "region": "USA (NTSC)",
+    "genre": "Esporte / Skate",
+    "featured": true,
+    "url": "/ps1/Tony%20Hawk's%20Pro%20Skater%204%20%28USA%29.bin",
+    "cover": "assets/covers/ps1/tony-hawks-pro-skater-4.png"
+  },
+  {
     "name": "Vigilante 8 (BR) (T1.2) (www.romsportugues.com)",
     "title": "Vigilante 8",
     "region": "BR (Português)",

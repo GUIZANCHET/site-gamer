@@ -504,6 +504,10 @@ async function syncPs1() {
       file: 'Tekken 3 (USA).png'
     },
     {
+      slug: 'tony-hawks-pro-skater-4',
+      file: "Tony Hawk's Pro Skater 4 (USA).png"
+    },
+    {
       slug: 'vigilante-8',
       file: 'Vigilante 8 (USA).png'
     },
@@ -639,6 +643,15 @@ async function syncPs1() {
       featured: true,
       url: '/ps1/' + encodeSeg('Tekken 3 (BR) (www.romsportugues.com).bin'),
       cover: 'assets/covers/ps1/tekken-3.png'
+    },
+    {
+      name: "Tony Hawk's Pro Skater 4 (USA)",
+      title: "Tony Hawk's Pro Skater 4",
+      region: 'USA (NTSC)',
+      genre: 'Esporte / Skate',
+      featured: true,
+      url: '/ps1/' + encodeSeg("Tony Hawk's Pro Skater 4 (USA).bin"),
+      cover: 'assets/covers/ps1/tony-hawks-pro-skater-4.png'
     },
     {
       name: 'Vigilante 8 (BR) (T1.2) (www.romsportugues.com)',
